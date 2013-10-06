@@ -13,9 +13,23 @@ public class Unit1 : MonoBehaviour {
 		if(Input.GetKey(KeyCode.D)){
 			transform.rigidbody.velocity = new Vector3(10,rigidbody.velocity.y,0);
 		}
+		if(Input.GetKeyUp(KeyCode.D))
+		{
+			transform.rigidbody.velocity = new Vector3(0,rigidbody.velocity.y,0);
+		}
+		if(Input.GetKey(KeyCode.A)){
+			transform.rigidbody.velocity = new Vector3(-10,rigidbody.velocity.y,0);
+		}
+		if(Input.GetKeyUp(KeyCode.A))
+		{
+			transform.rigidbody.velocity = new Vector3(0,rigidbody.velocity.y,0);
+		}
 		if(Input.GetKey(KeyCode.W))
 		{
-			transform.rigidbody.velocity = new Vector3(rigidbody.velocity.x,10,0);
+			if(rigidbody.position.y <= 11)
+			{
+				transform.rigidbody.velocity = new Vector3(rigidbody.velocity.x,10,0);
+			}
 		}
 	}
 }
