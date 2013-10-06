@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameState : MonoBehaviour {
+public class GameStateTry : MonoBehaviour {
 	
 	List<GameObject> Units  = new List<GameObject>();
 	
@@ -15,29 +15,32 @@ public class GameState : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		for(int i = 0; i < Units.Count; i++)
+		{
+			Move (Units[i]);	
+		}
 	}
 	
-	void Move(){
+	void Move(GameObject unit){
 		if(Input.GetKey(KeyCode.D)){
-			transform.rigidbody.velocity = new Vector3(10,rigidbody.velocity.y,0);
+			unit.transform.rigidbody.velocity = new Vector3(10,unit.rigidbody.velocity.y,0);
 		}
 		if(Input.GetKeyUp(KeyCode.D))
 		{
-			transform.rigidbody.velocity = new Vector3(0,rigidbody.velocity.y,0);
+			unit.transform.rigidbody.velocity = new Vector3(0,unit.rigidbody.velocity.y,0);
 		}
 		if(Input.GetKey(KeyCode.A)){
-			transform.rigidbody.velocity = new Vector3(-10,rigidbody.velocity.y,0);
+			unit.transform.rigidbody.velocity = new Vector3(-10,unit.rigidbody.velocity.y,0);
 		}
 		if(Input.GetKeyUp(KeyCode.A))
 		{
-			transform.rigidbody.velocity = new Vector3(0,rigidbody.velocity.y,0);
+			unit.transform.rigidbody.velocity = new Vector3(0,unit.rigidbody.velocity.y,0);
 		}
 		if(Input.GetKey(KeyCode.W))
 		{
-			if(rigidbody.position.y <= 11)
+			if(unit.rigidbody.position.y <= 11)
 			{
-				transform.rigidbody.velocity = new Vector3(rigidbody.velocity.x,5,0);
+				unit.transform.rigidbody.velocity = new Vector3(unit.rigidbody.velocity.x,5,0);
 			}
 		}	
 	}
