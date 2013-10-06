@@ -1,35 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Unit1 : MonoBehaviour {
+public class Unit1 : Unit {
 
 	// Use this for initialization
 	void Start () {
-	
+		UnitType = 1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKey(KeyCode.D)){
-			transform.rigidbody.velocity = new Vector3(10,rigidbody.velocity.y,0);
-		}
-		if(Input.GetKeyUp(KeyCode.D))
-		{
-			transform.rigidbody.velocity = new Vector3(0,rigidbody.velocity.y,0);
-		}
-		if(Input.GetKey(KeyCode.A)){
-			transform.rigidbody.velocity = new Vector3(-10,rigidbody.velocity.y,0);
-		}
-		if(Input.GetKeyUp(KeyCode.A))
-		{
-			transform.rigidbody.velocity = new Vector3(0,rigidbody.velocity.y,0);
-		}
-		if(Input.GetKey(KeyCode.W))
-		{
-			if(rigidbody.position.y <= 11)
-			{
-				transform.rigidbody.velocity = new Vector3(rigidbody.velocity.x,10,0);
-			}
-		}
+		
 	}
 }
