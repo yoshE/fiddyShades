@@ -6,11 +6,13 @@ using System.Collections.Generic;
 
 public class GameStateTry : MonoBehaviour {
 	
+	List<GameObject> CoinList = new List<GameObject>();
 	List<GameObject> Units  = new List<GameObject>();
 	List<GameObject> Terrains = new List<GameObject>();
 	float jumpPos;
 	float prevVelocity = 10;
-	
+	int coinCount = 0;
+	int gold = 0;
 	// Use this for initialization
 	void Start () {
 		SpawnUnit(1);
@@ -18,10 +20,18 @@ public class GameStateTry : MonoBehaviour {
 		SpawnUnit(3);
 		SpawnUnit(2);
 		IsLeader();
+		OnGUI ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if(coinCount<300){
+			spawnCoin ();
+		}
+		for (int i = 0; i < CoinList.Count -1 ; i++){
+			colCheck (CoinList[i]);
+		
+		}
 		if(Units.Count > 0)
 		{
 			MoveLeader(Units[0]);
@@ -176,4 +186,35 @@ public class GameStateTry : MonoBehaviour {
 	{
 		Units.Remove(Units[0]);
 	}
+		void spawnCoin()
+	{
+		if(prevVelocity==10){
+			GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-1f,6f), 35, -20), transform.rotation);
+			CoinList.Add(temp);
+		}else{
+			GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-4f,1f), 35, -20), transform.rotation);
+			CoinList.Add(temp);
+			coinCount++;
+		}
+		
+	}
+	
+	void colCheck(GameObject coin1){
+		if(Mathf.Abs(coin1.rigidbody.position.x - Units[0].rigidbody.position.x) <1){
+			if(coin1.rigidbody.position.y <13){
+				gold++;
+				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-2f,5f), 35, -20);
+				
+					
+			}
+		}
+		if(Mathf.Abs(coin1.rigidbody.position.y) > 90){
+				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-7f,7f), 35, -20);
+		}
+		
+	}
+	void OnGUI(){
+		GUI.Box (new Rect (10,Screen.height - 25,100,25), "$ "+ gold);
+	}
+
 }
