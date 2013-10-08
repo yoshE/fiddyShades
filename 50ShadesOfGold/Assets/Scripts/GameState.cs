@@ -39,7 +39,18 @@ public class GameState : MonoBehaviour {
 			{
 				transform.rigidbody.velocity = new Vector3(rigidbody.velocity.x,5,0);
 			}
-		}	
+		}
+		if(Input.GetKey(KeyCode.Space))
+		{
+			print("yes");
+			GameObject bob = new GameObject();	
+			bob = Units[0];
+			for (int i = 0; i < Units.Count -1 ; i++){
+				Units[i] = Units[i+1];	
+			}
+			Units[Units.Count-1] = bob;
+				
+		}
 	}
 	
 	void SpawnUnit(int uType){

@@ -12,4 +12,8 @@ public class Unit3 : Unit {
 	void Update () {
 	
 	}
+	
+	int Type(){
+		return UnitType;	
+	}
 }

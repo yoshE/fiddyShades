@@ -14,4 +14,7 @@ public class Unit : MonoBehaviour {
 	void Update () {
 		
 	}
+	int GetType(int num){
+		return UnitType;	
+	}
 }

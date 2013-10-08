@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+
 public class GameStateTry : MonoBehaviour {
 	
 	List<GameObject> Units  = new List<GameObject>();
@@ -26,6 +28,34 @@ public class GameStateTry : MonoBehaviour {
 	}
 	
 	void MoveLeader(GameObject unit){
+		if(Input.GetKeyDown(KeyCode.Space))
+		{
+			GameObject bob = new GameObject();	
+			bob = Units[0];
+			float tempPosX = bob.rigidbody.position.x;
+			if(prevVelocity==10){
+				for (int i = 0; i < Units.Count -1 ; i++){
+					Units[i] = Units[i+1];
+					Units[i].rigidbody.position = new Vector3(tempPosX,Units[i].rigidbody.position.y,-20);
+					tempPosX = (Units[i].rigidbody.position.x - 1.5f);
+					print(tempPosX);
+				}
+				bob.rigidbody.position = new Vector3(tempPosX,bob.rigidbody.position.y,-20);
+				Units[Units.Count-1] = bob;
+				DestroyObject(bob);
+			}
+			else{
+				for (int i = 0; i < Units.Count -1 ; i++){
+					Units[i] = Units[i+1];
+					Units[i].rigidbody.position = new Vector3(tempPosX,Units[i].rigidbody.position.y,-20);
+					tempPosX = (Units[i].rigidbody.position.x + 1.5f);
+					print(tempPosX);
+				}
+				bob.rigidbody.position = new Vector3(tempPosX,bob.rigidbody.position.y,-20);
+				Units[Units.Count-1] = bob;
+			}
+			
+		}
 		if(Input.GetKey(KeyCode.D)){
 			unit.transform.rigidbody.velocity = new Vector3(10,unit.rigidbody.velocity.y,0);
 			if(prevVelocity == -10)
@@ -58,9 +88,10 @@ public class GameStateTry : MonoBehaviour {
 			{
 				jumpPos = unit.transform.position.x;
 				unit.transform.rigidbody.velocity = new Vector3(unit.rigidbody.velocity.x,7,0);
-				print ("jumpPos is" + jumpPos);
+				print ("jumpPos is" + jumpPos +"!");
 			}
-		}	
+		}
+			
 	}
 	
 	void MoveFollower(GameObject unit){
@@ -91,17 +122,17 @@ public class GameStateTry : MonoBehaviour {
 	void SpawnUnit(int uType){
 		if(uType == 1)
 		{
-			GameObject temp = (GameObject)Instantiate(Resources.Load("Unit1"),new Vector3(-85 - 1.5f * Units.Count, 11, -20), transform.rotation);
+			GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(-85 - 1.5f * Units.Count, 11, -20), transform.rotation);
 			Units.Add(temp);
 		}
 		else if(uType == 2)
 		{
-			GameObject temp = (GameObject)Instantiate(Resources.Load("Unit2"),new Vector3(-85 - 1.5f * Units.Count, 11, -20), transform.rotation);
+			GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(-85 - 1.5f * Units.Count, 11, -20), transform.rotation);
 			Units.Add(temp);
 		}
 		else if(uType == 3)
 		{
-			GameObject temp = (GameObject)Instantiate(Resources.Load("Unit3"),new Vector3(-85 - 1.5f * Units.Count, 11, -20), transform.rotation);
+			GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(-85 - 1.5f * Units.Count, 11, -20), transform.rotation);
 			Units.Add(temp);
 		}
 	}
