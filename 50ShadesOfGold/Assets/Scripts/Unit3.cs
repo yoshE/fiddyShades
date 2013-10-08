@@ -20,19 +20,36 @@ public class Unit3 : Unit {
 	
 	void OnCollisionStay(Collision collision)
 	{
-		if(ActiveUnit && !Invulnerable)
+		if(ActiveUnit)
 		{
 			if(collision.gameObject.name == "Terrain1")
 			{
-				print ("Collided with Terrain1");
-				Controller.SendMessage("LeaderDied");
-				Destroy(this.gameObject);	
+				Controller.SendMessage("TouchedFloorTrue");
 			}
 			else if(collision.gameObject.name == "Terrain2")
 			{
-				print ("Collided with Terrain2");
-				Controller.SendMessage("LeaderDied");
-				Destroy(this.gameObject);	
+				Controller.SendMessage("TouchedFloorTrue");
+			}
+			else if(collision.gameObject.name == "Terrain3")
+			{
+				Controller.SendMessage("TouchedFloorTrue");
+			}
+			if(!Invulnerable)
+			{
+				if(collision.gameObject.name == "Terrain1")
+				{
+					print ("Collided with Terrain1");
+					Controller.SendMessage("TouchedFloorTrue");
+					Controller.SendMessage("LeaderDied");
+					Destroy(this.gameObject);	
+				}
+				else if(collision.gameObject.name == "Terrain2")
+				{
+					print ("Collided with Terrain2");
+					Controller.SendMessage("TouchedFloorTrue");
+					Controller.SendMessage("LeaderDied");
+					Destroy(this.gameObject);	
+				}
 			}
 		}
 	}

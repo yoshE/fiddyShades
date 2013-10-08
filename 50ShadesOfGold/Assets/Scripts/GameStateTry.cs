@@ -13,6 +13,8 @@ public class GameStateTry : MonoBehaviour {
 	float prevVelocity = 10;
 	int coinCount = 0;
 	int gold = 0;
+	bool touchedFloor = true;
+	
 	// Use this for initialization
 	void Start () {
 		SpawnUnit(1);
@@ -98,11 +100,12 @@ public class GameStateTry : MonoBehaviour {
 		}
 		if(Input.GetKey(KeyCode.W))
 		{
-			if(unit.rigidbody.position.y <= 11)
+			if(touchedFloor)
 			{
 				jumpPos = unit.transform.position.x;
 				unit.transform.rigidbody.velocity = new Vector3(unit.rigidbody.velocity.x,7,0);
 				print("jumpPos is" + jumpPos +"!");
+				touchedFloor = false;
 			}
 		}
 			
@@ -188,18 +191,21 @@ public class GameStateTry : MonoBehaviour {
 		{
 			Units[i].SendMessage("InvulnerableOn");
 		}
+		Units[0].SendMessage("IsActiveUnit");
 		StartCoroutine("InvulnerableTime");
 	}
 	
 	private IEnumerator InvulnerableTime()
 	{
-		yield return new WaitForSeconds(2);
-		for(int i = 0; i < Units.Count; i++)
+		if(Units.Count > 0)
 		{
-			Units[i].SendMessage("InvulnerableOff");
+			yield return new WaitForSeconds(2);
+			for(int i = 0; i < Units.Count; i++)
+			{
+				Units[i].SendMessage("InvulnerableOff");
+			}
+			print ("Invulnerable Time Over!");
 		}
-		print ("Invulnerable Time Over!");
-		Units[0].SendMessage("IsActiveUnit");
 	}
 	
 	void spawnCoin()
@@ -229,8 +235,13 @@ public class GameStateTry : MonoBehaviour {
 		}
 		
 	}
+	
 	void OnGUI(){
 		GUI.Box (new Rect (10,Screen.height - 25,100,25), "$ "+ gold);
 	}
-
+	
+	void TouchedFloorTrue()
+	{
+		touchedFloor = true;
+	}
 }
