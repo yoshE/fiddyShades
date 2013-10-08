@@ -42,7 +42,6 @@ public class GameStateTry : MonoBehaviour {
 				}
 				bob.rigidbody.position = new Vector3(tempPosX,bob.rigidbody.position.y,-20);
 				Units[Units.Count-1] = bob;
-				DestroyObject(bob);
 			}
 			else{
 				for (int i = 0; i < Units.Count -1 ; i++){
