@@ -30,7 +30,7 @@ public class GameStateTry : MonoBehaviour {
 	void MoveLeader(GameObject unit){
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			GameObject bob = new GameObject();	
+			GameObject bob;	
 			bob = Units[0];
 			float tempPosX = bob.rigidbody.position.x;
 			if(prevVelocity==10){
