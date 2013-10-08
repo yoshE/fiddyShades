@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class GameStateTry : MonoBehaviour {
 	
 	List<GameObject> Units  = new List<GameObject>();
+	List<GameObject> Terrains = new List<GameObject>();
 	float jumpPos;
 	float prevVelocity = 10;
 	
@@ -16,12 +17,16 @@ public class GameStateTry : MonoBehaviour {
 		SpawnUnit(2);
 		SpawnUnit(3);
 		SpawnUnit(2);
+		IsLeader();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		MoveLeader(Units[0]);
-		MoveFollower();
+		if(Units.Count > 0)
+		{
+			MoveLeader(Units[0]);
+			MoveFollower();
+		}
 	}
 	
 	void MoveLeader(GameObject unit){
@@ -51,8 +56,11 @@ public class GameStateTry : MonoBehaviour {
 				bob.rigidbody.position = new Vector3(tempPosX,bob.rigidbody.position.y,-20);
 				Units[Units.Count-1] = bob;
 			}
-			
+			IsLeader();
+			IsFollower();
 		}
+		
+		//leader moving code
 		if(Input.GetKey(KeyCode.D)){
 			unit.transform.rigidbody.velocity = new Vector3(10,unit.rigidbody.velocity.y,0);
 			if(prevVelocity == -10)
@@ -85,7 +93,7 @@ public class GameStateTry : MonoBehaviour {
 			{
 				jumpPos = unit.transform.position.x;
 				unit.transform.rigidbody.velocity = new Vector3(unit.rigidbody.velocity.x,7,0);
-				print ("jumpPos is" + jumpPos +"!");
+				print("jumpPos is" + jumpPos +"!");
 			}
 		}
 			
@@ -105,7 +113,7 @@ public class GameStateTry : MonoBehaviour {
 				if(Units[i].rigidbody.position.x >= jumpPos - .3f && Units[i].rigidbody.position.x <= jumpPos + .3f)
 				{
 					Units[i].transform.rigidbody.velocity = new Vector3(Units[i].rigidbody.velocity.x,7,0);
-					print ("follower jumped");
+					print("follower jumped");
 				}
 			}
 		}
@@ -149,5 +157,23 @@ public class GameStateTry : MonoBehaviour {
 				Units[Units.Count - i - 1].rigidbody.position = new Vector3(tempPosX, Units[Units.Count - i-1].rigidbody.position.y,-20);
 			}
 		}
+	}
+	
+	void IsLeader()
+	{
+		Units[0].SendMessage("IsActiveUnit");	
+	}
+	
+	void IsFollower()
+	{
+		for(int i = 1; i < Units.Count; i++)
+		{
+			Units[i].SendMessage("IsNotActiveUnit");
+		}
+	}
+	
+	void LeaderDied()
+	{
+		Units.Remove(Units[0]);
 	}
 }

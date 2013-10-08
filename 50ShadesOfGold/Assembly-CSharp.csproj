@@ -46,6 +46,10 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\GameState.cs" />
      <Compile Include="Assets\Scripts\GameStateTry.cs" />
+     <Compile Include="Assets\Scripts\Terrain.cs" />
+     <Compile Include="Assets\Scripts\Terrain1.cs" />
+     <Compile Include="Assets\Scripts\Terrain2.cs" />
+     <Compile Include="Assets\Scripts\Terrain3.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Scripts\Unit1.cs" />
      <Compile Include="Assets\Scripts\Unit2.cs" />
