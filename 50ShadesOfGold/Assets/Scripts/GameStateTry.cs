@@ -21,13 +21,11 @@ public class GameStateTry : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		MoveLeader(Units[0]);
-		for(int i = 1; i < Units.Count; i++)
-		{
-			MoveFollower(Units[i]);	
-		}
+		MoveFollower();
 	}
 	
 	void MoveLeader(GameObject unit){
+		//code to swap
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
 			GameObject bob;	
@@ -93,29 +91,25 @@ public class GameStateTry : MonoBehaviour {
 			
 	}
 	
-	void MoveFollower(GameObject unit){
-		if(Input.GetKey(KeyCode.D)){
-			unit.transform.rigidbody.velocity = new Vector3(10,unit.rigidbody.velocity.y,0);
-		}
-		if(Input.GetKeyUp(KeyCode.D))
+	void MoveFollower(){
+		for(int i = 1; i < Units.Count; i++)
 		{
-			unit.transform.rigidbody.velocity = new Vector3(0,unit.rigidbody.velocity.y,0);
-		}
-		if(Input.GetKey(KeyCode.A)){
-			unit.transform.rigidbody.velocity = new Vector3(-10,unit.rigidbody.velocity.y,0);
-		}
-		if(Input.GetKeyUp(KeyCode.A))
-		{
-			unit.transform.rigidbody.velocity = new Vector3(0,unit.rigidbody.velocity.y,0);
-		}
-		if(unit.rigidbody.position.y <= 11)
-		{
-			if(unit.rigidbody.position.x >= jumpPos - .3f && unit.rigidbody.position.x <= jumpPos + .3f)
+			if(prevVelocity == 10){
+				Units[i].transform.rigidbody.position = new Vector3(Units[0].rigidbody.position.x - i * 1.5f,Units[i].rigidbody.position.y,-20);
+			}
+			if(prevVelocity == -10){
+				Units[i].transform.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + i * 1.5f,Units[i].rigidbody.position.y,-20);
+			}
+			if(Units[i].rigidbody.position.y <= 11)
 			{
-				unit.transform.rigidbody.velocity = new Vector3(unit.rigidbody.velocity.x,7,0);
-				print ("follower jumped");
+				if(Units[i].rigidbody.position.x >= jumpPos - .3f && Units[i].rigidbody.position.x <= jumpPos + .3f)
+				{
+					Units[i].transform.rigidbody.velocity = new Vector3(Units[i].rigidbody.velocity.x,7,0);
+					print ("follower jumped");
+				}
 			}
 		}
+		
 	}
 	
 	void SpawnUnit(int uType){
