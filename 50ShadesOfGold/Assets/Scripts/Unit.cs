@@ -6,7 +6,7 @@ public class Unit : MonoBehaviour {
 	protected int UnitType;
 	public bool ActiveUnit = false;
 	protected GameObject Controller;
-	protected bool CantDie;
+	protected bool Invulnerable;
 	
 	// Use this for initialization
 	void Start () {

@@ -7,7 +7,7 @@ public class Unit1 : Unit {
 	void Start () {
 		UnitType = 1;
 		Controller = GameObject.Find("Controller");
-		CantDie = false;
+		Invulnerable = false;
 	}
 	
 	// Update is called once per frame
@@ -21,7 +21,7 @@ public class Unit1 : Unit {
 	
 	void OnCollisionStay(Collision collision)
 	{
-		if(ActiveUnit && !CantDie)
+		if(ActiveUnit && !Invulnerable)
 		{
 			if(collision.gameObject.name == "Terrain2")
 			{
@@ -40,11 +40,11 @@ public class Unit1 : Unit {
 	
 	void InvulnerableOn()
 	{
-		CantDie = true;
+		Invulnerable = true;
 	}
 	
 	void InvulnerableOff()
 	{
-		CantDie = false;
+		Invulnerable = false;
 	}
 }

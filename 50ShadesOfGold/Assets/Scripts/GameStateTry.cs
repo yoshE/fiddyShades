@@ -28,14 +28,13 @@ public class GameStateTry : MonoBehaviour {
 		if(coinCount<300){
 			spawnCoin ();
 		}
-		for (int i = 0; i < CoinList.Count -1 ; i++){
-			colCheck (CoinList[i]);
-		
-		}
 		if(Units.Count > 0)
 		{
 			MoveLeader(Units[0]);
 			MoveFollower();
+			for (int i = 0; i < CoinList.Count -1 ; i++){
+				colCheck (CoinList[i]);
+			}
 		}
 	}
 	
@@ -184,9 +183,26 @@ public class GameStateTry : MonoBehaviour {
 	
 	void LeaderDied()
 	{
-		Units.Remove(Units[0]);
+		Units.RemoveAt(0);
+		for(int i = 0; i < Units.Count; i++)
+		{
+			Units[i].SendMessage("InvulnerableOn");
+		}
+		StartCoroutine("InvulnerableTime");
 	}
-		void spawnCoin()
+	
+	private IEnumerator InvulnerableTime()
+	{
+		yield return new WaitForSeconds(2);
+		for(int i = 0; i < Units.Count; i++)
+		{
+			Units[i].SendMessage("InvulnerableOff");
+		}
+		print ("Invulnerable Time Over!");
+		Units[0].SendMessage("IsActiveUnit");
+	}
+	
+	void spawnCoin()
 	{
 		if(prevVelocity==10){
 			GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-1f,6f), 35, -20), transform.rotation);

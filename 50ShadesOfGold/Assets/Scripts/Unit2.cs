@@ -19,7 +19,7 @@ public class Unit2 : Unit {
 	}
 	void OnCollisionStay(Collision collision)
 	{
-		if(ActiveUnit && !CantDie)
+		if(ActiveUnit && !Invulnerable)
 		{
 			if(collision.gameObject.name == "Terrain1")
 			{
@@ -38,11 +38,11 @@ public class Unit2 : Unit {
 	
 	void InvulnerableOn()
 	{
-		CantDie = true;
+		Invulnerable = true;
 	}
 	
 	void InvulnerableOff()
 	{
-		CantDie = false;
+		Invulnerable = false;
 	}
 }
