@@ -45,6 +45,10 @@ public class Unit1 : Unit {
 				}
 			}
 		}
+		if(collision.gameObject.name == "Jacuzzi(Clone)" || collision.gameObject.name == "Jacuzzi")
+		{
+			Controller.SendMessage("endGame");
+		}
 	}
 	
 	void InvulnerableOn()

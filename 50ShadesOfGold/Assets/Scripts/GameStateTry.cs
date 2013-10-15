@@ -211,6 +211,16 @@ public class GameStateTry : MonoBehaviour {
 		}
 	}
 	
+	//week 2 code
+	void endGame()
+	{
+		Vector3 teleport = new Vector3(-295, 0, 0);
+		foreach(GameObject u in Units)
+		{
+			u.rigidbody.position += teleport;
+		}
+	}
+	
 	void spawnTerrain()
 	{
 		int t1count = 0, t2count = 0, t3count = 0;
@@ -234,6 +244,7 @@ public class GameStateTry : MonoBehaviour {
 				{
 					GameObject temp = (GameObject) Instantiate(Resources.Load("Terrain3"),new Vector3(-80 + 20.0f * i, 10, -20), transform.rotation);
 				}
+				GameObject temp1 = (GameObject) Instantiate(Resources.Load("Jacuzzi"),new Vector3(-70 + 20.0f * i, 12, -20), transform.rotation);
 				exit = true;
 			}	
 			while(!exit)
