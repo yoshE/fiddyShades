@@ -22,28 +22,20 @@ public class Unit3 : Unit {
 	{
 		if(ActiveUnit)
 		{
-			if(collision.gameObject.name == "Terrain1")
-			{
-				Controller.SendMessage("TouchedFloorTrue");
-			}
-			else if(collision.gameObject.name == "Terrain2")
-			{
-				Controller.SendMessage("TouchedFloorTrue");
-			}
-			else if(collision.gameObject.name == "Terrain3")
+			if(collision.gameObject.name == "Terrain1(Clone)" || collision.gameObject.name == "Terrain2(Clone)" || collision.gameObject.name == "Terrain3(Clone)")
 			{
 				Controller.SendMessage("TouchedFloorTrue");
 			}
 			if(!Invulnerable)
 			{
-				if(collision.gameObject.name == "Terrain1")
+				if(collision.gameObject.name == "Terrain1(Clone)")
 				{
 					print ("Collided with Terrain1");
 					Controller.SendMessage("TouchedFloorTrue");
 					Controller.SendMessage("LeaderDied");
 					Destroy(this.gameObject);	
 				}
-				else if(collision.gameObject.name == "Terrain2")
+				else if(collision.gameObject.name == "Terrain2(Clone)")
 				{
 					print ("Collided with Terrain2");
 					Controller.SendMessage("TouchedFloorTrue");

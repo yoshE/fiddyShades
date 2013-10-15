@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-
-
 public class GameStateTry : MonoBehaviour {
 	
 	List<GameObject> CoinList = new List<GameObject>();
@@ -17,12 +15,14 @@ public class GameStateTry : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		spawnTerrain();
 		SpawnUnit(1);
 		SpawnUnit(2);
 		SpawnUnit(3);
 		SpawnUnit(2);
 		IsLeader();
 		OnGUI ();
+
 	}
 	
 	// Update is called once per frame
@@ -186,13 +186,16 @@ public class GameStateTry : MonoBehaviour {
 	
 	void LeaderDied()
 	{
-		Units.RemoveAt(0);
-		for(int i = 0; i < Units.Count; i++)
+		if(Units.Count > 0)
 		{
-			Units[i].SendMessage("InvulnerableOn");
+			Units.RemoveAt(0);
+			for(int i = 0; i < Units.Count; i++)
+			{
+				Units[i].SendMessage("InvulnerableOn");
+			}
+			Units[0].SendMessage("IsActiveUnit");
+			StartCoroutine("InvulnerableTime");
 		}
-		Units[0].SendMessage("IsActiveUnit");
-		StartCoroutine("InvulnerableTime");
 	}
 	
 	private IEnumerator InvulnerableTime()
@@ -208,17 +211,108 @@ public class GameStateTry : MonoBehaviour {
 		}
 	}
 	
+	void spawnTerrain()
+	{
+		int t1count = 0, t2count = 0, t3count = 0;
+		int prevType = 0;
+		for(int i = 0; i < 15; i++)
+		{
+			bool firstit = true;
+			bool exit = false;
+			int Ttype = Random.Range (1,4);
+			if(i == 14)
+			{
+				if(t1count < 5)
+				{
+					GameObject temp = (GameObject) Instantiate(Resources.Load("Terrain1"),new Vector3(-80 + 20.0f * i, 10, -20), transform.rotation);
+				}
+				else if(t2count < 5)
+				{
+					GameObject temp = (GameObject) Instantiate(Resources.Load("Terrain2"),new Vector3(-80 + 20.0f * i, 10, -20), transform.rotation);
+				}
+				else if(t3count < 5)
+				{
+					GameObject temp = (GameObject) Instantiate(Resources.Load("Terrain3"),new Vector3(-80 + 20.0f * i, 10, -20), transform.rotation);
+				}
+				exit = true;
+			}	
+			while(!exit)
+			{
+				if(firstit)
+				{
+					if(prevType == 1)
+					{
+						Ttype = Random.Range(2,4);
+					}
+					else if(prevType == 2)
+					{
+						Ttype = Random.Range(3,5);
+					}
+					else if(prevType == 3)
+					{
+						Ttype = Random.Range(1,3);
+					}
+					firstit = false;
+				}
+				if(Ttype == 1 || Ttype == 4)
+				{
+					if(t1count < 5)
+					{
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Terrain1"),new Vector3(-80 + 20.0f * i, 10, -20), transform.rotation);
+						t1count++;
+						exit = true;
+						prevType = 1;
+					}
+					else
+					{
+						Ttype = Random.Range(2,4);	
+					}
+				}
+				if(Ttype == 2)
+				{
+					if(t2count < 5)
+					{
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Terrain2"),new Vector3(-80 + 20.0f * i, 10, -20), transform.rotation);
+						t2count++;
+						exit = true;
+						prevType = 2;
+					}
+					else
+					{
+						Ttype = Random.Range(3,5);
+					}
+				}
+				if(Ttype == 3)
+				{
+					if(t3count < 5)
+					{
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Terrain3"),new Vector3(-80 + 20.0f * i, 10, -20), transform.rotation);
+						t3count++;
+						exit = true;
+						prevType = 3;
+					}
+					else
+					{
+						Ttype = Random.Range(1,3);
+					}
+				}
+			}
+		}
+	}
+	
 	void spawnCoin()
 	{
-		if(prevVelocity==10){
-			GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-1f,6f), 35, -20), transform.rotation);
-			CoinList.Add(temp);
-		}else{
-			GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-4f,1f), 35, -20), transform.rotation);
-			CoinList.Add(temp);
-			coinCount++;
+		if(Units.Count > 0)
+		{
+			if(prevVelocity==10){
+				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-1f,6f), 35, -20), transform.rotation);
+				CoinList.Add(temp);
+			}else{
+				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-4f,1f), 35, -20), transform.rotation);
+				CoinList.Add(temp);
+				coinCount++;
+			}
 		}
-		
 	}
 	
 	void colCheck(GameObject coin1){
