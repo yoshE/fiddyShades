@@ -1,6 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\TombSFX.cs">
+    <Files>
+      <File FileName="Assets\Scripts\TombSFX.cs" Line="18" Column="18" />
+      <File FileName="Assets\Scripts\GameStateTry.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Unit1.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Unit2.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Unit3.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

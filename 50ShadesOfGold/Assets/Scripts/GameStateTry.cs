@@ -238,6 +238,7 @@ public class GameStateTry : MonoBehaviour {
 				Destroy(o);
 			}
 			CoinList.Clear();
+			coinCount= 0;
 		}
 	}
 	
@@ -341,6 +342,7 @@ public class GameStateTry : MonoBehaviour {
 		Units.Clear();
 		CoinList.Clear();
 		gold = 2000;
+		coinCount = 0;
 	}
 	
 	void endGame()
