@@ -1,12 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\TombSFX.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\returnToMenuCam.cs">
     <Files>
-      <File FileName="Assets\Scripts\TombSFX.cs" Line="18" Column="18" />
+      <File FileName="Assets\Scripts\GreenTxt.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameStateTry.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Unit1.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Unit2.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Unit3.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BlueTxt.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ReplayNo.cs" Line="13" Column="40" />
+      <File FileName="Assets\Scripts\RedTxt.cs" Line="22" Column="80" />
+      <File FileName="Assets\NextTxt.cs" Line="22" Column="67" />
+      <File FileName="Assets\returnToMenuCam.cs" Line="25" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -17,4 +17,8 @@ public class RedTxt : MonoBehaviour {
 			Red.rigidbody.velocity += new Vector3(0,5,0);
 		}
 	}
+	
+	void OnMouseUp(){
+		Camera.main.transform.position = new Vector3(67.3722f, 10.53314f,-17.90969f);
+	}
 }

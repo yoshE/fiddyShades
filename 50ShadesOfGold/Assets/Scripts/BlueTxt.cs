@@ -24,11 +24,15 @@ public class BlueTxt : MonoBehaviour {
 		CoinList.Clear();
 	}
 	
+	void OnMouseUp(){
+		Application.LoadLevel(1);
+	}
+	
 	void spawnCoin()
 	{
 		if(CoinList.Count < 800)
 		{
-			GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Random.Range(-6.0f,6.0f), 20, Random.Range(1.5f, 3.5f)), transform.rotation);
+			GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Random.Range(-6.0f,6.0f), 17, Random.Range(1.5f, 3.5f)), transform.rotation);
 			CoinList.Add(temp);
 		}
 	}

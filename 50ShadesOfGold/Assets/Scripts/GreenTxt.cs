@@ -35,4 +35,9 @@ public class GreenTxt : MonoBehaviour {
 	{
 		Green.rigidbody.velocity = new Vector3(0,0,0);
 	}
+	
+	void OnMouseUp()
+	{
+		Application.Quit();
+	}
 }

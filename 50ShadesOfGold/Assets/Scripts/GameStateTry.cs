@@ -43,7 +43,7 @@ public class GameStateTry : MonoBehaviour {
 		}
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
-			Restart();
+			Application.LoadLevel(0);
 		}
 	}
 	
@@ -232,7 +232,7 @@ public class GameStateTry : MonoBehaviour {
 		else
 		{
 			paused = true;
-			Camera.main.transform.position = new Vector3(-80.14238f, 21.38423f, -43.61178f);
+			Camera.main.transform.position = new Vector3(-80.27142f, 21.29793f, -43.61178f);
 			foreach(GameObject o in CoinList)
 			{
 				Destroy(o);
@@ -347,11 +347,7 @@ public class GameStateTry : MonoBehaviour {
 	
 	void endGame()
 	{
-		Vector3 teleport = new Vector3(-295, 0, 0);
-		foreach(GameObject u in Units)
-		{
-			u.rigidbody.position += teleport;
-		}
+		Application.LoadLevel(2);
 	}
 	
 	void spawnTerrain()
