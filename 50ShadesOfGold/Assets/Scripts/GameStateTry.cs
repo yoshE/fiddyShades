@@ -12,43 +12,51 @@ public class GameStateTry : MonoBehaviour {
 	int coinCount = 0;
 	int gold = 0;
 	bool touchedFloor = true;
+	bool paused = true;
 	
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		spawnTerrain();
-		SpawnUnit(1);
-		SpawnUnit(2);
-		SpawnUnit(3);
-		SpawnUnit(2);
-		IsLeader();
-		OnGUI ();
-
+		Restart();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if(coinCount<300){
-			spawnCoin ();
-		}
-		if(Units.Count > 0)
+	void Update () 
+	{
+		if(!paused)
 		{
-			MoveLeader(Units[0]);
-			MoveFollower();
-			for (int i = 0; i < CoinList.Count -1 ; i++){
-				colCheck (CoinList[i]);
+			if(coinCount<300){
+				spawnCoin ();
 			}
+			if(Units.Count > 0)
+			{
+				MoveLeader(Units[0]);
+				MoveFollower();
+				for (int i = 0; i < CoinList.Count -1 ; i++){
+					colCheck (CoinList[i]);
+				}
+			}
+			Swap();
+		}
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			Restart();
 		}
 	}
 	
-	void MoveLeader(GameObject unit){
+	void Swap()
+	{
 		//code to swap
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
 			GameObject bob;	
 			bob = Units[0];
 			float tempPosX = bob.rigidbody.position.x;
-			if(prevVelocity==10){
-				for (int i = 0; i < Units.Count -1 ; i++){
+			if(prevVelocity==10)
+			{
+				for (int i = 0; i < Units.Count -1 ; i++)
+				{
 					Units[i] = Units[i+1];
 					Units[i].rigidbody.position = new Vector3(tempPosX,Units[i].rigidbody.position.y,-20);
 					tempPosX = (Units[i].rigidbody.position.x - 1.5f);
@@ -57,8 +65,10 @@ public class GameStateTry : MonoBehaviour {
 				bob.rigidbody.position = new Vector3(tempPosX,bob.rigidbody.position.y,-20);
 				Units[Units.Count-1] = bob;
 			}
-			else{
-				for (int i = 0; i < Units.Count -1 ; i++){
+			else
+			{
+				for (int i = 0; i < Units.Count -1 ; i++)
+				{
 					Units[i] = Units[i+1];
 					Units[i].rigidbody.position = new Vector3(tempPosX,Units[i].rigidbody.position.y,-20);
 					tempPosX = (Units[i].rigidbody.position.x + 1.5f);
@@ -69,8 +79,11 @@ public class GameStateTry : MonoBehaviour {
 			}
 			IsLeader();
 			IsFollower();
-		}
-		
+		}	
+	}
+	
+	void MoveLeader(GameObject unit)
+	{
 		//leader moving code
 		if(Input.GetKey(KeyCode.D)){
 			unit.transform.rigidbody.velocity = new Vector3(10,unit.rigidbody.velocity.y,0);
@@ -132,25 +145,34 @@ public class GameStateTry : MonoBehaviour {
 		
 	}
 	
-	void SpawnUnit(int uType){
+	void SpawnUnit(int uType)
+	{
+		if(Units.Count > 0)
+		{
+			foreach(GameObject o in Units)
+			{
+				o.rigidbody.position += new Vector3(1.5f,0,0);
+			}
+		}
 		if(uType == 1)
 		{
-			GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(-85 - 1.5f * Units.Count, 11, -20), transform.rotation);
+			GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(-88, 11, -20), transform.rotation);
 			Units.Add(temp);
 		}
 		else if(uType == 2)
 		{
-			GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(-85 - 1.5f * Units.Count, 11, -20), transform.rotation);
+			GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(-88, 11, -20), transform.rotation);
 			Units.Add(temp);
 		}
 		else if(uType == 3)
 		{
-			GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(-85 - 1.5f * Units.Count, 11, -20), transform.rotation);
+			GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(-88, 11, -20), transform.rotation);
 			Units.Add(temp);
 		}
 	}
 	
-	void TurnAround(){
+	void TurnAround()
+	{
 		if(Units.Count % 2 == 0)
 		{
 			for(int i = 0; i < Units.Count/2; i++)
@@ -211,7 +233,68 @@ public class GameStateTry : MonoBehaviour {
 		}
 	}
 	
-	//week 2 code
+	void colCheck(GameObject coin1)
+	{
+		if(Mathf.Abs(coin1.rigidbody.position.x - Units[0].rigidbody.position.x) <1){
+			if(coin1.rigidbody.position.y <13)
+			{
+				gold++;
+				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-2f,5f), 35, -20);
+			}
+		}
+		if(Mathf.Abs(coin1.rigidbody.position.y) > 90)
+		{
+				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-7f,7f), 35, -20);
+		}
+	}
+	
+	void OnGUI()
+	{
+		GUI.Box (new Rect (10,Screen.height - 25,100,25), "$ "+ gold);
+	}
+	
+	void TouchedFloorTrue()
+	{
+		touchedFloor = true;
+	}
+	
+	void spawnCoin()
+	{
+		if(Units.Count > 0)
+		{
+			if(prevVelocity==10){
+				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-1f,6f), 35, -20), transform.rotation);
+				CoinList.Add(temp);
+			}
+			else
+			{
+				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-4f,1f), 35, -20), transform.rotation);
+				CoinList.Add(temp);
+				coinCount++;
+			}
+		}
+	}
+	
+	void StartQuest()
+	{
+		paused = false;
+	}
+	
+	void Restart()
+	{
+		foreach(GameObject o in Units)
+		{
+			Destroy(o);
+		}
+		foreach(GameObject o in CoinList)
+		{
+			Destroy(o);
+		}
+		Units.Clear();
+		CoinList.Clear();
+		gold = 0;
+	}
+	
 	void endGame()
 	{
 		Vector3 teleport = new Vector3(-295, 0, 0);
@@ -223,6 +306,7 @@ public class GameStateTry : MonoBehaviour {
 	
 	void spawnTerrain()
 	{
+		//print ("Spawned terrain");
 		int t1count = 0, t2count = 0, t3count = 0;
 		int prevType = 0;
 		for(int i = 0; i < 15; i++)
@@ -245,7 +329,7 @@ public class GameStateTry : MonoBehaviour {
 					GameObject temp = (GameObject) Instantiate(Resources.Load("Terrain3"),new Vector3(-80 + 20.0f * i, 10, -20), transform.rotation);
 				}
 				GameObject temp1 = (GameObject) Instantiate(Resources.Load("Jacuzzi"),new Vector3(-70 + 20.0f * i, 12, -20), transform.rotation);
-				exit = true;
+				break;
 			}	
 			while(!exit)
 			{
@@ -309,44 +393,5 @@ public class GameStateTry : MonoBehaviour {
 				}
 			}
 		}
-	}
-	
-	void spawnCoin()
-	{
-		if(Units.Count > 0)
-		{
-			if(prevVelocity==10){
-				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-1f,6f), 35, -20), transform.rotation);
-				CoinList.Add(temp);
-			}else{
-				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-4f,1f), 35, -20), transform.rotation);
-				CoinList.Add(temp);
-				coinCount++;
-			}
-		}
-	}
-	
-	void colCheck(GameObject coin1){
-		if(Mathf.Abs(coin1.rigidbody.position.x - Units[0].rigidbody.position.x) <1){
-			if(coin1.rigidbody.position.y <13){
-				gold++;
-				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-2f,5f), 35, -20);
-				
-					
-			}
-		}
-		if(Mathf.Abs(coin1.rigidbody.position.y) > 90){
-				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-7f,7f), 35, -20);
-		}
-		
-	}
-	
-	void OnGUI(){
-		GUI.Box (new Rect (10,Screen.height - 25,100,25), "$ "+ gold);
-	}
-	
-	void TouchedFloorTrue()
-	{
-		touchedFloor = true;
 	}
 }
