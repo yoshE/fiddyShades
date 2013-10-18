@@ -14,7 +14,7 @@ public class Button2 : MonoBehaviour {
 	void Update () {
 	}
 	
-	void OnMouseDown()
+	void OnMouseUp()
 	{
 		Controller.SendMessage("SpawnUnit", 2);
 	}

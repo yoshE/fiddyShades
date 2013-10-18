@@ -10,7 +10,7 @@ public class GameStateTry : MonoBehaviour {
 	float jumpPos;
 	float prevVelocity = 10;
 	int coinCount = 0;
-	int gold = 500;
+	int gold = 2000;
 	bool touchedFloor = true;
 	bool paused = true;
 	bool swapped = false;
@@ -27,11 +27,12 @@ public class GameStateTry : MonoBehaviour {
 	{
 		if(!paused)
 		{
-			if(coinCount<300){
+			if(coinCount < 300){
 				spawnCoin ();
 			}
 			if(Units.Count > 0)
 			{
+				UpdateCamera();
 				MoveLeader(Units[0]);
 				MoveFollower();
 				for (int i = 0; i < CoinList.Count -1 ; i++){
@@ -39,7 +40,6 @@ public class GameStateTry : MonoBehaviour {
 				}
 			}
 			Swap();
-			UpdateCamera();
 		}
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
@@ -151,27 +151,31 @@ public class GameStateTry : MonoBehaviour {
 	
 	void SpawnUnit(int uType)
 	{
-		if(Units.Count > 0)
+		if(gold >= 500 && Units.Count < 6)
 		{
-			foreach(GameObject o in Units)
+			if(Units.Count > 0)
 			{
-				o.rigidbody.position += new Vector3(1.5f,0,0);
+				foreach(GameObject o in Units)
+				{
+					o.rigidbody.position += new Vector3(1.5f,0,0);
+				}
 			}
-		}
-		if(uType == 1)
-		{
-			GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(-88, 11, -20), transform.rotation);
-			Units.Add(temp);
-		}
-		else if(uType == 2)
-		{
-			GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(-88, 11, -20), transform.rotation);
-			Units.Add(temp);
-		}
-		else if(uType == 3)
-		{
-			GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(-88, 11, -20), transform.rotation);
-			Units.Add(temp);
+			if(uType == 1)
+			{
+				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(-88, 11, -20), transform.rotation);
+				Units.Add(temp);
+			}
+			else if(uType == 2)
+			{
+				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(-88, 11, -20), transform.rotation);
+				Units.Add(temp);
+			}
+			else if(uType == 3)
+			{
+				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(-88, 11, -20), transform.rotation);
+				Units.Add(temp);
+			}
+			gold -= 500;
 		}
 	}
 	
@@ -199,7 +203,10 @@ public class GameStateTry : MonoBehaviour {
 	
 	void IsLeader()
 	{
-		Units[0].SendMessage("IsActiveUnit");	
+		if(Units.Count > 0)
+		{
+			Units[0].SendMessage("IsActiveUnit");	
+		}
 	}
 	
 	void IsFollower()
@@ -212,15 +219,25 @@ public class GameStateTry : MonoBehaviour {
 	
 	void LeaderDied()
 	{
+		Units.RemoveAt(0);
 		if(Units.Count > 0)
 		{
-			Units.RemoveAt(0);
 			for(int i = 0; i < Units.Count; i++)
 			{
 				Units[i].SendMessage("InvulnerableOn");
 			}
 			Units[0].SendMessage("IsActiveUnit");
 			StartCoroutine("InvulnerableTime");
+		}
+		else
+		{
+			paused = true;
+			Camera.main.transform.position = new Vector3(-80.14238f, 21.38423f, -43.61178f);
+			foreach(GameObject o in CoinList)
+			{
+				Destroy(o);
+			}
+			CoinList.Clear();
 		}
 	}
 	
@@ -304,7 +321,11 @@ public class GameStateTry : MonoBehaviour {
 	
 	void StartQuest()
 	{
-		paused = false;
+		if(Units.Count > 0)
+		{
+			paused = false;
+			IsLeader();
+		}
 	}
 	
 	void Restart()
@@ -319,7 +340,7 @@ public class GameStateTry : MonoBehaviour {
 		}
 		Units.Clear();
 		CoinList.Clear();
-		gold = 500;
+		gold = 2000;
 	}
 	
 	void endGame()
