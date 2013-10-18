@@ -44,11 +44,12 @@ public class Unit3 : Unit {
 				}
 			}
 		}
-		if(collision.gameObject.name == "Jacuzzi(Clone)" || collision.gameObject.name == "Jacuzzi")
+		if(collision.gameObject.name == "Jacuzzi Model(Clone)" || collision.gameObject.name == "Jacuzzi Model")
 		{
 			Controller.SendMessage("endGame");
 		}
 	}
+	
 	
 	void InvulnerableOn()
 	{

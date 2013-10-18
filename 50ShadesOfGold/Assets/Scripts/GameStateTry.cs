@@ -10,9 +10,10 @@ public class GameStateTry : MonoBehaviour {
 	float jumpPos;
 	float prevVelocity = 10;
 	int coinCount = 0;
-	int gold = 0;
+	int gold = 500;
 	bool touchedFloor = true;
 	bool paused = true;
+	bool swapped = false;
 	
 	// Use this for initialization
 	void Start () 
@@ -38,6 +39,7 @@ public class GameStateTry : MonoBehaviour {
 				}
 			}
 			Swap();
+			UpdateCamera();
 		}
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
@@ -92,6 +94,7 @@ public class GameStateTry : MonoBehaviour {
 				jumpPos = 100000000;
 				TurnAround();
 				prevVelocity = 10;
+				swapped = true;
 			}
 		}
 		if(Input.GetKeyUp(KeyCode.D))
@@ -105,6 +108,7 @@ public class GameStateTry : MonoBehaviour {
 				jumpPos = 100000000;
 				TurnAround();
 				prevVelocity = -10;
+				swapped = true;
 			}
 		}
 		if(Input.GetKeyUp(KeyCode.A))
@@ -239,12 +243,18 @@ public class GameStateTry : MonoBehaviour {
 			if(coin1.rigidbody.position.y <13)
 			{
 				gold++;
-				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-2f,5f), 35, -20);
+				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-2f,15f), 35, -20);
+				coin1.rigidbody.velocity = new Vector3(0,0,0);
 			}
+		}
+		if(Mathf.Abs(coin1.rigidbody.position.x - Units[0].rigidbody.position.x) > 40){
+			coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-2f,12f), 35, -20);
+			coin1.rigidbody.velocity = new Vector3(0,0,0);
 		}
 		if(Mathf.Abs(coin1.rigidbody.position.y) > 90)
 		{
-				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-7f,7f), 35, -20);
+			coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-2f,7f), 35, -20);
+			coin1.rigidbody.velocity = new Vector3(0,0,0);
 		}
 	}
 	
@@ -268,11 +278,28 @@ public class GameStateTry : MonoBehaviour {
 			}
 			else
 			{
-				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-4f,1f), 35, -20), transform.rotation);
+				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-2f,7f), 35, -20), transform.rotation);
 				CoinList.Add(temp);
 				coinCount++;
 			}
 		}
+	}
+	
+	void UpdateCamera()
+	{
+		/*if(swapped && ((Mathf.Abs(Camera.main.transform.position.x - Units[0].rigidbody.position.x))<= 0.5f)){
+			Camera.main.transform.position = new Vector3(Units[0].rigidbody.position.x, 21.38423f,-46.61178f);
+			swapped = false;
+		}
+		else if(swapped && prevVelocity == -10){
+			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x - (Camera.main.transform.position.x - Units[0].rigidbody.position.x)/30, 21.38423f,-46.61178f);
+		}
+		else if(swapped && prevVelocity == 10){
+			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x + (Units[0].rigidbody.position.x - Camera.main.transform.position.x)/30, 21.38423f,-46.61178f);
+		}
+		else{*/
+			Camera.main.transform.position = new Vector3(Units[0].rigidbody.position.x, 21.38423f,-46.61178f);
+		//}
 	}
 	
 	void StartQuest()
@@ -292,7 +319,7 @@ public class GameStateTry : MonoBehaviour {
 		}
 		Units.Clear();
 		CoinList.Clear();
-		gold = 0;
+		gold = 500;
 	}
 	
 	void endGame()
@@ -328,7 +355,7 @@ public class GameStateTry : MonoBehaviour {
 				{
 					GameObject temp = (GameObject) Instantiate(Resources.Load("Terrain3"),new Vector3(-80 + 20.0f * i, 10, -20), transform.rotation);
 				}
-				GameObject temp1 = (GameObject) Instantiate(Resources.Load("Jacuzzi"),new Vector3(-70 + 20.0f * i, 12, -20), transform.rotation);
+				GameObject temp1 = (GameObject) Instantiate(Resources.Load("Jacuzzi Model"),new Vector3(-75 + 20.0f * i, 12, -20), transform.rotation);
 				break;
 			}	
 			while(!exit)
