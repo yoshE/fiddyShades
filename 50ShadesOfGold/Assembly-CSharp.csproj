@@ -44,7 +44,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\NextTxt.cs" />
      <Compile Include="Assets\Scripts\BlueTxt.cs" />
      <Compile Include="Assets\Scripts\Button1.cs" />
      <Compile Include="Assets\Scripts\Button2.cs" />
@@ -55,6 +54,8 @@
      <Compile Include="Assets\Scripts\GoText.cs" />
      <Compile Include="Assets\Scripts\GreenTxt.cs" />
      <Compile Include="Assets\Scripts\MenuText.cs" />
+     <Compile Include="Assets\Scripts\NextTxt.cs" />
+     <Compile Include="Assets\Scripts\PrevCode.cs" />
      <Compile Include="Assets\Scripts\RedTxt.cs" />
      <Compile Include="Assets\Scripts\ReplayNo.cs" />
      <Compile Include="Assets\Scripts\ReplayYes.cs" />
@@ -67,7 +68,7 @@
      <Compile Include="Assets\Scripts\Unit1.cs" />
      <Compile Include="Assets\Scripts\Unit2.cs" />
      <Compile Include="Assets\Scripts\Unit3.cs" />
-     <Compile Include="Assets\returnToMenuCam.cs" />
+     <Compile Include="Assets\Scripts\returnToMenuCam.cs" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
