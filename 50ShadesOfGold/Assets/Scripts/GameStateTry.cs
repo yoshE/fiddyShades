@@ -87,7 +87,7 @@ public class GameStateTry : MonoBehaviour {
 	void MoveLeader(GameObject unit)
 	{
 		//leader moving code
-		if(Input.GetKey(KeyCode.D)){
+		if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
 			unit.transform.rigidbody.velocity = new Vector3(10,unit.rigidbody.velocity.y,0);
 			if(prevVelocity == -10)
 			{
@@ -97,11 +97,11 @@ public class GameStateTry : MonoBehaviour {
 				swapped = true;
 			}
 		}
-		if(Input.GetKeyUp(KeyCode.D))
+		if(Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
 		{
 			unit.transform.rigidbody.velocity = new Vector3(0,unit.rigidbody.velocity.y,0);
 		}
-		if(Input.GetKey(KeyCode.A)){
+		if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){
 			unit.transform.rigidbody.velocity = new Vector3(-10,unit.rigidbody.velocity.y,0);
 			if(prevVelocity == 10)
 			{
@@ -111,11 +111,11 @@ public class GameStateTry : MonoBehaviour {
 				swapped = true;
 			}
 		}
-		if(Input.GetKeyUp(KeyCode.A))
+		if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
 		{
 			unit.transform.rigidbody.velocity = new Vector3(0,unit.rigidbody.velocity.y,0);
 		}
-		if(Input.GetKey(KeyCode.W))
+		if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
 		{
 			if(touchedFloor)
 			{
@@ -151,7 +151,7 @@ public class GameStateTry : MonoBehaviour {
 	
 	void SpawnUnit(int uType)
 	{
-		if(gold >= 500 && Units.Count < 6)
+		if(gold >= 500 && Units.Count < 6 && paused)
 		{
 			if(Units.Count > 0)
 			{
@@ -232,7 +232,7 @@ public class GameStateTry : MonoBehaviour {
 		else
 		{
 			paused = true;
-			Camera.main.transform.position = new Vector3(-80.27142f, 21.29793f, -43.61178f);
+			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
 			foreach(GameObject o in CoinList)
 			{
 				Destroy(o);
@@ -278,7 +278,7 @@ public class GameStateTry : MonoBehaviour {
 	
 	void OnGUI()
 	{
-		GUI.Box (new Rect (10,Screen.height - 25,100,25), "$ "+ gold);
+		GUI.Box (new Rect (Screen.width - 350,Screen.height - 200,100,25), "$ "+ gold);
 	}
 	
 	void TouchedFloorTrue()

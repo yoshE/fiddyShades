@@ -4,18 +4,33 @@ using System.Collections;
 public class Button2 : MonoBehaviour {
 	
 	GameObject Controller;
+	Color startColor;
 	
 	// Use this for initialization
 	void Start () {
 		Controller = GameObject.Find("Controller");
+		startColor = renderer.material.color;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	}
 	
+	void OnMouseEnter(){
+		renderer.material.color = new Color(0.39f,0.39f,1.0f);
+	}
+	
+	void OnMouseExit(){
+		renderer.material.color = startColor;
+	}
+	
+	void OnMouseDown(){
+		renderer.material.color = new Color(0,0,0.90f);
+	}
+	
 	void OnMouseUp()
 	{
 		Controller.SendMessage("SpawnUnit", 2);
+		renderer.material.color = new Color(0.39f,0.39f,1.0f);
 	}
 }

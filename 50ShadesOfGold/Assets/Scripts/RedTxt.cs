@@ -19,6 +19,6 @@ public class RedTxt : MonoBehaviour {
 	}
 	
 	void OnMouseUp(){
-		Camera.main.transform.position = new Vector3(67.3722f, 10.53314f,-17.90969f);
+		Camera.main.transform.position = new Vector3(67.3722f, 10.53314f,-25);
 	}
 }

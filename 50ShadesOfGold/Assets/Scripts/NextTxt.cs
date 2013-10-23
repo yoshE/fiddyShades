@@ -19,6 +19,6 @@ public class NextTxt : MonoBehaviour {
 	
 	void OnMouseUp()
 	{
-		Camera.main.transform.position = new Vector3(141.0735f, 12.22566f,-17.90969f);
+		Camera.main.transform.position = new Vector3(141.0735f, 12.22566f,-25.0f);
 	}
 }
