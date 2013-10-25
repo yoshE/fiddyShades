@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Unit3 : Unit {
-
+	
 	// Use this for initialization
 	void Start () {
 		UnitType = 3;
@@ -22,16 +22,11 @@ public class Unit3 : Unit {
 	{
 		if(ActiveUnit)
 		{
-			if(collision.gameObject.name == "Terrain1(Clone)" || collision.gameObject.name == "Terrain2(Clone)" || collision.gameObject.name == "Terrain3(Clone)")
-			{
-				Controller.SendMessage("TouchedFloorTrue");
-			}
 			if(!Invulnerable)
 			{
 				if(collision.gameObject.name == "Terrain1(Clone)")
 				{
 					print ("Collided with Terrain1");
-					Controller.SendMessage("TouchedFloorTrue");
 					Controller.SendMessage("LeaderDied");
 					Destroy(this.gameObject);
 					GameObject temp = (GameObject) Instantiate(Resources.Load("TombStone"),new Vector3(this.rigidbody.position.x, 40, -17), transform.rotation);
@@ -39,7 +34,6 @@ public class Unit3 : Unit {
 				else if(collision.gameObject.name == "Terrain2(Clone)")
 				{
 					print ("Collided with Terrain2");
-					Controller.SendMessage("TouchedFloorTrue");
 					Controller.SendMessage("LeaderDied");
 					Destroy(this.gameObject);	
 					GameObject temp = (GameObject) Instantiate(Resources.Load("TombStone"),new Vector3(this.rigidbody.position.x, 40, -17), transform.rotation);
@@ -54,6 +48,7 @@ public class Unit3 : Unit {
 		{
 			transform.rigidbody.velocity -= new Vector3(0, 1.3f, 0);
 		}
+		
 	}
 	
 	

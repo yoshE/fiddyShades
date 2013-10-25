@@ -11,7 +11,6 @@ public class GameStateTry : MonoBehaviour {
 	float prevVelocity = 10;
 	int coinCount = 0;
 	int gold = 2000;
-	bool touchedFloor = true;
 	bool paused = true;
 	bool swapped = false;
 	
@@ -117,12 +116,12 @@ public class GameStateTry : MonoBehaviour {
 		}
 		if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
 		{
-			if(touchedFloor)
+			if(Units[0].GetComponent<Unit>().Grounded)
 			{
 				jumpPos = unit.transform.position.x;
 				unit.transform.rigidbody.velocity = new Vector3(unit.rigidbody.velocity.x,7,0);
 				print("jumpPos is" + jumpPos +"!");
-				touchedFloor = false;
+				Units[0].GetComponent<Unit>().Grounded = false;
 			}
 		}
 			
@@ -137,16 +136,16 @@ public class GameStateTry : MonoBehaviour {
 			if(prevVelocity == -10){
 				Units[i].transform.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + i * 1.5f,Units[i].rigidbody.position.y,-20);
 			}
-			if(Units[i].rigidbody.position.y <= 11)
+			if(Units[i].rigidbody.position.y <= 11 && Units[i - 1].rigidbody.position.y > 12 && Units[i - 1].rigidbody.velocity.y > 0)
 			{
-				if(Units[i].rigidbody.position.x >= jumpPos - .3f && Units[i].rigidbody.position.x <= jumpPos + .3f)
+				if(Units[i].GetComponent<Unit>().Grounded)
 				{
 					Units[i].transform.rigidbody.velocity = new Vector3(Units[i].rigidbody.velocity.x,7,0);
-					print("follower jumped");
+					Units[i].GetComponent<Unit>().Grounded = false;
+					print("unit in front y vel = " + Units[i - 1].rigidbody.velocity.y);
 				}
 			}
 		}
-		
 	}
 	
 	void SpawnUnit(int uType)
@@ -205,7 +204,8 @@ public class GameStateTry : MonoBehaviour {
 	{
 		if(Units.Count > 0)
 		{
-			Units[0].SendMessage("IsActiveUnit");	
+			Units[0].SendMessage("IsActiveUnit");
+			Units[0].transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
 		}
 	}
 	
@@ -214,6 +214,7 @@ public class GameStateTry : MonoBehaviour {
 		for(int i = 1; i < Units.Count; i++)
 		{
 			Units[i].SendMessage("IsNotActiveUnit");
+			Units[0].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 		}
 	}
 	
@@ -228,6 +229,7 @@ public class GameStateTry : MonoBehaviour {
 			}
 			Units[0].SendMessage("IsActiveUnit");
 			StartCoroutine("InvulnerableTime");
+			IsLeader();
 		}
 		else
 		{
@@ -279,11 +281,6 @@ public class GameStateTry : MonoBehaviour {
 	void OnGUI()
 	{
 		GUI.Box (new Rect (Screen.width - 350,Screen.height - 200,100,25), "$ "+ gold);
-	}
-	
-	void TouchedFloorTrue()
-	{
-		touchedFloor = true;
 	}
 	
 	void spawnCoin()

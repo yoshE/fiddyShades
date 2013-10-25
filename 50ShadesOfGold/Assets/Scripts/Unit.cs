@@ -4,9 +4,10 @@ using System.Collections;
 public class Unit : MonoBehaviour {
 	
 	protected int UnitType;
-	public bool ActiveUnit = false;
 	protected GameObject Controller;
 	protected bool Invulnerable;
+	public bool ActiveUnit = false;
+	public bool Grounded =  true;
 	
 	// Use this for initialization
 	void Start () {
@@ -30,5 +31,13 @@ public class Unit : MonoBehaviour {
 	void IsNotActiveUnit()
 	{
 		ActiveUnit = false;	
+	}
+	
+	void OnCollisionEnter(Collision collision)
+	{
+		if(collision.gameObject.name == "Terrain1(Clone)" || collision.gameObject.name == "Terrain2(Clone)" || collision.gameObject.name == "Terrain3(Clone)")
+		{
+			Grounded = true;
+		}
 	}
 }

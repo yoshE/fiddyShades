@@ -21,16 +21,11 @@ public class Unit2 : Unit {
 	{
 		if(ActiveUnit)
 		{
-			if(collision.gameObject.name == "Terrain1(Clone)" || collision.gameObject.name == "Terrain2(Clone)" || collision.gameObject.name == "Terrain3(Clone)")
-			{
-				Controller.SendMessage("TouchedFloorTrue");
-			}
 			if(!Invulnerable)
 			{
 				if(collision.gameObject.name == "Terrain1(Clone)")
 				{
 					print ("Collided with Terrain1");
-					Controller.SendMessage("TouchedFloorTrue");
 					Controller.SendMessage("LeaderDied");
 					Destroy(this.gameObject);	
 					GameObject temp = (GameObject) Instantiate(Resources.Load("TombStone"),new Vector3(this.rigidbody.position.x, 40, -17), transform.rotation);
@@ -38,7 +33,6 @@ public class Unit2 : Unit {
 				else if(collision.gameObject.name == "Terrain3(Clone)")
 				{
 					print ("Collided with Terrain3");
-					Controller.SendMessage("TouchedFloorTrue");
 					Controller.SendMessage("LeaderDied");
 					Destroy(this.gameObject);	
 					GameObject temp = (GameObject) Instantiate(Resources.Load("TombStone"),new Vector3(this.rigidbody.position.x, 40, -17), transform.rotation);
