@@ -2,9 +2,11 @@
 using System.Collections;
 
 public class GoText : MonoBehaviour {
-
+	GameObject Controller;
+	
 	// Use this for initialization
 	void Start () {
+		Controller = GameObject.Find("Controller");
 		renderer.material.color = Color.black;
 	}
 	
@@ -21,5 +23,11 @@ public class GoText : MonoBehaviour {
 	{
 		print ("Mouse Exit");
 		renderer.material.color = Color.black;
+	}
+
+	void OnMouseDown()
+	{
+		Controller.SendMessage("StartQuest");
+		Controller.SendMessage("IsLeader");
 	}
 }

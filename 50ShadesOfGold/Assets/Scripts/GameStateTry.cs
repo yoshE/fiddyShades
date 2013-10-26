@@ -7,6 +7,8 @@ public class GameStateTry : MonoBehaviour {
 	List<GameObject> CoinList = new List<GameObject>();
 	List<GameObject> Units  = new List<GameObject>();
 	List<GameObject> Terrains = new List<GameObject>();
+	GameObject[] HQButts;
+	GameObject[] Away;
 	float jumpPos;
 	float prevVelocity = 10;
 	int coinCount = 0;
@@ -17,6 +19,12 @@ public class GameStateTry : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		HQButts = GameObject.FindGameObjectsWithTag("HQ_Buttons");
+		Away = GameObject.FindGameObjectsWithTag("BRB");
+		foreach(GameObject brb in Away)
+		{
+			brb.SetActive(false);
+		}
 		spawnTerrain();
 		Restart();
 	}
@@ -53,6 +61,7 @@ public class GameStateTry : MonoBehaviour {
 		{
 			GameObject bob;	
 			bob = Units[0];
+			bob.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 			float tempPosX = bob.rigidbody.position.x;
 			if(prevVelocity==10)
 			{
@@ -176,6 +185,10 @@ public class GameStateTry : MonoBehaviour {
 			}
 			gold -= 500;
 		}
+		if(Units.Count == 1)
+		{
+			Units[0].transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+		}
 	}
 	
 	void TurnAround()
@@ -214,7 +227,6 @@ public class GameStateTry : MonoBehaviour {
 		for(int i = 1; i < Units.Count; i++)
 		{
 			Units[i].SendMessage("IsNotActiveUnit");
-			Units[0].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 		}
 	}
 	
@@ -240,7 +252,15 @@ public class GameStateTry : MonoBehaviour {
 				Destroy(o);
 			}
 			CoinList.Clear();
-			coinCount= 0;
+			coinCount = 0;
+			foreach(GameObject butt in HQButts)
+			{
+				butt.SetActive(true);
+			}
+			foreach(GameObject brb in Away)
+			{
+				brb.SetActive(false);
+			}
 		}
 	}
 	
@@ -323,6 +343,14 @@ public class GameStateTry : MonoBehaviour {
 		{
 			paused = false;
 			IsLeader();
+			foreach(GameObject butt in HQButts)
+			{
+				butt.SetActive(false);
+			}
+			foreach(GameObject brb in Away)
+			{
+				brb.SetActive(true);
+			}
 		}
 	}
 	
