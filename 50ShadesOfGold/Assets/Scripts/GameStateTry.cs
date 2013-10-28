@@ -12,7 +12,7 @@ public class GameStateTry : MonoBehaviour {
 	float jumpPos;
 	float prevVelocity = 10;
 	int coinCount = 0;
-	int gold = 2000;
+	int gold = 3000;
 	bool paused = true;
 	bool swapped = false;
 	
@@ -35,7 +35,7 @@ public class GameStateTry : MonoBehaviour {
 		if(!paused)
 		{
 			if(coinCount < 300){
-				spawnCoin ();
+				//spawnCoin ();
 			}
 			if(Units.Count > 0)
 			{
@@ -61,33 +61,68 @@ public class GameStateTry : MonoBehaviour {
 		{
 			GameObject bob;	
 			bob = Units[0];
-			bob.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 			float tempPosX = bob.rigidbody.position.x;
+			float tempPosY = bob.rigidbody.position.y;
+			float tempPosY2 = 0;
+			print ("Bob X: " + tempPosX + " and Bob Y: " + tempPosY);
+			print ("UNIT[0] X: " + Units[0].rigidbody.position.x );
+			bob.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 			if(prevVelocity==10)
 			{
-				for (int i = 0; i < Units.Count -1 ; i++)
-				{
-					Units[i] = Units[i+1];
-					Units[i].rigidbody.position = new Vector3(tempPosX,Units[i].rigidbody.position.y,-20);
-					tempPosX = (Units[i].rigidbody.position.x - 1.5f);
-					print(tempPosX);
+				/*if(Units.Count ==2){
+					tempPosY= Units[1].rigidbody.position.y;
+					Units[0]=Units[1];
+					IsLeader ();
+					Units[0].rigidbody.position = new Vector3(tempPosX, tempPosY, -20);
+					tempPosX= (Units[1].rigidbody.position.x-1.5f);
+					print ("UNIT Y: " + Units[0].rigidbody.position.y);
+					print ("BOB Y: " + tempPosY);
+					bob.rigidbody.position = new Vector3(tempPosX,tempPosY,-20);
+					Units[Units.Count-1] = bob;
+					
+				}else{*/
+					for (int i = 0; i < Units.Count -1 ; i++)
+					{
+						if(i == 0){
+							tempPosY2 = Units[Units.Count-1].rigidbody.position.y;
+							Units[i] = Units[i+1];
+							IsLeader ();
+							Units[i].rigidbody.position = new Vector3(tempPosX,tempPosY,-20);
+							tempPosX = (Units[i].rigidbody.position.x - 1.5f);
+							print(tempPosX);
+						}else{
+							Units[i] = Units[i+1];
+							Units[i].rigidbody.position = new Vector3(tempPosX,Units[i].rigidbody.position.y,-20);
+							print ("UNIT FOR LOOP Y: " + Units[i].rigidbody.position.y);
+							tempPosX = (Units[i].rigidbody.position.x - 1.5f);
+							print(tempPosX);
+						}
+					}
+					print ("UNIT Y: " + Units[Units.Count-1].rigidbody.position.y);
+					print ("Not Changed Y: " + tempPosY2);
+					bob.rigidbody.position = new Vector3(tempPosX,tempPosY2,-20);
+					Units[Units.Count-1] = bob;
 				}
-				bob.rigidbody.position = new Vector3(tempPosX,bob.rigidbody.position.y,-20);
-				Units[Units.Count-1] = bob;
-			}
 			else
 			{
 				for (int i = 0; i < Units.Count -1 ; i++)
 				{
-					Units[i] = Units[i+1];
-					Units[i].rigidbody.position = new Vector3(tempPosX,Units[i].rigidbody.position.y,-20);
-					tempPosX = (Units[i].rigidbody.position.x + 1.5f);
-					print(tempPosX);
+					if(i == 0){
+						Units[i] = Units[i+1];
+						IsLeader ();
+						Units[i].rigidbody.position = new Vector3(tempPosX,tempPosY,-20);
+						tempPosX = (Units[i].rigidbody.position.x + 1.5f);
+						print(tempPosX);
+					}else{
+						Units[i] = Units[i+1];
+						Units[i].rigidbody.position = new Vector3(tempPosX,Units[i].rigidbody.position.y,-20);
+						tempPosX = (Units[i].rigidbody.position.x + 1.5f);
+						print(tempPosX);
+					}
 				}
 				bob.rigidbody.position = new Vector3(tempPosX,bob.rigidbody.position.y,-20);
 				Units[Units.Count-1] = bob;
 			}
-			IsLeader();
 			IsFollower();
 		}	
 	}
@@ -366,7 +401,7 @@ public class GameStateTry : MonoBehaviour {
 		}
 		Units.Clear();
 		CoinList.Clear();
-		gold = 2000;
+		gold = 3000;
 		coinCount = 0;
 	}
 	
