@@ -13,8 +13,10 @@ public class GameStateTry : MonoBehaviour {
 	float prevVelocity = 10;
 	int coinCount = 0;
 	int gold = 3000;
-	bool paused = true;
-	bool swapped = false;
+	bool paused = false;
+	//bool swapped = false;
+	bool started = false;
+	float ptempx, ptempy;
 	
 	// Use this for initialization
 	void Start () 
@@ -32,7 +34,7 @@ public class GameStateTry : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if(!paused)
+		if(!paused && started)
 		{
 			if(coinCount < 300){
 				//spawnCoin ();
@@ -51,6 +53,16 @@ public class GameStateTry : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
 			Application.LoadLevel(0);
+		}
+		if(Units.Count > 0 && paused)
+		{
+
+			Units[0].rigidbody.velocity = new Vector3(Units[0].rigidbody.velocity.x, Units[0].rigidbody.velocity.y, 0);
+			Units[0].rigidbody.position = new Vector3(ptempx, ptempy, Units[0].rigidbody.position.z);
+			foreach(GameObject u in Units)
+			{
+				
+			}
 		}
 	}
 	
@@ -137,7 +149,7 @@ public class GameStateTry : MonoBehaviour {
 				jumpPos = 100000000;
 				TurnAround();
 				prevVelocity = 10;
-				swapped = true;
+				//swapped = true;
 			}
 		}
 		if(Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
@@ -151,7 +163,7 @@ public class GameStateTry : MonoBehaviour {
 				jumpPos = 100000000;
 				TurnAround();
 				prevVelocity = -10;
-				swapped = true;
+				//swapped = true;
 			}
 		}
 		if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
@@ -194,7 +206,7 @@ public class GameStateTry : MonoBehaviour {
 	
 	void SpawnUnit(int uType)
 	{
-		if(gold >= 500 && Units.Count < 6 && paused)
+		if(gold >= 500 && Units.Count < 6 && !started && !paused)
 		{
 			if(Units.Count > 0)
 			{
@@ -280,7 +292,7 @@ public class GameStateTry : MonoBehaviour {
 		}
 		else
 		{
-			paused = true;
+			started = false;
 			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
 			foreach(GameObject o in CoinList)
 			{
@@ -336,6 +348,30 @@ public class GameStateTry : MonoBehaviour {
 	void OnGUI()
 	{
 		GUI.Box (new Rect (Screen.width - 350,Screen.height - 200,100,25), "$ "+ gold);
+		// Make a background box
+		//GUI.Box(new Rect(10,10,100,90), "");
+
+		// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
+		if(GUI.Button(new Rect(Screen.width - 150,20,100,60), "Pause")) {
+			print("Clickity");
+			if(paused == true)
+			{
+				paused = false;
+				GameObject tempWall = GameObject.Find("Faded(Clone)");
+				GameObject tempTxt = GameObject.Find("PausedTxt(Clone)");
+				Destroy (tempWall);
+				Destroy (tempTxt);
+			}
+			else
+			{
+				ptempx = Units[0].rigidbody.position.x;
+				ptempy = Units[0].rigidbody.position.y;
+				Vector3 pos = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z + 10);
+				paused = true;
+				GameObject tempWall = Instantiate(Resources.Load("Faded"), pos, transform.rotation) as GameObject;
+				GameObject tempTxt = Instantiate(Resources.Load("PausedTxt"), new Vector3(pos.x, pos.y, pos.z - 3), transform.rotation) as GameObject;
+			}
+		}
 	}
 	
 	void spawnCoin()
@@ -376,7 +412,7 @@ public class GameStateTry : MonoBehaviour {
 	{
 		if(Units.Count > 0)
 		{
-			paused = false;
+			started = true;
 			IsLeader();
 			foreach(GameObject butt in HQButts)
 			{
