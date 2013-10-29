@@ -14,8 +14,9 @@ public class GameStateTry : MonoBehaviour {
 	int coinCount = 0;
 	int gold = 3000;
 	bool paused = false;
-	//bool swapped = false;
+	bool swapped = false;
 	bool started = false;
+	bool playerSwapTrue = false;
 	float ptempx, ptempy;
 	
 	// Use this for initialization
@@ -39,6 +40,8 @@ public class GameStateTry : MonoBehaviour {
 			if(coinCount < 300){
 				//spawnCoin ();
 			}
+			//Swap ();
+			print ("READ THIS: "+Units[0].GetComponent<Unit>().rigidbody.velocity.y);
 			if(Units.Count > 0)
 			{
 				UpdateCamera();
@@ -71,28 +74,22 @@ public class GameStateTry : MonoBehaviour {
 		//code to swap
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
+			playerSwapTrue = true;
 			GameObject bob;	
 			bob = Units[0];
 			float tempPosX = bob.rigidbody.position.x;
 			float tempPosY = bob.rigidbody.position.y;
-			float tempPosY2 = 0;
+			float tempPosY2 = bob.rigidbody.position.y;
+			float verticalSpeed = bob.rigidbody.velocity.y;
+			float horizSpeed = bob.rigidbody.velocity.x;
 			print ("Bob X: " + tempPosX + " and Bob Y: " + tempPosY);
 			print ("UNIT[0] X: " + Units[0].rigidbody.position.x );
-			bob.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			if(!(Units.Count == 1)){
+				bob.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);	
+			}
 			if(prevVelocity==10)
 			{
-				/*if(Units.Count ==2){
-					tempPosY= Units[1].rigidbody.position.y;
-					Units[0]=Units[1];
-					IsLeader ();
-					Units[0].rigidbody.position = new Vector3(tempPosX, tempPosY, -20);
-					tempPosX= (Units[1].rigidbody.position.x-1.5f);
-					print ("UNIT Y: " + Units[0].rigidbody.position.y);
-					print ("BOB Y: " + tempPosY);
-					bob.rigidbody.position = new Vector3(tempPosX,tempPosY,-20);
-					Units[Units.Count-1] = bob;
-					
-				}else{*/
+
 					for (int i = 0; i < Units.Count -1 ; i++)
 					{
 						if(i == 0){
@@ -100,6 +97,7 @@ public class GameStateTry : MonoBehaviour {
 							Units[i] = Units[i+1];
 							IsLeader ();
 							Units[i].rigidbody.position = new Vector3(tempPosX,tempPosY,-20);
+							Units[i].rigidbody.velocity = new Vector3(bob.rigidbody.velocity.x, verticalSpeed, 0);
 							tempPosX = (Units[i].rigidbody.position.x - 1.5f);
 							print(tempPosX);
 						}else{
@@ -114,26 +112,34 @@ public class GameStateTry : MonoBehaviour {
 					print ("Not Changed Y: " + tempPosY2);
 					bob.rigidbody.position = new Vector3(tempPosX,tempPosY2,-20);
 					Units[Units.Count-1] = bob;
+					Units[0].GetComponent<Unit>().Grounded = false;
+				
 				}
 			else
 			{
-				for (int i = 0; i < Units.Count -1 ; i++)
-				{
-					if(i == 0){
-						Units[i] = Units[i+1];
-						IsLeader ();
-						Units[i].rigidbody.position = new Vector3(tempPosX,tempPosY,-20);
-						tempPosX = (Units[i].rigidbody.position.x + 1.5f);
-						print(tempPosX);
-					}else{
-						Units[i] = Units[i+1];
-						Units[i].rigidbody.position = new Vector3(tempPosX,Units[i].rigidbody.position.y,-20);
-						tempPosX = (Units[i].rigidbody.position.x + 1.5f);
-						print(tempPosX);
+					for (int i = 0; i < Units.Count -1 ; i++)
+					{
+						if(i == 0){
+							tempPosY2 = Units[Units.Count-1].rigidbody.position.y;
+							Units[i] = Units[i+1];
+							IsLeader ();
+							Units[i].rigidbody.position = new Vector3(tempPosX,tempPosY,-20);
+							Units[i].rigidbody.velocity = new Vector3(bob.rigidbody.velocity.x, verticalSpeed, 0);
+							tempPosX = (Units[i].rigidbody.position.x + 1.5f);
+							print(tempPosX);
+						}else{
+							Units[i] = Units[i+1];
+							Units[i].rigidbody.position = new Vector3(tempPosX,Units[i].rigidbody.position.y,-20);
+							print ("UNIT FOR LOOP Y: " + Units[i].rigidbody.position.y);
+							tempPosX = (Units[i].rigidbody.position.x + 1.5f);
+							print(tempPosX);
+						}
 					}
-				}
-				bob.rigidbody.position = new Vector3(tempPosX,bob.rigidbody.position.y,-20);
-				Units[Units.Count-1] = bob;
+					print ("UNIT -Y: " + Units[Units.Count-1].rigidbody.position.y);
+					print ("Not Changed -Y: " + tempPosY2);
+					bob.rigidbody.position = new Vector3(tempPosX,tempPosY2,-20);
+					Units[Units.Count-1] = bob;
+					Units[0].GetComponent<Unit>().Grounded = false;
 			}
 			IsFollower();
 		}	
@@ -149,7 +155,7 @@ public class GameStateTry : MonoBehaviour {
 				jumpPos = 100000000;
 				TurnAround();
 				prevVelocity = 10;
-				//swapped = true;
+				swapped = true;
 			}
 		}
 		if(Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
@@ -163,7 +169,7 @@ public class GameStateTry : MonoBehaviour {
 				jumpPos = 100000000;
 				TurnAround();
 				prevVelocity = -10;
-				//swapped = true;
+				swapped = true;
 			}
 		}
 		if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
@@ -172,6 +178,13 @@ public class GameStateTry : MonoBehaviour {
 		}
 		if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
 		{
+			/*if(playerSwapTrue && Units[0].GetComponent<Unit>().rigidbody.velocity.y == 0){
+				playerSwapTrue = false;	
+				Units[0].GetComponent<Unit>().Grounded = true;
+			}*/
+			if(Units[0].GetComponent<Unit>().rigidbody.velocity.y == 0 && Units[0].GetComponent<Unit>().rigidbody.position.y <= 11.2){
+				Units[0].GetComponent<Unit>().Grounded = true;
+			}
 			if(Units[0].GetComponent<Unit>().Grounded)
 			{
 				jumpPos = unit.transform.position.x;
@@ -393,19 +406,28 @@ public class GameStateTry : MonoBehaviour {
 	
 	void UpdateCamera()
 	{
-		/*if(swapped && ((Mathf.Abs(Camera.main.transform.position.x - Units[0].rigidbody.position.x))<= 0.5f)){
+		if(swapped && ((Mathf.Abs(Camera.main.transform.position.x - Units[0].rigidbody.position.x))<= 1.0)){
 			Camera.main.transform.position = new Vector3(Units[0].rigidbody.position.x, 21.38423f,-46.61178f);
 			swapped = false;
+			//print("CAUGHT ~ : " + Mathf.Abs(Camera.main.transform.position.x - Units[0].rigidbody.position.x));
 		}
 		else if(swapped && prevVelocity == -10){
-			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x - (Camera.main.transform.position.x - Units[0].rigidbody.position.x)/30, 21.38423f,-46.61178f);
+			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x - 0.4f, 21.38423f,-46.61178f);
+			//Camera.main.transform.position = new Vector3(Camera.main.transform.position.x - (Camera.main.transform.position.x - Units[0].rigidbody.position.x)/15, 21.38423f,-46.61178f);
+			//print ("CHANGE LEFT");
+			//print(Mathf.Abs(Camera.main.transform.position.x - Units[0].rigidbody.position.x));
 		}
 		else if(swapped && prevVelocity == 10){
-			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x + (Units[0].rigidbody.position.x - Camera.main.transform.position.x)/30, 21.38423f,-46.61178f);
+			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x + 0.4f, 21.38423f,-46.61178f);
+			//Camera.main.transform.position = new Vector3(Camera.main.transform.position.x + (Units[0].rigidbody.position.x - Camera.main.transform.position.x)/15, 21.38423f,-46.61178f);
+			//print ("CHANGE RIGHT");
+			//print(Mathf.Abs(Camera.main.transform.position.x - Units[0].rigidbody.position.x));
 		}
-		else{*/
+		else{
 			Camera.main.transform.position = new Vector3(Units[0].rigidbody.position.x, 21.38423f,-46.61178f);
-		//}
+			swapped = false;
+			//print ("CHECKING>>>");
+		}
 	}
 	
 	void StartQuest()
