@@ -13,7 +13,7 @@ public class GameStateTry : MonoBehaviour {
 	float prevVelocity = 10;
 	int coinCount = 0;
 	int gold = 3000;
-	bool paused = false;
+	public bool paused = false;
 	bool swapped = false;
 	bool started = false;
 	bool playerSwapTrue = false;
@@ -52,10 +52,6 @@ public class GameStateTry : MonoBehaviour {
 				}
 			}
 			Swap();
-		}
-		if(Input.GetKeyDown(KeyCode.Escape))
-		{
-			Application.LoadLevel(0);
 		}
 		if(Units.Count > 0 && paused)
 		{
@@ -367,24 +363,37 @@ public class GameStateTry : MonoBehaviour {
 		// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
 		if(GUI.Button(new Rect(Screen.width - 150,20,100,60), "Pause")) {
 			print("Clickity");
-			if(paused == true)
+			if(!paused)
 			{
-				paused = false;
-				GameObject tempWall = GameObject.Find("Faded(Clone)");
-				GameObject tempTxt = GameObject.Find("PausedTxt(Clone)");
-				Destroy (tempWall);
-				Destroy (tempTxt);
-			}
-			else
-			{
-				ptempx = Units[0].rigidbody.position.x;
-				ptempy = Units[0].rigidbody.position.y;
+				if(Units.Count > 0)
+				{
+					ptempx = Units[0].rigidbody.position.x;
+					ptempy = Units[0].rigidbody.position.y;
+				}
 				Vector3 pos = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z + 10);
 				paused = true;
 				GameObject tempWall = Instantiate(Resources.Load("Faded"), pos, transform.rotation) as GameObject;
-				GameObject tempTxt = Instantiate(Resources.Load("PausedTxt"), new Vector3(pos.x, pos.y, pos.z - 3), transform.rotation) as GameObject;
+				GameObject tempTxt = Instantiate(Resources.Load("PausedTxt"), new Vector3(pos.x, pos.y + 5, pos.z - 3), transform.rotation) as GameObject;
+				GameObject tempRestart = (GameObject)Instantiate(Resources.Load("RestartTxt"), new Vector3(pos.x, pos.y, pos.z - 3), transform.rotation);
+				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ResumeTxt"), new Vector3(pos.x, pos.y - 3, pos.z - 3), transform.rotation);
+				GameObject tempMain = (GameObject)Instantiate(Resources.Load("MainMenuTxt"), new Vector3(pos.x, pos.y - 6, pos.z - 3), transform.rotation);
 			}
 		}
+	}
+	
+	public void Unpause()
+	{
+		paused = false;
+		GameObject tempWall = GameObject.Find("Faded(Clone)");
+		GameObject tempTxt = GameObject.Find("PausedTxt(Clone)");
+		GameObject tempRestart = GameObject.Find("RestartTxt(Clone)");
+		GameObject tempResume = GameObject.Find("ResumeTxt(Clone)");
+		GameObject tempMain = GameObject.Find ("MainMenuTxt(Clone)");
+		Destroy (tempWall);
+		Destroy (tempTxt);
+		Destroy (tempRestart);
+		Destroy (tempResume);
+		Destroy (tempMain);
 	}
 	
 	void spawnCoin()
