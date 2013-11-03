@@ -56,16 +56,6 @@ public class GameState : MonoBehaviour {
 			}
 			Swap();
 		}
-		if(Units.Count > 0 && paused)
-		{
-
-			Units[0].rigidbody.velocity = new Vector3(Units[0].rigidbody.velocity.x, Units[0].rigidbody.velocity.y, 0);
-			Units[0].rigidbody.position = new Vector3(ptempx, ptempy, Units[0].rigidbody.position.z);
-			foreach(GameObject u in Units)
-			{
-				
-			}
-		}
 	}
 	
 	void Swap()
@@ -382,11 +372,6 @@ public class GameState : MonoBehaviour {
 			if(!paused)
 			{
 				CountDownTimer.Stop();
-				if(Units.Count > 0)
-				{
-					ptempx = Units[0].rigidbody.position.x;
-					ptempy = Units[0].rigidbody.position.y;
-				}
 				Vector3 pos = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z + 10);
 				paused = true;
 				GameObject tempWall = Instantiate(Resources.Load("Faded"), pos, transform.rotation) as GameObject;
@@ -394,6 +379,11 @@ public class GameState : MonoBehaviour {
 				GameObject tempRestart = (GameObject)Instantiate(Resources.Load("RestartTxt"), new Vector3(pos.x, pos.y, pos.z - 3), transform.rotation);
 				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ResumeTxt"), new Vector3(pos.x, pos.y - 6, pos.z - 3), transform.rotation);
 				GameObject tempMain = (GameObject)Instantiate(Resources.Load("MainMenuTxt"), new Vector3(pos.x, pos.y - 3, pos.z - 3), transform.rotation);
+				Time.timeScale = 0.0f;
+			}
+			else if(paused)
+			{
+				Unpause ();
 			}
 		}
 	}
@@ -415,6 +405,7 @@ public class GameState : MonoBehaviour {
 		{
 			CountDownTimer.Start();
 		}
+		Time.timeScale = 1.0f;
 	}
 	
 	void spawnCoin()
@@ -491,6 +482,7 @@ public class GameState : MonoBehaviour {
 		CoinList.Clear();
 		gold = 3000;
 		coinCount = 0;
+		Time.timeScale = 1.0f;
 	}
 	
 	void endGame()
