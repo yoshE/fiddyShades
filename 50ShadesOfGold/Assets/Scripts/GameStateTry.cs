@@ -38,7 +38,7 @@ public class GameStateTry : MonoBehaviour {
 		if(!paused && started)
 		{
 			if(coinCount < 300){
-				//spawnCoin ();
+				spawnCoin ();
 			}
 			//Swap ();
 			print ("READ THIS: "+Units[0].GetComponent<Unit>().rigidbody.velocity.y);
@@ -324,7 +324,7 @@ public class GameStateTry : MonoBehaviour {
 	{
 		if(Units.Count > 0)
 		{
-			yield return new WaitForSeconds(2);
+			yield return new WaitForSeconds(1);
 			for(int i = 0; i < Units.Count; i++)
 			{
 				Units[i].SendMessage("InvulnerableOff");
@@ -339,17 +339,17 @@ public class GameStateTry : MonoBehaviour {
 			if(coin1.rigidbody.position.y <13)
 			{
 				gold++;
-				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-2f,15f), 35, -20);
+				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (0f,15f), 35, -20);
 				coin1.rigidbody.velocity = new Vector3(0,0,0);
 			}
 		}
 		if(Mathf.Abs(coin1.rigidbody.position.x - Units[0].rigidbody.position.x) > 40){
-			coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-2f,12f), 35, -20);
+			coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (0f,12f), 35, -20);
 			coin1.rigidbody.velocity = new Vector3(0,0,0);
 		}
 		if(Mathf.Abs(coin1.rigidbody.position.y) > 90)
 		{
-			coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-2f,7f), 35, -20);
+			coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (2f,7f), 35, -20);
 			coin1.rigidbody.velocity = new Vector3(0,0,0);
 		}
 	}
@@ -375,8 +375,8 @@ public class GameStateTry : MonoBehaviour {
 				GameObject tempWall = Instantiate(Resources.Load("Faded"), pos, transform.rotation) as GameObject;
 				GameObject tempTxt = Instantiate(Resources.Load("PausedTxt"), new Vector3(pos.x, pos.y + 5, pos.z - 3), transform.rotation) as GameObject;
 				GameObject tempRestart = (GameObject)Instantiate(Resources.Load("RestartTxt"), new Vector3(pos.x, pos.y, pos.z - 3), transform.rotation);
-				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ResumeTxt"), new Vector3(pos.x, pos.y - 3, pos.z - 3), transform.rotation);
-				GameObject tempMain = (GameObject)Instantiate(Resources.Load("MainMenuTxt"), new Vector3(pos.x, pos.y - 6, pos.z - 3), transform.rotation);
+				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ResumeTxt"), new Vector3(pos.x, pos.y - 6, pos.z - 3), transform.rotation);
+				GameObject tempMain = (GameObject)Instantiate(Resources.Load("MainMenuTxt"), new Vector3(pos.x, pos.y - 3, pos.z - 3), transform.rotation);
 			}
 		}
 	}
