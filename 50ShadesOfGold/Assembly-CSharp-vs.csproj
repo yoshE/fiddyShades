@@ -49,7 +49,7 @@
      <Compile Include="Assets\Scripts\Button3.cs" />
      <Compile Include="Assets\Scripts\Coin.cs" />
      <Compile Include="Assets\Scripts\FadedAlpha.cs" />
-     <Compile Include="Assets\Scripts\GameStateTry.cs" />
+     <Compile Include="Assets\Scripts\GameState.cs" />
      <Compile Include="Assets\Scripts\GoText.cs" />
      <Compile Include="Assets\Scripts\GreenTxt.cs" />
      <Compile Include="Assets\Scripts\MainMenuTxt.cs" />

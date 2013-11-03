@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
-public class GameStateTry : MonoBehaviour {
+public class GameState : MonoBehaviour {
 	
 	List<GameObject> CoinList = new List<GameObject>();
 	List<GameObject> Units  = new List<GameObject>();
@@ -16,8 +17,10 @@ public class GameStateTry : MonoBehaviour {
 	public bool paused = false;
 	bool swapped = false;
 	bool started = false;
-	bool playerSwapTrue = false;
+	//bool playerSwapTrue = false;
 	float ptempx, ptempy;
+	public Stopwatch CountDownTimer = new Stopwatch();
+	float totalTime = 60.0f;
 	
 	// Use this for initialization
 	void Start () 
@@ -70,7 +73,7 @@ public class GameStateTry : MonoBehaviour {
 		//code to swap
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			playerSwapTrue = true;
+			//playerSwapTrue = true;
 			GameObject bob;	
 			bob = Units[0];
 			float tempPosX = bob.rigidbody.position.x;
@@ -302,6 +305,7 @@ public class GameStateTry : MonoBehaviour {
 		else
 		{
 			started = false;
+			CountDownTimer.Stop();
 			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
 			foreach(GameObject o in CoinList)
 			{
@@ -316,6 +320,10 @@ public class GameStateTry : MonoBehaviour {
 			foreach(GameObject brb in Away)
 			{
 				brb.SetActive(false);
+			}
+			if(gold < 500)
+			{
+				Application.LoadLevel(3);
 			}
 		}
 	}
@@ -357,14 +365,23 @@ public class GameStateTry : MonoBehaviour {
 	void OnGUI()
 	{
 		GUI.Box (new Rect (Screen.width - 350,Screen.height - 200,100,25), "$ "+ gold);
-		// Make a background box
-		//GUI.Box(new Rect(10,10,100,90), "");
 
-		// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
+		float timeLeft = totalTime - (CountDownTimer.ElapsedMilliseconds/1000.0f);
+		if(timeLeft > 0)
+		{
+			GUI.Box (new Rect (Screen.width - 175,100,150,25), "Seconds Left: "+ timeLeft);
+		}
+		else
+		{
+			GUI.Box (new Rect (Screen.width - 175,100,150,25), "Seconds Left: "+ 0);
+			Application.LoadLevel(3);
+		}
+		
 		if(GUI.Button(new Rect(Screen.width - 150,20,100,60), "Pause")) {
 			print("Clickity");
 			if(!paused)
 			{
+				CountDownTimer.Stop();
 				if(Units.Count > 0)
 				{
 					ptempx = Units[0].rigidbody.position.x;
@@ -394,6 +411,10 @@ public class GameStateTry : MonoBehaviour {
 		Destroy (tempRestart);
 		Destroy (tempResume);
 		Destroy (tempMain);
+		if(started)
+		{
+			CountDownTimer.Start();
+		}
 	}
 	
 	void spawnCoin()

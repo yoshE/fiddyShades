@@ -1,16 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameStateTry.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameState.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameStateTry.cs" Line="352" Column="89" />
-      <File FileName="Assets\Scripts\Terrain1.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Terrain.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameState.cs" Line="397" Column="5" />
       <File FileName="Assets\Scripts\Unit.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\RestartCS.cs" Line="26" Column="3" />
-      <File FileName="Assets\Scripts\ResumeTxt.cs" Line="23" Column="36" />
       <File FileName="Assets\Scripts\Unit1.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainMenuTxt.cs" Line="21" Column="26" />
+      <File FileName="Assets\Scripts\MainMenuTxt.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PlayTxt.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GoText.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
