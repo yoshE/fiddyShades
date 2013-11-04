@@ -9,6 +9,7 @@ public class GameState : MonoBehaviour {
 	List<GameObject> Units  = new List<GameObject>();
 	List<GameObject> Terrains = new List<GameObject>();
 	public List<GameObject> Boulders = new List<GameObject>();
+	Vector3 showerPos = new Vector3(-100,35,-20);
 	GameObject[] HQButts;
 	GameObject[] Away;
 	float jumpPos;
@@ -41,7 +42,7 @@ public class GameState : MonoBehaviour {
 	{
 		if(!paused && started)
 		{
-			if(coinCount < 300){
+			if(CoinList.Count < 400){
 				spawnCoin ();
 			}
 			print ("READ THIS: "+Units[0].GetComponent<Unit>().rigidbody.velocity.y);
@@ -339,21 +340,57 @@ public class GameState : MonoBehaviour {
 	void colCheck(GameObject coin1)
 	{
 		if(Mathf.Abs(coin1.rigidbody.position.x - Units[0].rigidbody.position.x) <1){
-			if(coin1.rigidbody.position.y <13)
+			if(Mathf.Abs(coin1.rigidbody.position.y - Units[0].rigidbody.position.y) <2)
 			{
+				print ("GOTCHA");
 				gold++;
-				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (0f,15f), 35, -20);
+				if(showerPos.x < Units[0].rigidbody.position.x){
+					//showerPos.x = Units[0].rigidbody.position.x;
+					showerPos.x += 5;
+					coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (5f,15f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
+				}else{
+					coin1.rigidbody.position = new Vector3(showerPos.x + Random.Range (5f,15f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
+				}
 				coin1.rigidbody.velocity = new Vector3(0,0,0);
 			}
 		}
 		if(Mathf.Abs(coin1.rigidbody.position.x - Units[0].rigidbody.position.x) > 40){
-			coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (0f,12f), 35, -20);
+			if(showerPos.x < Units[0].rigidbody.position.x){
+				//showerPos.x = Units[0].rigidbody.position.x;
+				showerPos.x += 5;
+				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
+			}else{
+				coin1.rigidbody.position = new Vector3(showerPos.x + Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
+			}
 			coin1.rigidbody.velocity = new Vector3(0,0,0);
 		}
-		if(Mathf.Abs(coin1.rigidbody.position.y) > 90)
+		if(Mathf.Abs(coin1.rigidbody.position.y) < 0 || Mathf.Abs(coin1.rigidbody.position.y) > 90)
 		{
-			coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (2f,7f), 35, -20);
+			if(showerPos.x < Units[0].rigidbody.position.x){
+				//showerPos.x = Units[0].rigidbody.position.x;
+				showerPos.x += 5;
+				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-3f,20f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
+			}else{
+				coin1.rigidbody.position = new Vector3(showerPos.x + Random.Range (-3f,20f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
+			}
 			coin1.rigidbody.velocity = new Vector3(0,0,0);
+		}
+		for( int i = 1; i < Units.Count; i++){
+			if(Mathf.Abs(coin1.rigidbody.position.x - Units[i].rigidbody.position.x) <1){
+			if(Mathf.Abs(coin1.rigidbody.position.y - Units[i].rigidbody.position.y) <2)
+			{
+				print ("GOTCHA BITCH");
+				gold++;
+				if(showerPos.x < Units[0].rigidbody.position.x){
+					//showerPos.x = Units[0].rigidbody.position.x;
+					showerPos.x += 5;
+					coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (5f,25f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
+				}else{
+					coin1.rigidbody.position = new Vector3(showerPos.x + Random.Range (5f,25f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
+				}
+				coin1.rigidbody.velocity = new Vector3(0,0,0);
+			}
+		}
 		}
 	}
 	
@@ -418,12 +455,12 @@ public class GameState : MonoBehaviour {
 		if(Units.Count > 0)
 		{
 			if(prevVelocity==10){
-				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-1f,6f), 35, -20), transform.rotation);
+				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-0f,10f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20), transform.rotation);
 				CoinList.Add(temp);
 			}
 			else
 			{
-				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-2f,7f), 35, -20), transform.rotation);
+				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-0f,7f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20), transform.rotation);
 				CoinList.Add(temp);
 				coinCount++;
 			}
@@ -592,5 +629,11 @@ public class GameState : MonoBehaviour {
 		GameObject temp = (GameObject) Instantiate(Resources.Load("Boulder"),new Vector3(191, 25, -20), transform.rotation);
 		temp.rigidbody.velocity = new Vector3(-15, 0, 0);
 		Boulders.Add (temp);
+	}
+	
+	void AddGold(){
+		gold++;
+		spawnCoin();
+		print("Collided");
 	}
 }
