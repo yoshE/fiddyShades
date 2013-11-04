@@ -1,18 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameState.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BoulderCS.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameState.cs" Line="485" Column="25" />
-      <File FileName="Assets\Scripts\Unit.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Unit1.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainMenuTxt.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GoText.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameState.cs" Line="594" Column="16" />
+      <File FileName="Assets\Scripts\BoulderCS.cs" Line="21" Column="80" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-=======
-  <MonoDevelop.Ide.Workbench />
->>>>>>> 3a30a6085495e02219adb13a74270fdc0fbf8118
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

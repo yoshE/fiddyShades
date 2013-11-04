@@ -8,6 +8,7 @@ public class GameState : MonoBehaviour {
 	List<GameObject> CoinList = new List<GameObject>();
 	List<GameObject> Units  = new List<GameObject>();
 	List<GameObject> Terrains = new List<GameObject>();
+	public List<GameObject> Boulders = new List<GameObject>();
 	GameObject[] HQButts;
 	GameObject[] Away;
 	float jumpPos;
@@ -43,7 +44,6 @@ public class GameState : MonoBehaviour {
 			if(coinCount < 300){
 				spawnCoin ();
 			}
-			//Swap ();
 			print ("READ THIS: "+Units[0].GetComponent<Unit>().rigidbody.velocity.y);
 			if(Units.Count > 0)
 			{
@@ -303,6 +303,11 @@ public class GameState : MonoBehaviour {
 			}
 			CoinList.Clear();
 			coinCount = 0;
+			foreach(GameObject o in Boulders)
+			{
+				Destroy(o);
+			}
+			Boulders.Clear();
 			foreach(GameObject butt in HQButts)
 			{
 				butt.SetActive(true);
@@ -483,6 +488,7 @@ public class GameState : MonoBehaviour {
 		gold = 3000;
 		coinCount = 0;
 		Time.timeScale = 1.0f;
+		InvokeRepeating("spawnBoulders", 1.5f, 2.0f);
 	}
 	
 	void endGame()
@@ -579,5 +585,12 @@ public class GameState : MonoBehaviour {
 				}
 			}
 		}
+	}
+	
+	void spawnBoulders()
+	{
+		GameObject temp = (GameObject) Instantiate(Resources.Load("Boulder"),new Vector3(191, 25, -20), transform.rotation);
+		temp.rigidbody.velocity = new Vector3(-15, 0, 0);
+		Boulders.Add (temp);
 	}
 }

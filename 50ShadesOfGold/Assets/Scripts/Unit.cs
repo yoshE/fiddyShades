@@ -35,7 +35,7 @@ public class Unit : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision collision)
 	{
-		if(collision.gameObject.name == "Terrain1(Clone)" || collision.gameObject.name == "Terrain2(Clone)" || collision.gameObject.name == "Terrain3(Clone)")
+		if(collision.gameObject.tag == "Terrain")
 		{
 			Grounded = true;
 		}
