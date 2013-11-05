@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.IO;
+using System;
+
 
 public class ReplayNo : MonoBehaviour {
 
@@ -21,5 +24,14 @@ public class ReplayNo : MonoBehaviour {
 	void OnMouseUp()
 	{
 		Application.Quit();
+	}
+	void OnApplicationQuit(){
+		print ("QUIT");
+		string dateTime = System.DateTime.Now.ToString (); 	//Get the time to tack on to the file name
+		dateTime = dateTime.Replace ("/", "-"); 			//Replace slashes with dashes, because Unity thinks they are directories..
+		string Name = "Metrics_" + dateTime;			//Append file name
+		string output= "Clicked NO" + Environment.NewLine + Environment.NewLine;
+		string fileName = "Assets/Metrics/Data.txt";
+		File.AppendAllText(fileName, output);
 	}
 }

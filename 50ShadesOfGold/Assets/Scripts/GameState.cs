@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System;
 
 public class GameState : MonoBehaviour {
 	
@@ -16,9 +18,12 @@ public class GameState : MonoBehaviour {
 	float prevVelocity = 10;
 	int coinCount = 0;
 	int gold = 3000;
+	int numDeath = 0;
+	int numUnitDeath = 0;
 	public bool paused = false;
 	bool swapped = false;
 	bool started = false;
+	bool shopping = false;
 	//bool playerSwapTrue = false;
 	float ptempx, ptempy;
 	public Stopwatch CountDownTimer = new Stopwatch();
@@ -27,6 +32,10 @@ public class GameState : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		string dateTime = System.DateTime.Now.ToString() + Environment.NewLine; 	//Get the time to tack on to the file name
+		dateTime = dateTime.Replace ("/", "-"); 			//Replace slashes with dashes, because Unity thinks they are directories..
+		string fileName = "Assets/Metrics/Data.txt";
+		File.AppendAllText(fileName, dateTime);
 		HQButts = GameObject.FindGameObjectsWithTag("HQ_Buttons");
 		Away = GameObject.FindGameObjectsWithTag("BRB");
 		foreach(GameObject brb in Away)
@@ -282,6 +291,7 @@ public class GameState : MonoBehaviour {
 	
 	void LeaderDied()
 	{
+		numUnitDeath++;
 		Units.RemoveAt(0);
 		if(Units.Count > 0)
 		{
@@ -295,8 +305,9 @@ public class GameState : MonoBehaviour {
 		}
 		else
 		{
-			showerPos = new Vector3(-80, 35, -20);
+			showerPos = new Vector3(-80,35,-20);
 			started = false;
+			numDeath++;
 			CountDownTimer.Stop();
 			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
 			foreach(GameObject o in CoinList)
@@ -320,6 +331,9 @@ public class GameState : MonoBehaviour {
 			}
 			if(gold < 500)
 			{
+				string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine;
+				string fileName = "Assets/Metrics/Data.txt";
+				File.AppendAllText(fileName, output);
 				Application.LoadLevel(3);
 			}
 		}
@@ -348,9 +362,9 @@ public class GameState : MonoBehaviour {
 				if(showerPos.x < Units[0].rigidbody.position.x){
 					//showerPos.x = Units[0].rigidbody.position.x;
 					showerPos.x += 5;
-					coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (5f,15f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
+					coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + UnityEngine.Random.Range (5f,15f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
 				}else{
-					coin1.rigidbody.position = new Vector3(showerPos.x + Random.Range (5f,15f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
+					coin1.rigidbody.position = new Vector3(showerPos.x + UnityEngine.Random.Range (5f,15f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
 				}
 				coin1.rigidbody.velocity = new Vector3(0,0,0);
 			}
@@ -359,9 +373,9 @@ public class GameState : MonoBehaviour {
 			if(showerPos.x < Units[0].rigidbody.position.x){
 				//showerPos.x = Units[0].rigidbody.position.x;
 				showerPos.x += 5;
-				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
+				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + UnityEngine.Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
 			}else{
-				coin1.rigidbody.position = new Vector3(showerPos.x + Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
+				coin1.rigidbody.position = new Vector3(showerPos.x + UnityEngine.Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
 			}
 			coin1.rigidbody.velocity = new Vector3(0,0,0);
 		}
@@ -370,9 +384,9 @@ public class GameState : MonoBehaviour {
 			if(showerPos.x < Units[0].rigidbody.position.x){
 				//showerPos.x = Units[0].rigidbody.position.x;
 				showerPos.x += 5;
-				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (-3f,20f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
+				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + UnityEngine.Random.Range (-3f,20f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
 			}else{
-				coin1.rigidbody.position = new Vector3(showerPos.x + Random.Range (-3f,20f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
+				coin1.rigidbody.position = new Vector3(showerPos.x + UnityEngine.Random.Range (-3f,20f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
 			}
 			coin1.rigidbody.velocity = new Vector3(0,0,0);
 		}
@@ -380,14 +394,14 @@ public class GameState : MonoBehaviour {
 			if(Mathf.Abs(coin1.rigidbody.position.x - Units[i].rigidbody.position.x) <1){
 			if(Mathf.Abs(coin1.rigidbody.position.y - Units[i].rigidbody.position.y) <2)
 			{
-				print ("GOTCHA BITCH");
+				//print ("GOTCHA ");
 				gold++;
 				if(showerPos.x < Units[0].rigidbody.position.x){
 					//showerPos.x = Units[0].rigidbody.position.x;
 					showerPos.x += 5;
-					coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (5f,25f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
+					coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + UnityEngine.Random.Range (5f,25f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
 				}else{
-					coin1.rigidbody.position = new Vector3(showerPos.x + Random.Range (5f,25f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
+					coin1.rigidbody.position = new Vector3(showerPos.x + UnityEngine.Random.Range (5f,25f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
 				}
 				coin1.rigidbody.velocity = new Vector3(0,0,0);
 			}
@@ -406,11 +420,15 @@ public class GameState : MonoBehaviour {
 		}
 		else
 		{
-			GUI.Box (new Rect (Screen.width - 175,100,150,25), "Seconds Left: " + 0);
+			GUI.Box (new Rect (Screen.width - 175,100,150,25), "Seconds Left: "+ 0);
+		string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine;
+		string fileName = "Assets/Metrics/Data.txt";
+		File.AppendAllText(fileName, output);
 			Application.LoadLevel(3);
 		}
 		
 		if(GUI.Button(new Rect(Screen.width - 150,20,100,60), "Pause")) {
+			print("Clickity");
 			if(!paused)
 			{
 				CountDownTimer.Stop();
@@ -423,9 +441,29 @@ public class GameState : MonoBehaviour {
 				GameObject tempMain = (GameObject)Instantiate(Resources.Load("MainMenuTxt"), new Vector3(pos.x, pos.y - 3, pos.z - 3), transform.rotation);
 				Time.timeScale = 0.0f;
 			}
-			else if(paused)
+			else if(paused && !shopping)
 			{
 				Unpause ();
+			}
+		}
+		if(GUI.Button(new Rect(Screen.width - 255,20,100,60), "Shop")) {
+			print("Shopity");
+			if(!paused)
+			{
+				shopping = true;
+				CountDownTimer.Stop();
+				Vector3 pos = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z + 10);
+				paused = true;
+				GameObject tempWall = Instantiate(Resources.Load("Faded"), pos, transform.rotation) as GameObject;
+				GameObject tempTxt = Instantiate(Resources.Load("ShopTxt"), new Vector3(pos.x, pos.y + 8, pos.z - 3), transform.rotation) as GameObject;
+				GameObject tempButton1 = (GameObject)Instantiate(Resources.Load("ShopButton1"), new Vector3(pos.x+8, pos.y, pos.z - 3), transform.rotation);
+				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ShopExitTxt"), new Vector3(pos.x, pos.y - 10, pos.z - 3), transform.rotation);
+				//GameObject tempMain = (GameObject)Instantiate(Resources.Load("MainMenuTxt"), new Vector3(pos.x, pos.y - 3, pos.z - 3), transform.rotation);
+				Time.timeScale = 0.0f;
+			}
+			else if(paused && shopping)
+			{
+				Unshop ();
 			}
 		}
 	}
@@ -450,17 +488,36 @@ public class GameState : MonoBehaviour {
 		Time.timeScale = 1.0f;
 	}
 	
+	public void Unshop()
+	{
+		paused = false;
+		shopping = false;
+		GameObject tempWall = GameObject.Find("Faded(Clone)");
+		GameObject tempTxt = GameObject.Find("ShopTxt(Clone)");
+		GameObject tempButton1 = GameObject.Find("ShopButton1(Clone)");
+		GameObject tempExit = GameObject.Find("ShopExitTxt(Clone)");
+		Destroy (tempWall);
+		Destroy (tempTxt);
+		Destroy (tempButton1);
+		Destroy (tempExit);
+		if(started)
+		{
+			CountDownTimer.Start();
+		}
+		Time.timeScale = 1.0f;
+	}
+	
 	void spawnCoin()
 	{
 		if(Units.Count > 0)
 		{
 			if(prevVelocity==10){
-				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-0f,10f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20), transform.rotation);
+				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + UnityEngine.Random.Range (-0f,10f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20), transform.rotation);
 				CoinList.Add(temp);
 			}
 			else
 			{
-				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + Random.Range (-0f,7f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20), transform.rotation);
+				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + UnityEngine.Random.Range (-0f,7f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20), transform.rotation);
 				CoinList.Add(temp);
 				coinCount++;
 			}
@@ -525,12 +582,24 @@ public class GameState : MonoBehaviour {
 		gold = 3000;
 		coinCount = 0;
 		Time.timeScale = 1.0f;
-		showerPos = new Vector3(-80, 35, -20);
 		InvokeRepeating("spawnBoulders", 1.5f, 2.0f);
+		showerPos = new Vector3(-80,35,-20);
 	}
 	
 	void endGame()
 	{
+		/*string dateTime = System.DateTime.Now.ToString (); 	//Get the time to tack on to the file name
+		dateTime = dateTime.Replace ("/", "-"); 			//Replace slashes with dashes, because Unity thinks they are directories..
+		string fileName = "Metrics_" + dateTime;			//Append file name
+		string output= "Death: " + numDeath + "\n";
+		FileStream fs = File.Create ("Assets/Metrics/" + fileName + ".txt"); 	//Need to close this after so something else (StreamWriter) can access it
+		fs.Close ();	//Close it!
+		sw = new StreamWriter ("Assets/Metrics/" + fileName + ".txt");	//Create a StreamWriter which can write onto the file
+		sw.WriteLine (output);	//Write line
+		sw.Close ();	//Close access to file*/
+		string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine;
+		string fileName = "Assets/Metrics/Data.txt";
+		File.AppendAllText(fileName, output);
 		Application.LoadLevel(2);
 	}
 	
@@ -543,7 +612,7 @@ public class GameState : MonoBehaviour {
 		{
 			bool firstit = true;
 			bool exit = false;
-			int Ttype = Random.Range (1,4);
+			int Ttype = UnityEngine.Random.Range (1,4);
 			if(i == 14)
 			{
 				if(t1count < 5)
@@ -567,15 +636,15 @@ public class GameState : MonoBehaviour {
 				{
 					if(prevType == 1)
 					{
-						Ttype = Random.Range(2,4);
+						Ttype = UnityEngine.Random.Range(2,4);
 					}
 					else if(prevType == 2)
 					{
-						Ttype = Random.Range(3,5);
+						Ttype = UnityEngine.Random.Range(3,5);
 					}
 					else if(prevType == 3)
 					{
-						Ttype = Random.Range(1,3);
+						Ttype = UnityEngine.Random.Range(1,3);
 					}
 					firstit = false;
 				}
@@ -590,7 +659,7 @@ public class GameState : MonoBehaviour {
 					}
 					else
 					{
-						Ttype = Random.Range(2,4);	
+						Ttype = UnityEngine.Random.Range(2,4);	
 					}
 				}
 				if(Ttype == 2)
@@ -604,7 +673,7 @@ public class GameState : MonoBehaviour {
 					}
 					else
 					{
-						Ttype = Random.Range(3,5);
+						Ttype = UnityEngine.Random.Range(3,5);
 					}
 				}
 				if(Ttype == 3)
@@ -618,7 +687,7 @@ public class GameState : MonoBehaviour {
 					}
 					else
 					{
-						Ttype = Random.Range(1,3);
+						Ttype = UnityEngine.Random.Range(1,3);
 					}
 				}
 			}
@@ -630,5 +699,20 @@ public class GameState : MonoBehaviour {
 		GameObject temp = (GameObject) Instantiate(Resources.Load("Boulder"),new Vector3(191, 25, -20), transform.rotation);
 		temp.rigidbody.velocity = new Vector3(-15, 0, 0);
 		Boulders.Add (temp);
+	}
+	
+	void GoldMe(){
+		gold+=1000;
+		print("You Gained Gold");
+	}
+	
+	void OnApplicationQuit(){
+		print ("QUIT");
+		string dateTime = System.DateTime.Now.ToString (); 	//Get the time to tack on to the file name
+		dateTime = dateTime.Replace ("/", "-"); 			//Replace slashes with dashes, because Unity thinks they are directories..
+		string Name = "Metrics_" + dateTime;			//Append file name
+		string output= "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine + "Ended from Game" + Environment.NewLine + Environment.NewLine;
+		string fileName = "Assets/Metrics/Data.txt";
+		File.AppendAllText(fileName, output);
 	}
 }

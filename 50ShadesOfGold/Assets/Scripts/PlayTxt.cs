@@ -25,7 +25,7 @@ public class PlayTxt : MonoBehaviour {
 	}
 	
 	void OnMouseUp(){
-		Application.LoadLevel(1);
+		Application.LoadLevel(4);
 	}
 	
 	void spawnCoin()
