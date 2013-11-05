@@ -7,7 +7,6 @@ public class Unit1 : Unit {
 	void Start () {
 		UnitType = 1;
 		Controller = GameObject.Find("Controller");
-		Invulnerable = false;
 	}
 	
 	// Update is called once per frame
@@ -32,10 +31,6 @@ public class Unit1 : Unit {
 					GameObject temp = (GameObject) Instantiate(Resources.Load("TombStone"),new Vector3(this.rigidbody.position.x, 40, -17), transform.rotation);
 				}
 			}
-		}
-		if(collision.gameObject.name == "Jacuzzi Model(Clone)" || collision.gameObject.name == "Jacuzzi Model")
-		{
-			Controller.SendMessage("endGame");
 		}
 		if(collision.gameObject.name == "HQ" && Input.GetKey(KeyCode.A))
 		{

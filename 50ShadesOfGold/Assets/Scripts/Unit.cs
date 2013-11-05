@@ -39,5 +39,9 @@ public class Unit : MonoBehaviour {
 		{
 			Grounded = true;
 		}
+		if(collision.gameObject.name == "Jacuzzi Model(Clone)" || collision.gameObject.name == "Jacuzzi Model")
+		{
+			Controller.SendMessage("endGame");
+		}
 	}
 }

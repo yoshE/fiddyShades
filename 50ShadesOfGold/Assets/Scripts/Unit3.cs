@@ -32,10 +32,6 @@ public class Unit3 : Unit {
 				}
 			}
 		}
-		if(collision.gameObject.name == "Jacuzzi Model(Clone)" || collision.gameObject.name == "Jacuzzi Model")
-		{
-			Controller.SendMessage("endGame");
-		}
 		if(collision.gameObject.name == "HQ" && Input.GetKey(KeyCode.A))
 		{
 			transform.rigidbody.velocity -= new Vector3(0, 1.3f, 0);

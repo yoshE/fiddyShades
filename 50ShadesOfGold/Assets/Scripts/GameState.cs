@@ -295,6 +295,7 @@ public class GameState : MonoBehaviour {
 		}
 		else
 		{
+			showerPos = new Vector3(-80, 35, -20);
 			started = false;
 			CountDownTimer.Stop();
 			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
@@ -405,12 +406,11 @@ public class GameState : MonoBehaviour {
 		}
 		else
 		{
-			GUI.Box (new Rect (Screen.width - 175,100,150,25), "Seconds Left: "+ 0);
+			GUI.Box (new Rect (Screen.width - 175,100,150,25), "Seconds Left: " + 0);
 			Application.LoadLevel(3);
 		}
 		
 		if(GUI.Button(new Rect(Screen.width - 150,20,100,60), "Pause")) {
-			print("Clickity");
 			if(!paused)
 			{
 				CountDownTimer.Stop();
@@ -525,6 +525,7 @@ public class GameState : MonoBehaviour {
 		gold = 3000;
 		coinCount = 0;
 		Time.timeScale = 1.0f;
+		showerPos = new Vector3(-80, 35, -20);
 		InvokeRepeating("spawnBoulders", 1.5f, 2.0f);
 	}
 	
@@ -629,11 +630,5 @@ public class GameState : MonoBehaviour {
 		GameObject temp = (GameObject) Instantiate(Resources.Load("Boulder"),new Vector3(191, 25, -20), transform.rotation);
 		temp.rigidbody.velocity = new Vector3(-15, 0, 0);
 		Boulders.Add (temp);
-	}
-	
-	void AddGold(){
-		gold++;
-		spawnCoin();
-		print("Collided");
 	}
 }

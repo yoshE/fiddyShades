@@ -69,12 +69,12 @@
      <Compile Include="Assets\Scripts\Terrain2.cs" />
      <Compile Include="Assets\Scripts\Terrain3.cs" />
      <Compile Include="Assets\Scripts\TombSFX.cs" />
+     <Compile Include="Assets\Scripts\TutorialCS.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Scripts\Unit1.cs" />
      <Compile Include="Assets\Scripts\Unit2.cs" />
      <Compile Include="Assets\Scripts\Unit3.cs" />
      <Compile Include="Assets\Scripts\returnToMenuCam.cs" />
-     <Compile Include="Assets\TutorialCS.cs" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

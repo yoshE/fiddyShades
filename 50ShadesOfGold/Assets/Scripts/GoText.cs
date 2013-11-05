@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GoText : MonoBehaviour {
 	GameObject Controller;
+	public bool tutorial = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -29,6 +30,9 @@ public class GoText : MonoBehaviour {
 	{
 		Controller.SendMessage("StartQuest");
 		Controller.SendMessage("IsLeader");
-		Controller.GetComponent<GameState>().CountDownTimer.Start();
+		if(!tutorial)
+		{
+			Controller.GetComponent<GameState>().CountDownTimer.Start();
+		}
 	}
 }

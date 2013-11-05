@@ -15,29 +15,53 @@ public class TutorialCS : MonoBehaviour {
 	float jumpPos;
 	float prevVelocity = 10;
 	int coinCount = 0;
-	int gold = 3000;
+	int gold = 500;
 	public bool paused = false;
 	bool swapped = false;
 	bool started = false;
 	bool firstDone = false;
 	bool thirdDone = false;
 	bool canJump = false;
+	bool fifthDone = false;
+	bool sixthDone = false;
+	bool seventhDone = false;
+	bool eighthDone = false;
+	
 	//bool playerSwapTrue = false;
 	float ptempx, ptempy;
+	GameObject GoButton;
 	GameObject[] first;
 	GameObject[] second;
 	GameObject[] third;
 	GameObject[] fourth;
+	GameObject[] fifth;
+	GameObject[] sixth;
+	GameObject[] seventh;
+	GameObject[] eighth;
+	GameObject[] ninth;
+	GameObject[] tenth;
+	GameObject[] eleventh;
+	GameObject invisalign;
 	
 	// Use this for initialization
-	void Start () 
+	void Start ()
 	{
+		GoButton = GameObject.Find("GoTxt");
+		GoButton.GetComponent<GoText>().tutorial = true;
 		first = GameObject.FindGameObjectsWithTag("FirstInstructions");
 		second = GameObject.FindGameObjectsWithTag("SecondInstructions");
 		third = GameObject.FindGameObjectsWithTag("ThirdInstructions");
 		fourth = GameObject.FindGameObjectsWithTag("FourthInstructions");
+		fifth = GameObject.FindGameObjectsWithTag("FifthInstructions");
+		sixth = GameObject.FindGameObjectsWithTag("SixthInstructions");
+		seventh = GameObject.FindGameObjectsWithTag("Seventh");
+		eighth = GameObject.FindGameObjectsWithTag("Eighth");
+		ninth = GameObject.FindGameObjectsWithTag("Ninth");
+		tenth = GameObject.FindGameObjectsWithTag("Tenth");
+		eleventh = GameObject.FindGameObjectsWithTag("Eleventh");
 		HQButts = GameObject.FindGameObjectsWithTag("HQ_Buttons");
 		Away = GameObject.FindGameObjectsWithTag("BRB");
+		invisalign = GameObject.Find("wall1");	
 		foreach(GameObject brb in Away)
 		{
 			brb.SetActive(false);
@@ -54,6 +78,34 @@ public class TutorialCS : MonoBehaviour {
 		{
 			o.SetActive(false);
 		}
+		foreach(GameObject o in fifth)
+		{
+			o.SetActive(false);
+		}
+		foreach(GameObject o in sixth)
+		{
+			o.SetActive(false);
+		}
+		foreach(GameObject o in seventh)
+		{
+			o.SetActive(false);
+		}
+		foreach(GameObject o in eighth)
+		{
+			o.SetActive(false);
+		}
+		foreach(GameObject o in ninth)
+		{
+			o.SetActive(false);
+		}
+		foreach(GameObject o in tenth)
+		{
+			o.SetActive(false);
+		}
+		foreach(GameObject o in eleventh)
+		{
+			o.SetActive(false);
+		}
 		spawnTerrain();
 		Restart();
 	}
@@ -63,9 +115,10 @@ public class TutorialCS : MonoBehaviour {
 	{
 		if(!paused && started)
 		{
-			/*if(CoinList.Count < 400){
+			if(CoinList.Count < 400 && fifthDone == true)
+			{
 				spawnCoin ();
-			}*/
+			}
 			if(Units.Count > 0)
 			{
 				UpdateCamera();
@@ -75,7 +128,47 @@ public class TutorialCS : MonoBehaviour {
 					colCheck (CoinList[i]);
 				}
 			}
-			Swap();
+			if(sixthDone && !seventhDone)
+			{
+				foreach(GameObject o in seventh)
+				{
+					o.SetActive(true);
+				}
+				if(Units[0].rigidbody.position.x > -48)
+				{
+					foreach(GameObject o in seventh)
+					{
+						o.SetActive(false);
+					}
+					seventhDone = true;
+					foreach(GameObject o in eighth)
+					{
+						o.SetActive(true);
+					}
+				}
+			}
+			if(eighthDone)
+			{
+				if(Units[0].rigidbody.position.x > -20)
+				{
+					foreach(GameObject o in ninth)
+					{
+						o.SetActive(false);
+					}
+					foreach(GameObject o in tenth)
+					{
+						o.SetActive(false);
+					}
+					foreach(GameObject o in eleventh)
+					{
+						o.SetActive(true);
+					}
+				}
+				if(Units[0].rigidbody.position.x > -55)
+				{
+					Swap ();
+				}
+			}
 		}
 	}
 	
@@ -84,6 +177,17 @@ public class TutorialCS : MonoBehaviour {
 		//code to swap
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
+			if(Units[0].rigidbody.position.x > -55 && Units[0].rigidbody.position.x < -20)
+			{
+				foreach(GameObject o in ninth)
+				{
+					o.SetActive(false);
+				}
+				foreach(GameObject o in tenth)
+				{
+					o.SetActive(true);
+				}
+			}
 			//playerSwapTrue = true;
 			GameObject bob;	
 			bob = Units[0];
@@ -163,7 +267,7 @@ public class TutorialCS : MonoBehaviour {
 			{
 				o.SetActive(false);
 			}
-			if(thirdDone == false)
+			if(thirdDone == false && !canJump)
 			{
 				foreach(GameObject o in fourth)
 				{
@@ -189,6 +293,14 @@ public class TutorialCS : MonoBehaviour {
 			{
 				o.SetActive(false);
 			}
+			if(!canJump && thirdDone)
+			{
+				foreach(GameObject o in fifth)
+				{
+					o.SetActive(true);
+				}
+				canJump = true;
+			}
 			unit.transform.rigidbody.velocity = new Vector3(-10,unit.rigidbody.velocity.y,0);
 			if(prevVelocity == 10)
 			{
@@ -208,6 +320,11 @@ public class TutorialCS : MonoBehaviour {
 				playerSwapTrue = false;	
 				Units[0].GetComponent<Unit>().Grounded = true;
 			}*/
+			foreach(GameObject o in fifth)
+			{
+				o.SetActive(false);
+			}
+			fifthDone = true;
 			if(Units[0].GetComponent<Unit>().rigidbody.velocity.y == 0 && Units[0].GetComponent<Unit>().rigidbody.position.y <= 11.2){
 				Units[0].GetComponent<Unit>().Grounded = true;
 			}
@@ -263,10 +380,13 @@ public class TutorialCS : MonoBehaviour {
 				{
 					o.SetActive(false);
 				}
-			foreach(GameObject o in second)
-			{
-				o.SetActive(true);
-			}
+				if(!canJump)
+				{
+					foreach(GameObject o in second)
+					{
+						o.SetActive(true);
+					}
+				}
 			}
 			else if(uType == 2 && firstDone)
 			{
@@ -341,6 +461,7 @@ public class TutorialCS : MonoBehaviour {
 		}
 		else
 		{
+			showerPos = new Vector3(-80, 35, -20);
 			started = false;
 			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
 			foreach(GameObject o in CoinList)
@@ -387,8 +508,7 @@ public class TutorialCS : MonoBehaviour {
 		if(Mathf.Abs(coin1.rigidbody.position.x - Units[0].rigidbody.position.x) <1){
 			if(Mathf.Abs(coin1.rigidbody.position.y - Units[0].rigidbody.position.y) <2)
 			{
-				print ("GOTCHA");
-				gold++;
+				gold+=100;
 				if(showerPos.x < Units[0].rigidbody.position.x){
 					//showerPos.x = Units[0].rigidbody.position.x;
 					showerPos.x += 5;
@@ -424,8 +544,7 @@ public class TutorialCS : MonoBehaviour {
 			if(Mathf.Abs(coin1.rigidbody.position.x - Units[i].rigidbody.position.x) <1){
 			if(Mathf.Abs(coin1.rigidbody.position.y - Units[i].rigidbody.position.y) <2)
 			{
-				print ("GOTCHA BITCH");
-				gold++;
+				gold += 100;
 				if(showerPos.x < Units[0].rigidbody.position.x){
 					//showerPos.x = Units[0].rigidbody.position.x;
 					showerPos.x += 5;
@@ -481,6 +600,22 @@ public class TutorialCS : MonoBehaviour {
 	
 	void spawnCoin()
 	{
+		if(gold == 0)
+		{
+			foreach(GameObject o in sixth)
+			{
+				o.SetActive(true);
+			}
+		}
+		else if(gold >= 1000)
+		{
+			Destroy (invisalign);
+			foreach(GameObject o in sixth)
+			{
+				o.SetActive(false);
+			}
+			sixthDone = true;
+		}
 		if(Units.Count > 0)
 		{
 			if(prevVelocity==10){
@@ -540,9 +675,24 @@ public class TutorialCS : MonoBehaviour {
 			{
 				o.SetActive(false);
 			}
-			foreach(GameObject o in third)
+			if(!canJump)
 			{
-				o.SetActive(true);
+				foreach(GameObject o in third)
+				{
+					o.SetActive(true);
+				}
+			}
+			if(canJump)
+			{
+				foreach(GameObject o in eighth)
+				{
+					o.SetActive(false);
+				}
+				foreach(GameObject o in ninth)
+				{
+					o.SetActive(true);
+				}
+				eighthDone = true;
 			}
 			firstDone = true;
 		}
@@ -563,6 +713,7 @@ public class TutorialCS : MonoBehaviour {
 		gold = 500;
 		coinCount = 0;
 		Time.timeScale = 1.0f;
+		showerPos = new Vector3(-80, 35, -20);
 	}
 	
 	void spawnTerrain()
@@ -571,7 +722,7 @@ public class TutorialCS : MonoBehaviour {
 		{
 			GameObject temp = (GameObject) Instantiate(Resources.Load("Terrain1"),new Vector3(-80 + 20.0f * i, 10, -20), transform.rotation);
 		}
-		for(int i = 2; i < 4; i++)
+		for(int i = 2; i < 5; i++)
 		{
 			GameObject temp = (GameObject) Instantiate(Resources.Load("Terrain2"),new Vector3(-80 + 20.0f * i, 10, -20), transform.rotation);
 		}
@@ -579,12 +730,6 @@ public class TutorialCS : MonoBehaviour {
 	
 	void endGame()
 	{
-		Application.LoadLevel(2);
-	}
-	
-	void AddGold(){
-		gold++;
-		spawnCoin();
-		print("Collided");
+		Application.LoadLevel(1);
 	}
 }
