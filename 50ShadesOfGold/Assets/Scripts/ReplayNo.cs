@@ -9,6 +9,7 @@ public class ReplayNo : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		renderer.material.color = Color.black;
+
 	}
 	
 	void OnMouseEnter()
@@ -31,7 +32,8 @@ public class ReplayNo : MonoBehaviour {
 		dateTime = dateTime.Replace ("/", "-"); 			//Replace slashes with dashes, because Unity thinks they are directories..
 		string Name = "Metrics_" + dateTime;			//Append file name
 		string output= "Clicked NO" + Environment.NewLine + Environment.NewLine;
-		string fileName = "Assets/Metrics/Data.txt";
+		string fileName = "Data.txt";
+		//string fileName = "Resources/Data.txt";
 		File.AppendAllText(fileName, output);
 	}
 }

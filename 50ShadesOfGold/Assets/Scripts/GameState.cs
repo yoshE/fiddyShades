@@ -34,7 +34,8 @@ public class GameState : MonoBehaviour {
 	{
 		string dateTime = System.DateTime.Now.ToString() + Environment.NewLine; 	//Get the time to tack on to the file name
 		dateTime = dateTime.Replace ("/", "-"); 			//Replace slashes with dashes, because Unity thinks they are directories..
-		string fileName = "Assets/Metrics/Data.txt";
+		string fileName = "Data.txt";
+		//string fileName = "Resources/Data.txt";
 		File.AppendAllText(fileName, dateTime);
 		HQButts = GameObject.FindGameObjectsWithTag("HQ_Buttons");
 		Away = GameObject.FindGameObjectsWithTag("BRB");
@@ -54,7 +55,7 @@ public class GameState : MonoBehaviour {
 			if(CoinList.Count < 400){
 				spawnCoin ();
 			}
-			print ("READ THIS: "+Units[0].GetComponent<Unit>().rigidbody.velocity.y);
+			//print ("READ THIS: "+Units[0].GetComponent<Unit>().rigidbody.velocity.y);
 			if(Units.Count > 0)
 			{
 				UpdateCamera();
@@ -81,8 +82,8 @@ public class GameState : MonoBehaviour {
 			float tempPosY2 = bob.rigidbody.position.y;
 			float verticalSpeed = bob.rigidbody.velocity.y;
 			float horizSpeed = bob.rigidbody.velocity.x;
-			print ("Bob X: " + tempPosX + " and Bob Y: " + tempPosY);
-			print ("UNIT[0] X: " + Units[0].rigidbody.position.x );
+			//print ("Bob X: " + tempPosX + " and Bob Y: " + tempPosY);
+			//print ("UNIT[0] X: " + Units[0].rigidbody.position.x );
 			if(!(Units.Count == 1)){
 				bob.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);	
 			}
@@ -98,17 +99,17 @@ public class GameState : MonoBehaviour {
 							Units[i].rigidbody.position = new Vector3(tempPosX,tempPosY,-20);
 							Units[i].rigidbody.velocity = new Vector3(bob.rigidbody.velocity.x, verticalSpeed, 0);
 							tempPosX = (Units[i].rigidbody.position.x - 1.5f);
-							print(tempPosX);
+							//print(tempPosX);
 						}else{
 							Units[i] = Units[i+1];
 							Units[i].rigidbody.position = new Vector3(tempPosX,Units[i].rigidbody.position.y,-20);
-							print ("UNIT FOR LOOP Y: " + Units[i].rigidbody.position.y);
+							//print ("UNIT FOR LOOP Y: " + Units[i].rigidbody.position.y);
 							tempPosX = (Units[i].rigidbody.position.x - 1.5f);
-							print(tempPosX);
+							//print(tempPosX);
 						}
 					}
-					print ("UNIT Y: " + Units[Units.Count-1].rigidbody.position.y);
-					print ("Not Changed Y: " + tempPosY2);
+					//print ("UNIT Y: " + Units[Units.Count-1].rigidbody.position.y);
+					//print ("Not Changed Y: " + tempPosY2);
 					bob.rigidbody.position = new Vector3(tempPosX,tempPosY2,-20);
 					Units[Units.Count-1] = bob;
 					Units[0].GetComponent<Unit>().Grounded = false;
@@ -125,17 +126,17 @@ public class GameState : MonoBehaviour {
 							Units[i].rigidbody.position = new Vector3(tempPosX,tempPosY,-20);
 							Units[i].rigidbody.velocity = new Vector3(bob.rigidbody.velocity.x, verticalSpeed, 0);
 							tempPosX = (Units[i].rigidbody.position.x + 1.5f);
-							print(tempPosX);
+							//print(tempPosX);
 						}else{
 							Units[i] = Units[i+1];
 							Units[i].rigidbody.position = new Vector3(tempPosX,Units[i].rigidbody.position.y,-20);
-							print ("UNIT FOR LOOP Y: " + Units[i].rigidbody.position.y);
+							//print ("UNIT FOR LOOP Y: " + Units[i].rigidbody.position.y);
 							tempPosX = (Units[i].rigidbody.position.x + 1.5f);
-							print(tempPosX);
+							//print(tempPosX);
 						}
 					}
-					print ("UNIT -Y: " + Units[Units.Count-1].rigidbody.position.y);
-					print ("Not Changed -Y: " + tempPosY2);
+					//print ("UNIT -Y: " + Units[Units.Count-1].rigidbody.position.y);
+					//print ("Not Changed -Y: " + tempPosY2);
 					bob.rigidbody.position = new Vector3(tempPosX,tempPosY2,-20);
 					Units[Units.Count-1] = bob;
 					Units[0].GetComponent<Unit>().Grounded = false;
@@ -188,7 +189,7 @@ public class GameState : MonoBehaviour {
 			{
 				jumpPos = unit.transform.position.x;
 				unit.transform.rigidbody.velocity = new Vector3(unit.rigidbody.velocity.x,7,0);
-				print("jumpPos is" + jumpPos +"!");
+				//print("jumpPos is" + jumpPos +"!");
 				Units[0].GetComponent<Unit>().Grounded = false;
 			}
 		}
@@ -210,7 +211,7 @@ public class GameState : MonoBehaviour {
 				{
 					Units[i].transform.rigidbody.velocity = new Vector3(Units[i].rigidbody.velocity.x,7,0);
 					Units[i].GetComponent<Unit>().Grounded = false;
-					print("unit in front y vel = " + Units[i - 1].rigidbody.velocity.y);
+					//print("unit in front y vel = " + Units[i - 1].rigidbody.velocity.y);
 				}
 			}
 		}
@@ -332,7 +333,8 @@ public class GameState : MonoBehaviour {
 			if(gold < 500)
 			{
 				string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine;
-				string fileName = "Assets/Metrics/Data.txt";
+				string fileName = "Data.txt";
+				//string fileName = "Resources/Data.txt";
 				File.AppendAllText(fileName, output);
 				Application.LoadLevel(3);
 			}
@@ -348,7 +350,7 @@ public class GameState : MonoBehaviour {
 			{
 				Units[i].SendMessage("InvulnerableOff");
 			}
-			print ("Invulnerable Time Over!");
+			//print ("Invulnerable Time Over!");
 		}
 	}
 	
@@ -357,7 +359,7 @@ public class GameState : MonoBehaviour {
 		if(Mathf.Abs(coin1.rigidbody.position.x - Units[0].rigidbody.position.x) <1){
 			if(Mathf.Abs(coin1.rigidbody.position.y - Units[0].rigidbody.position.y) <2)
 			{
-				print ("GOTCHA");
+				//print ("GOTCHA");
 				gold++;
 				if(showerPos.x < Units[0].rigidbody.position.x){
 					//showerPos.x = Units[0].rigidbody.position.x;
@@ -422,13 +424,14 @@ public class GameState : MonoBehaviour {
 		{
 			GUI.Box (new Rect (Screen.width - 175,100,150,25), "Seconds Left: "+ 0);
 		string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine;
-		string fileName = "Assets/Metrics/Data.txt";
+		string fileName = "Data.txt";
+		//	string fileName = "Resources/Data.txt";
 		File.AppendAllText(fileName, output);
 			Application.LoadLevel(3);
 		}
 		
 		if(GUI.Button(new Rect(Screen.width - 150,20,100,60), "Pause")) {
-			print("Clickity");
+			//print("Clickity");
 			if(!paused)
 			{
 				CountDownTimer.Stop();
@@ -447,7 +450,7 @@ public class GameState : MonoBehaviour {
 			}
 		}
 		if(GUI.Button(new Rect(Screen.width - 255,20,100,60), "Shop")) {
-			print("Shopity");
+			//print("Shopity");
 			if(!paused)
 			{
 				shopping = true;
@@ -598,7 +601,8 @@ public class GameState : MonoBehaviour {
 		sw.WriteLine (output);	//Write line
 		sw.Close ();	//Close access to file*/
 		string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine;
-		string fileName = "Assets/Metrics/Data.txt";
+		string fileName = "Data.txt";
+		//string fileName = "Resources/Data.txt";
 		File.AppendAllText(fileName, output);
 		Application.LoadLevel(2);
 	}
@@ -703,16 +707,17 @@ public class GameState : MonoBehaviour {
 	
 	void GoldMe(){
 		gold+=1000;
-		print("You Gained Gold");
+		//print("You Gained Gold");
 	}
 	
 	void OnApplicationQuit(){
-		print ("QUIT");
+		//print ("QUIT");
 		string dateTime = System.DateTime.Now.ToString (); 	//Get the time to tack on to the file name
 		dateTime = dateTime.Replace ("/", "-"); 			//Replace slashes with dashes, because Unity thinks they are directories..
 		string Name = "Metrics_" + dateTime;			//Append file name
 		string output= "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine + "Ended from Game" + Environment.NewLine + Environment.NewLine;
-		string fileName = "Assets/Metrics/Data.txt";
+		string fileName = "Data.txt";
+		//string fileName = "Resources/Data.txt";
 		File.AppendAllText(fileName, output);
 	}
 }

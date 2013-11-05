@@ -48,7 +48,8 @@ public class GreenTxt : MonoBehaviour {
 		dateTime = dateTime.Replace ("/", "-"); 			//Replace slashes with dashes, because Unity thinks they are directories..
 		string Name = "Metrics_" + dateTime;			//Append file name
 		string output= "Clicked QUIT" + Environment.NewLine + Environment.NewLine;
-		string fileName = "Assets/Metrics/Data.txt";
+		string fileName = "Data.txt";
+		//string fileName = "Resources/Data.txt";
 		File.AppendAllText(fileName, output);
 	}
 }
