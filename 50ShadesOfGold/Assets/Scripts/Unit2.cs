@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class Unit2 : Unit {
-
+	
+	public bool tutorial = false;
+	
 	// Use this for initialization
 	void Start () {
 		UnitType = 2;
@@ -29,6 +31,10 @@ public class Unit2 : Unit {
 					Destroy(this.gameObject);	
 					GameObject temp = (GameObject) Instantiate(Resources.Load("TombStone"),new Vector3(this.rigidbody.position.x, 40, -17), transform.rotation);
 				}
+			}
+			if(collision.gameObject.name == "Terrain2(Clone)" && tutorial)
+			{
+				Controller.SendMessage("displayTouchMe");
 			}
 		}
 		if(collision.gameObject.name == "HQ" && Input.GetKey(KeyCode.A))

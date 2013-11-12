@@ -26,6 +26,7 @@ public class TutorialCS : MonoBehaviour {
 	bool sixthDone = false;
 	bool seventhDone = false;
 	bool eighthDone = false;
+	bool tenthDone = false;
 	
 	//bool playerSwapTrue = false;
 	float ptempx, ptempy;
@@ -163,6 +164,7 @@ public class TutorialCS : MonoBehaviour {
 					{
 						o.SetActive(true);
 					}
+					tenthDone = true;
 				}
 				if(Units[0].rigidbody.position.x > -55)
 				{
@@ -177,17 +179,6 @@ public class TutorialCS : MonoBehaviour {
 		//code to swap
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			if(Units[0].rigidbody.position.x > -55 && Units[0].rigidbody.position.x < -20)
-			{
-				foreach(GameObject o in ninth)
-				{
-					o.SetActive(false);
-				}
-				foreach(GameObject o in tenth)
-				{
-					o.SetActive(true);
-				}
-			}
 			//playerSwapTrue = true;
 			GameObject bob;	
 			bob = Units[0];
@@ -364,7 +355,7 @@ public class TutorialCS : MonoBehaviour {
 	{
 		if(gold >= 500 && Units.Count < 6 && !started && !paused)
 		{
-			if(Units.Count > 0)
+			if(Units.Count > 0 && uType != 3)
 			{
 				foreach(GameObject o in Units)
 				{
@@ -391,14 +382,13 @@ public class TutorialCS : MonoBehaviour {
 			else if(uType == 2 && firstDone)
 			{
 				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(-88, 11, -20), transform.rotation);
+				temp.GetComponent<Unit2>().tutorial = true;
 				Units.Add(temp);
 				gold -= 500;
 			}
 			else if(uType == 3 && firstDone)
 			{
-				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(-88, 11, -20), transform.rotation);
-				Units.Add(temp);
-				gold -= 500;
+				
 			}
 		}
 		if(Units.Count == 1)
@@ -695,6 +685,15 @@ public class TutorialCS : MonoBehaviour {
 				eighthDone = true;
 			}
 			firstDone = true;
+			
+			foreach(GameObject o in tenth)
+			{
+				o.SetActive(false);
+			}
+			foreach(GameObject o in eleventh)
+			{
+				o.SetActive(false);
+			}
 		}
 	}
 	
@@ -731,5 +730,25 @@ public class TutorialCS : MonoBehaviour {
 	void endGame()
 	{
 		Application.LoadLevel(1);
+	}
+	
+	void displayTouchMe()
+	{
+		if(Units.Count > 1)
+		{
+			foreach(GameObject o in ninth)
+			{
+				o.SetActive(false);
+			}
+			if(!tenthDone)
+			{
+				foreach(GameObject o in tenth)
+				{
+					o.SetActive(true);
+				}
+			}
+			GameObject temp = GameObject.Find ("wall2");
+			Destroy (temp);
+		}
 	}
 }

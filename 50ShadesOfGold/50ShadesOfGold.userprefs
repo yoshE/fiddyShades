@@ -1,11 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameState.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BoulderCS.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameState.cs" Line="111" Column="13" />
-      <File FileName="Assets\Scripts\MainMenuTxt.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GreenTxt.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ReplayNo.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TutorialCS.cs" Line="167" Column="23" />
+      <File FileName="Assets\Scripts\Unit2.cs" Line="37" Column="46" />
+      <File FileName="Assets\Scripts\BoulderCS.cs" Line="21" Column="118" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

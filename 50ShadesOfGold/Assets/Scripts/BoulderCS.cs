@@ -18,7 +18,7 @@ public class BoulderCS : MonoBehaviour {
 	void OnCollisionEnter(Collision collision)
 	{
 		print (collision.gameObject.tag);
-		if(collision.gameObject.tag != "Terrain" && collision.gameObject.tag != "Coin")
+		if(collision.gameObject.tag != "Terrain" && collision.gameObject.tag != "Coin" && collision.gameObject.tag != "Unit")
 		{
 			Controller.GetComponent<GameState>().Boulders.Remove(this.gameObject);
 			Destroy(this.gameObject);
