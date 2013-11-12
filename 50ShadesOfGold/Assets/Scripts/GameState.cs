@@ -18,9 +18,12 @@ public class GameState : MonoBehaviour {
 	float prevVelocity = 10;
 	int coinCount = 0;
 	int gold = 3000;
+	int collectedGold = 0;
 	int numDeath = 0;
 	int numUnitDeath = 0;
+	int unitsBought = 0;
 	public bool paused = false;
+	bool deathPause = false;
 	bool swapped = false;
 	bool started = false;
 	bool shopping = false;
@@ -28,6 +31,8 @@ public class GameState : MonoBehaviour {
 	float ptempx, ptempy;
 	public Stopwatch CountDownTimer = new Stopwatch();
 	float totalTime = 60.0f;
+	float timeLeft = 0;
+	int timetrack = 0;
 	
 	// Use this for initialization
 	void Start () 
@@ -50,7 +55,7 @@ public class GameState : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if(!paused && started)
+		if(!paused && started && !deathPause)
 		{
 			if(CoinList.Count < 400){
 				spawnCoin ();
@@ -66,6 +71,14 @@ public class GameState : MonoBehaviour {
 				}
 			}
 			Swap();
+		}
+		if(timetrack >= 160){
+			Time.timeScale = 1.0f;
+			deathPause = false;
+			timetrack = 0;
+			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
+		}else if(Time.timeScale == 1.1f){
+			timetrack++;
 		}
 	}
 	
@@ -232,16 +245,19 @@ public class GameState : MonoBehaviour {
 			{
 				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(-88, 11, -20), transform.rotation);
 				Units.Add(temp);
+				unitsBought++;
 			}
 			else if(uType == 2)
 			{
 				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(-88, 11, -20), transform.rotation);
 				Units.Add(temp);
+				unitsBought++;
 			}
 			else if(uType == 3)
 			{
 				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(-88, 11, -20), transform.rotation);
 				Units.Add(temp);
+				unitsBought++;
 			}
 			gold -= 500;
 		}
@@ -293,6 +309,9 @@ public class GameState : MonoBehaviour {
 	void LeaderDied()
 	{
 		numUnitDeath++;
+		string output2 = "Unit Died at X-Position: " + Units[0].rigidbody.position.x + Environment.NewLine;
+		string fileName2 = "Data.txt";
+		File.AppendAllText(fileName2, output2);
 		Units.RemoveAt(0);
 		if(Units.Count > 0)
 		{
@@ -310,7 +329,10 @@ public class GameState : MonoBehaviour {
 			started = false;
 			numDeath++;
 			CountDownTimer.Stop();
-			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
+			Time.timeScale= 1.1f;
+			print("DEATH!");
+			deathPause = true;
+			//Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
 			foreach(GameObject o in CoinList)
 			{
 				Destroy(o);
@@ -332,7 +354,7 @@ public class GameState : MonoBehaviour {
 			}
 			if(gold < 500)
 			{
-				string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine;
+				string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine + "Total Units Bought: " + unitsBought + Environment.NewLine + "Coins Collected: " + collectedGold + Environment.NewLine + "Time Left: " + timeLeft + Environment.NewLine;
 				string fileName = "Data.txt";
 				//string fileName = "Resources/Data.txt";
 				File.AppendAllText(fileName, output);
@@ -361,6 +383,7 @@ public class GameState : MonoBehaviour {
 			{
 				//print ("GOTCHA");
 				gold++;
+				collectedGold ++;
 				if(showerPos.x < Units[0].rigidbody.position.x){
 					//showerPos.x = Units[0].rigidbody.position.x;
 					showerPos.x += 5;
@@ -377,7 +400,7 @@ public class GameState : MonoBehaviour {
 				showerPos.x += 5;
 				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + UnityEngine.Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
 			}else{
-				coin1.rigidbody.position = new Vector3(showerPos.x + UnityEngine.Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
+				//coin1.rigidbody.position = new Vector3(showerPos.x + UnityEngine.Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
 			}
 			coin1.rigidbody.velocity = new Vector3(0,0,0);
 		}
@@ -415,7 +438,7 @@ public class GameState : MonoBehaviour {
 	{
 		GUI.Box (new Rect (Screen.width - 350,Screen.height - 200,100,25), "$ "+ gold);
 
-		float timeLeft = totalTime - (CountDownTimer.ElapsedMilliseconds/1000.0f);
+		timeLeft = totalTime - (CountDownTimer.ElapsedMilliseconds/1000.0f);
 		if(timeLeft > 0)
 		{
 			GUI.Box (new Rect (Screen.width - 175,100,150,25), "Seconds Left: "+ timeLeft);
@@ -423,7 +446,7 @@ public class GameState : MonoBehaviour {
 		else
 		{
 			GUI.Box (new Rect (Screen.width - 175,100,150,25), "Seconds Left: "+ 0);
-		string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine;
+		string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine + "Total Units Bought: " + unitsBought + Environment.NewLine + "Coins Collected: " + collectedGold + Environment.NewLine + "Time Left: " + timeLeft + "    - Ran out of Time" + Environment.NewLine;
 		string fileName = "Data.txt";
 		//	string fileName = "Resources/Data.txt";
 		File.AppendAllText(fileName, output);
@@ -600,7 +623,7 @@ public class GameState : MonoBehaviour {
 		sw = new StreamWriter ("Assets/Metrics/" + fileName + ".txt");	//Create a StreamWriter which can write onto the file
 		sw.WriteLine (output);	//Write line
 		sw.Close ();	//Close access to file*/
-		string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine;
+		string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine + "Total Units Bought: " + unitsBought + Environment.NewLine + "Coins Collected: " +collectedGold + Environment.NewLine  + "Time Left: " + timeLeft + Environment.NewLine;
 		string fileName = "Data.txt";
 		//string fileName = "Resources/Data.txt";
 		File.AppendAllText(fileName, output);
@@ -715,7 +738,7 @@ public class GameState : MonoBehaviour {
 		string dateTime = System.DateTime.Now.ToString (); 	//Get the time to tack on to the file name
 		dateTime = dateTime.Replace ("/", "-"); 			//Replace slashes with dashes, because Unity thinks they are directories..
 		string Name = "Metrics_" + dateTime;			//Append file name
-		string output= "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine + "Ended from Game" + Environment.NewLine + Environment.NewLine;
+		string output= "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine + "Total Units Bought: " + unitsBought + Environment.NewLine + "Coins Collected: " + collectedGold + Environment.NewLine + "Time Left: " + timeLeft + Environment.NewLine + "Ended from Game" + Environment.NewLine + Environment.NewLine;
 		string fileName = "Data.txt";
 		//string fileName = "Resources/Data.txt";
 		File.AppendAllText(fileName, output);

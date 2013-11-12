@@ -16,7 +16,9 @@ public class TutorialCS : MonoBehaviour {
 	float prevVelocity = 10;
 	int coinCount = 0;
 	int gold = 500;
+	int timetrack = 0;
 	public bool paused = false;
+	bool deathPause = false;
 	bool swapped = false;
 	bool started = false;
 	bool firstDone = false;
@@ -114,7 +116,7 @@ public class TutorialCS : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if(!paused && started)
+		if(!paused && started && !deathPause)
 		{
 			if(CoinList.Count < 400 && fifthDone == true)
 			{
@@ -171,6 +173,14 @@ public class TutorialCS : MonoBehaviour {
 					Swap ();
 				}
 			}
+		}
+		if(timetrack >= 160){
+			Time.timeScale = 1.0f;
+			deathPause = false;
+			timetrack = 0;
+			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
+		}else if(Time.timeScale == 1.1f){
+			timetrack++;
 		}
 	}
 	
@@ -453,7 +463,10 @@ public class TutorialCS : MonoBehaviour {
 		{
 			showerPos = new Vector3(-80, 35, -20);
 			started = false;
-			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
+			Time.timeScale= 1.1f;
+			print("DEATH!");
+			deathPause = true;
+			//Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
 			foreach(GameObject o in CoinList)
 			{
 				Destroy(o);
