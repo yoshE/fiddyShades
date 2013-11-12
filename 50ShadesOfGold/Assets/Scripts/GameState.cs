@@ -465,7 +465,11 @@ public class GameState : MonoBehaviour {
 				GameObject tempRestart = (GameObject)Instantiate(Resources.Load("RestartTxt"), new Vector3(pos.x, pos.y, pos.z - 3), transform.rotation);
 				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ResumeTxt"), new Vector3(pos.x, pos.y - 6, pos.z - 3), transform.rotation);
 				GameObject tempMain = (GameObject)Instantiate(Resources.Load("MainMenuTxt"), new Vector3(pos.x, pos.y - 3, pos.z - 3), transform.rotation);
+				string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine + "Total Units Bought: " + unitsBought + Environment.NewLine + "Coins Collected: " + collectedGold + Environment.NewLine + "Time Left: " + timeLeft + Environment.NewLine + "|| Paused, may go to Main Menu if no more ||" + Environment.NewLine;
+				string fileName = "Data.txt";
+				File.AppendAllText(fileName, output);
 				Time.timeScale = 0.0f;
+				
 			}
 			else if(paused && !shopping)
 			{
