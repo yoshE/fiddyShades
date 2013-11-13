@@ -30,7 +30,7 @@ public class GameState : MonoBehaviour {
 	//bool playerSwapTrue = false;
 	float ptempx, ptempy;
 	public Stopwatch CountDownTimer = new Stopwatch();
-	float totalTime = 60.0f;
+	float totalTime = 90.0f;
 	float timeLeft = 0;
 	int timetrack = 0;
 	
