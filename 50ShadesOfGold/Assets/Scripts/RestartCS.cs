@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class RestartCS : MonoBehaviour {
-
+	
+	public bool tutorial = false;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -18,7 +20,13 @@ public class RestartCS : MonoBehaviour {
 	}
 	
 	void OnMouseUp(){
-		Application.LoadLevel(1);
+		if(tutorial)
+		{
+			Application.LoadLevel(4);
+		}
+		else{
+			Application.LoadLevel(1);
+		}
 	}
 	
 	void OnMouseExit(){

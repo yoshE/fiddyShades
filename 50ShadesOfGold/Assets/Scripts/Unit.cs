@@ -8,6 +8,7 @@ public class Unit : MonoBehaviour {
 	protected bool Invulnerable;
 	public bool ActiveUnit = false;
 	public bool Grounded =  true;
+	public bool tutorial = false;
 	
 	// Use this for initialization
 	void Start () {

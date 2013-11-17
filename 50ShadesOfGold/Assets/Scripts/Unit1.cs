@@ -29,6 +29,10 @@ public class Unit1 : Unit {
 					Controller.SendMessage("LeaderDied");
 					Destroy(this.gameObject);	
 					GameObject temp = (GameObject) Instantiate(Resources.Load("TombStone"),new Vector3(this.rigidbody.position.x, 40, -17), transform.rotation);
+					if(tutorial)
+					{
+						Controller.SendMessage("fuckIDied");
+					}
 				}
 			}
 		}

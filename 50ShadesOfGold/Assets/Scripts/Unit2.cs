@@ -3,8 +3,6 @@ using System.Collections;
 
 public class Unit2 : Unit {
 	
-	public bool tutorial = false;
-	
 	// Use this for initialization
 	void Start () {
 		UnitType = 2;

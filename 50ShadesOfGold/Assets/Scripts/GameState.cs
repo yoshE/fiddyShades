@@ -594,6 +594,7 @@ public class GameState : MonoBehaviour {
 			{
 				brb.SetActive(true);
 			}
+			CountDownTimer.Start();
 		}
 	}
 	
@@ -728,7 +729,7 @@ public class GameState : MonoBehaviour {
 	void spawnBoulders()
 	{
 		GameObject temp = (GameObject) Instantiate(Resources.Load("Boulder"),new Vector3(191, 25, -20), transform.rotation);
-		temp.rigidbody.velocity = new Vector3(-15, 0, 0);
+		temp.rigidbody.velocity = new Vector3(UnityEngine.Random.Range(-20, -15), 0, 0);
 		Boulders.Add (temp);
 	}
 	

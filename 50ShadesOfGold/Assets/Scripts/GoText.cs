@@ -30,9 +30,5 @@ public class GoText : MonoBehaviour {
 	{
 		Controller.SendMessage("StartQuest");
 		Controller.SendMessage("IsLeader");
-		if(!tutorial)
-		{
-			Controller.GetComponent<GameState>().CountDownTimer.Start();
-		}
 	}
 }

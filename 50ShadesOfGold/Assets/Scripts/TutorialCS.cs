@@ -64,7 +64,7 @@ public class TutorialCS : MonoBehaviour {
 		eleventh = GameObject.FindGameObjectsWithTag("Eleventh");
 		HQButts = GameObject.FindGameObjectsWithTag("HQ_Buttons");
 		Away = GameObject.FindGameObjectsWithTag("BRB");
-		invisalign = GameObject.Find("wall1");	
+		invisalign = GameObject.Find("wall1");
 		foreach(GameObject brb in Away)
 		{
 			brb.SetActive(false);
@@ -109,6 +109,8 @@ public class TutorialCS : MonoBehaviour {
 		{
 			o.SetActive(false);
 		}
+		GameObject tempUnit2But = GameObject.Find ("Unit2But");
+		tempUnit2But.SetActive(false);
 		spawnTerrain();
 		Restart();
 	}
@@ -137,18 +139,6 @@ public class TutorialCS : MonoBehaviour {
 				{
 					o.SetActive(true);
 				}
-				if(Units[0].rigidbody.position.x > -48)
-				{
-					foreach(GameObject o in seventh)
-					{
-						o.SetActive(false);
-					}
-					seventhDone = true;
-					foreach(GameObject o in eighth)
-					{
-						o.SetActive(true);
-					}
-				}
 			}
 			if(eighthDone)
 			{
@@ -161,10 +151,6 @@ public class TutorialCS : MonoBehaviour {
 					foreach(GameObject o in tenth)
 					{
 						o.SetActive(false);
-					}
-					foreach(GameObject o in eleventh)
-					{
-						o.SetActive(true);
 					}
 					tenthDone = true;
 				}
@@ -229,7 +215,7 @@ public class TutorialCS : MonoBehaviour {
 					Units[Units.Count-1] = bob;
 					Units[0].GetComponent<Unit>().Grounded = false;
 				
-				}
+			}
 			else
 			{
 					for (int i = 0; i < Units.Count -1 ; i++)
@@ -375,6 +361,7 @@ public class TutorialCS : MonoBehaviour {
 			if(uType == 1)
 			{
 				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(-88, 11, -20), transform.rotation);
+				temp.GetComponent<Unit>().tutorial = true;
 				Units.Add(temp);
 				gold -= 500;
 				foreach(GameObject o in first)
@@ -392,13 +379,9 @@ public class TutorialCS : MonoBehaviour {
 			else if(uType == 2 && firstDone)
 			{
 				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(-88, 11, -20), transform.rotation);
-				temp.GetComponent<Unit2>().tutorial = true;
+				temp.GetComponent<Unit>().tutorial = true;
 				Units.Add(temp);
 				gold -= 500;
-			}
-			else if(uType == 3 && firstDone)
-			{
-				
 			}
 		}
 		if(Units.Count == 1)
@@ -464,7 +447,7 @@ public class TutorialCS : MonoBehaviour {
 			showerPos = new Vector3(-80, 35, -20);
 			started = false;
 			Time.timeScale= 1.1f;
-			print("DEATH!");
+			//print("DEATH!");
 			deathPause = true;
 			//Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
 			foreach(GameObject o in CoinList)
@@ -490,6 +473,10 @@ public class TutorialCS : MonoBehaviour {
 			{
 				Application.LoadLevel(3);
 			}
+			foreach(GameObject brb in eighth)
+			{
+				brb.SetActive(true);
+			}
 		}
 	}
 	
@@ -511,7 +498,7 @@ public class TutorialCS : MonoBehaviour {
 		if(Mathf.Abs(coin1.rigidbody.position.x - Units[0].rigidbody.position.x) <1){
 			if(Mathf.Abs(coin1.rigidbody.position.y - Units[0].rigidbody.position.y) <2)
 			{
-				gold+=100;
+				gold+=25;
 				if(showerPos.x < Units[0].rigidbody.position.x){
 					//showerPos.x = Units[0].rigidbody.position.x;
 					showerPos.x += 5;
@@ -574,6 +561,7 @@ public class TutorialCS : MonoBehaviour {
 				GameObject tempWall = Instantiate(Resources.Load("Faded"), pos, transform.rotation) as GameObject;
 				GameObject tempTxt = Instantiate(Resources.Load("PausedTxt"), new Vector3(pos.x, pos.y + 5, pos.z - 3), transform.rotation) as GameObject;
 				GameObject tempRestart = (GameObject)Instantiate(Resources.Load("RestartTxt"), new Vector3(pos.x, pos.y, pos.z - 3), transform.rotation);
+				tempRestart.GetComponent<RestartCS>().tutorial = true;
 				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ResumeTxt"), new Vector3(pos.x, pos.y - 6, pos.z - 3), transform.rotation);
 				GameObject tempMain = (GameObject)Instantiate(Resources.Load("MainMenuTxt"), new Vector3(pos.x, pos.y - 3, pos.z - 3), transform.rotation);
 				Time.timeScale = 0.0f;
@@ -698,7 +686,6 @@ public class TutorialCS : MonoBehaviour {
 				eighthDone = true;
 			}
 			firstDone = true;
-			
 			foreach(GameObject o in tenth)
 			{
 				o.SetActive(false);
@@ -760,8 +747,31 @@ public class TutorialCS : MonoBehaviour {
 					o.SetActive(true);
 				}
 			}
+			else
+			{
+				foreach(GameObject o in eleventh)
+				{
+					o.SetActive(true);
+				}
+			}
 			GameObject temp = GameObject.Find ("wall2");
 			Destroy (temp);
+		}
+	}
+	
+	void fuckIDied()
+	{
+		if(!seventhDone)
+		{
+			foreach(GameObject o in seventh)
+			{
+				o.SetActive(false);
+			}
+			seventhDone = true;
+			foreach(GameObject o in eighth)
+			{
+				o.SetActive(true);
+			}
 		}
 	}
 }
