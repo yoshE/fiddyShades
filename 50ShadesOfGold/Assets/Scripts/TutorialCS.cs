@@ -527,7 +527,7 @@ public class TutorialCS : MonoBehaviour {
 				{
 					brb.SetActive(true);
 				}
-				GameObject[] ROR = GameObject.FindGameObjectsWithTag("Red On Red");
+				GameObject[] ROR = GameObject.FindGameObjectsWithTag("RedOnRed");
 				foreach(GameObject ror in ROR)
 				{
 					ror.SetActive(false);

@@ -232,13 +232,14 @@ public class GameState : MonoBehaviour {
 	
 	void SpawnUnit(int uType)
 	{
-		if(gold >= 500 && Units.Count < 6 && !started && !paused)
+		if(gold >= 500 && Units.Count < 6)
 		{
 			if(Units.Count > 0)
 			{
 				foreach(GameObject o in Units)
 				{
 					o.rigidbody.position += new Vector3(1.5f,0,0);
+					o.SendMessage("Spawning");
 				}
 			}
 			if(uType == 1)
@@ -246,43 +247,79 @@ public class GameState : MonoBehaviour {
 				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(-88, 11, -20), transform.rotation);
 				Units.Add(temp);
 				unitsBought++;
+				gold -= 500;
 			}
 			else if(uType == 2)
 			{
 				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(-88, 11, -20), transform.rotation);
 				Units.Add(temp);
 				unitsBought++;
+				gold -= 500;
 			}
 			else if(uType == 3)
 			{
 				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(-88, 11, -20), transform.rotation);
 				Units.Add(temp);
 				unitsBought++;
+				gold -= 500;
 			}
-			else if(gold > 1000)
+			else if(gold >= 1000 && started && shopping)
 			{
-				if(uType == 6)
+				Time.timeScale = 1.0f;
+				if(uType == 4)
 				{
 					if(prevVelocity == 10)
 					{
-						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(-Units[Units.Count - 1].rigidbody.position.x - 1.5f, 11, -20), transform.rotation);
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(Units[Units.Count - 1].rigidbody.position.x - 1.5f, 11, -20), transform.rotation);
 						Units.Add(temp);
+						gold -= 1000;
 					}
 					else if(prevVelocity == -10)
 					{
-						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(-Units[Units.Count - 1].rigidbody.position.x + 1.5f, 11, -20), transform.rotation);
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(Units[Units.Count - 1].rigidbody.position.x + 1.5f, 11, -20), transform.rotation);
 						Units.Add(temp);
+						gold -= 1000;
 					}
-					unitsBought++;
-					gold -= 500;
 				}
+				else if(uType == 5)
+				{
+					if(prevVelocity == 10)
+					{
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(Units[Units.Count - 1].rigidbody.position.x - 1.5f, 11, -20), transform.rotation);
+						Units.Add(temp);
+						gold -= 1000;
+					}
+					else if(prevVelocity == -10)
+					{
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(Units[Units.Count - 1].rigidbody.position.x + 1.5f, 11, -20), transform.rotation);
+						Units.Add(temp);
+						gold -= 1000;
+					}
+				}
+				else if(uType == 6)
+				{
+					if(prevVelocity == 10)
+					{
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(Units[Units.Count - 1].rigidbody.position.x - 1.5f, 11, -20), transform.rotation);
+						Units.Add(temp);
+						gold -= 1000;
+					}
+					else if(prevVelocity == -10)
+					{
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(Units[Units.Count - 1].rigidbody.position.x + 1.5f, 11, -20), transform.rotation);
+						Units.Add(temp);
+						gold -= 1000;
+					}
+				}
+				unitsBought++;
+				Time.timeScale = 0;
 			}
-			gold -= 500;
 		}
-		if(Units.Count == 1)
+		/*if(Units.Count == 1)
 		{
 			Units[0].transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
 		}
+		*/
 	}
 	
 	void TurnAround()
@@ -348,7 +385,7 @@ public class GameState : MonoBehaviour {
 			started = false;
 			numDeath++;
 			CountDownTimer.Stop();
-			Time.timeScale= 1.1f;
+			Time.timeScale= 1.2f;
 			print("DEATH!");
 			deathPause = true;
 			//Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
@@ -401,8 +438,8 @@ public class GameState : MonoBehaviour {
 			if(Mathf.Abs(coin1.rigidbody.position.y - Units[0].rigidbody.position.y) <2)
 			{
 				//print ("GOTCHA");
-				gold++;
-				collectedGold ++;
+				gold += 3;
+				collectedGold += 3;
 				if(showerPos.x < Units[0].rigidbody.position.x){
 					//showerPos.x = Units[0].rigidbody.position.x;
 					showerPos.x += 5;
@@ -418,8 +455,6 @@ public class GameState : MonoBehaviour {
 				//showerPos.x = Units[0].rigidbody.position.x;
 				showerPos.x += 5;
 				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + UnityEngine.Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
-			}else{
-				//coin1.rigidbody.position = new Vector3(showerPos.x + UnityEngine.Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
 			}
 			coin1.rigidbody.velocity = new Vector3(0,0,0);
 		}
@@ -611,6 +646,10 @@ public class GameState : MonoBehaviour {
 				brb.SetActive(true);
 			}
 			CountDownTimer.Start();
+			foreach(GameObject o in Units)
+			{
+				o.SendMessage("Begin");
+			}
 		}
 	}
 	
@@ -754,9 +793,15 @@ public class GameState : MonoBehaviour {
 		if(Units.Count > 0)
 		{
 			gold += 500;
+			Vector3 tempV = Units[0].rigidbody.position;
 			GameObject temp = Units[Units.Count - 1];
 			Units.Remove(temp);
 			Destroy (temp);
+			for(int i = Units.Count - 1; i > -1; i--)
+			{
+				print("back up");
+				Units[i].rigidbody.position -= new Vector3(1.5f,0,0);
+			}
 		}
 	}
 	

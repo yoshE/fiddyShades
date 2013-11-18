@@ -34,6 +34,16 @@ public class Unit : MonoBehaviour {
 		ActiveUnit = false;	
 	}
 	
+	void Spawning()
+	{
+		Invulnerable = true;
+	}
+	
+	void Begin()
+	{
+		Invulnerable = false;
+	}
+	
 	void OnCollisionEnter(Collision collision)
 	{
 		if(collision.gameObject.tag == "Terrain")

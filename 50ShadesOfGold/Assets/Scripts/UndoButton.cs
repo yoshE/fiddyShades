@@ -4,7 +4,6 @@ using System.Collections;
 public class UndoButton : MonoBehaviour {
 	
 	GameObject Controller;
-	public bool tutorial = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -28,6 +27,5 @@ public class UndoButton : MonoBehaviour {
 	void OnMouseDown()
 	{
 		Controller.SendMessage("UndoUnit");
-		Controller.SendMessage("IsLeader");
 	}
 }
