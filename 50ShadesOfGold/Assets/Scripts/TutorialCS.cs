@@ -143,7 +143,14 @@ public class TutorialCS : MonoBehaviour {
 					colCheck (CoinList[i]);
 				}
 			}
-			if(sixthDone && !seventhDone)
+			if(!sixthDone)
+			{
+				if(gold >= 1000)
+				{
+					Destroy (invisalign);
+				}
+			}
+			else if(sixthDone && !seventhDone)
 			{
 				foreach(GameObject o in seventh)
 				{
@@ -520,6 +527,11 @@ public class TutorialCS : MonoBehaviour {
 				{
 					brb.SetActive(true);
 				}
+				GameObject[] ROR = GameObject.FindGameObjectsWithTag("Red On Red");
+				foreach(GameObject ror in ROR)
+				{
+					ror.SetActive(false);
+				}
 			}
 		}
 	}
@@ -542,7 +554,7 @@ public class TutorialCS : MonoBehaviour {
 		if(Mathf.Abs(coin1.rigidbody.position.x - Units[0].rigidbody.position.x) <1){
 			if(Mathf.Abs(coin1.rigidbody.position.y - Units[0].rigidbody.position.y) <2)
 			{
-				gold+=25;
+				gold+=50;
 				if(showerPos.x < Units[0].rigidbody.position.x){
 					//showerPos.x = Units[0].rigidbody.position.x;
 					showerPos.x += 5;
@@ -644,7 +656,6 @@ public class TutorialCS : MonoBehaviour {
 		}
 		else if(gold >= 1000)
 		{
-			Destroy (invisalign);
 			foreach(GameObject o in sixth)
 			{
 				o.SetActive(false);

@@ -72,10 +72,12 @@
      <Compile Include="Assets\Scripts\Terrain3.cs" />
      <Compile Include="Assets\Scripts\TombSFX.cs" />
      <Compile Include="Assets\Scripts\TutorialCS.cs" />
+     <Compile Include="Assets\Scripts\UndoButton.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Scripts\Unit1.cs" />
      <Compile Include="Assets\Scripts\Unit2.cs" />
      <Compile Include="Assets\Scripts\Unit3.cs" />
+     <Compile Include="Assets\Scripts\Unit3ShopBut.cs" />
      <Compile Include="Assets\Scripts\returnToMenuCam.cs" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Metrics\Data.txt" />

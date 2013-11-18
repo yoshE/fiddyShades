@@ -259,6 +259,24 @@ public class GameState : MonoBehaviour {
 				Units.Add(temp);
 				unitsBought++;
 			}
+			else if(gold > 1000)
+			{
+				if(uType == 6)
+				{
+					if(prevVelocity == 10)
+					{
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(-Units[Units.Count - 1].rigidbody.position.x - 1.5f, 11, -20), transform.rotation);
+						Units.Add(temp);
+					}
+					else if(prevVelocity == -10)
+					{
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(-Units[Units.Count - 1].rigidbody.position.x + 1.5f, 11, -20), transform.rotation);
+						Units.Add(temp);
+					}
+					unitsBought++;
+					gold -= 500;
+				}
+			}
 			gold -= 500;
 		}
 		if(Units.Count == 1)
@@ -447,15 +465,14 @@ public class GameState : MonoBehaviour {
 		else
 		{
 			GUI.Box (new Rect (Screen.width - 175,100,150,25), "Seconds Left: "+ 0);
-		string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine + "Total Units Bought: " + unitsBought + Environment.NewLine + "Coins Collected: " + collectedGold + Environment.NewLine + "Time Left: " + timeLeft + "    - Ran out of Time" + Environment.NewLine;
-		string fileName = "Data.txt";
-		//	string fileName = "Resources/Data.txt";
-		File.AppendAllText(fileName, output);
+			string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine + "Total Units Bought: " + unitsBought + Environment.NewLine + "Coins Collected: " + collectedGold + Environment.NewLine + "Time Left: " + timeLeft + "    - Ran out of Time" + Environment.NewLine;
+			string fileName = "Data.txt";
+			//	string fileName = "Resources/Data.txt";
+			File.AppendAllText(fileName, output);
 			Application.LoadLevel(3);
 		}
 		
 		if(GUI.Button(new Rect(Screen.width - 150,20,100,60), "Pause")) {
-			//print("Clickity");
 			if(!paused)
 			{
 				CountDownTimer.Stop();
@@ -478,7 +495,6 @@ public class GameState : MonoBehaviour {
 			}
 		}
 		if(GUI.Button(new Rect(Screen.width - 255,20,100,60), "Shop")) {
-			//print("Shopity");
 			if(!paused)
 			{
 				shopping = true;
@@ -487,9 +503,8 @@ public class GameState : MonoBehaviour {
 				paused = true;
 				GameObject tempWall = Instantiate(Resources.Load("Faded"), pos, transform.rotation) as GameObject;
 				GameObject tempTxt = Instantiate(Resources.Load("ShopTxt"), new Vector3(pos.x, pos.y + 8, pos.z - 3), transform.rotation) as GameObject;
-				GameObject tempButton1 = (GameObject)Instantiate(Resources.Load("ShopButton1"), new Vector3(pos.x+8, pos.y, pos.z - 3), transform.rotation);
+				GameObject tempButton1 = (GameObject)Instantiate(Resources.Load("Unit3ShopBut"), new Vector3(pos.x+8, pos.y, pos.z - 3), transform.rotation);
 				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ShopExitTxt"), new Vector3(pos.x, pos.y - 10, pos.z - 3), transform.rotation);
-				//GameObject tempMain = (GameObject)Instantiate(Resources.Load("MainMenuTxt"), new Vector3(pos.x, pos.y - 3, pos.z - 3), transform.rotation);
 				Time.timeScale = 0.0f;
 			}
 			else if(paused && shopping)
@@ -525,7 +540,7 @@ public class GameState : MonoBehaviour {
 		shopping = false;
 		GameObject tempWall = GameObject.Find("Faded(Clone)");
 		GameObject tempTxt = GameObject.Find("ShopTxt(Clone)");
-		GameObject tempButton1 = GameObject.Find("ShopButton1(Clone)");
+		GameObject tempButton1 = GameObject.Find("Unit3ShopBut(Clone)");
 		GameObject tempExit = GameObject.Find("ShopExitTxt(Clone)");
 		Destroy (tempWall);
 		Destroy (tempTxt);
@@ -734,9 +749,15 @@ public class GameState : MonoBehaviour {
 		Boulders.Add (temp);
 	}
 	
-	void GoldMe(){
-		gold+=1000;
-		//print("You Gained Gold");
+	void UndoUnit()
+	{
+		if(Units.Count > 0)
+		{
+			gold += 500;
+			GameObject temp = Units[Units.Count - 1];
+			Units.Remove(temp);
+			Destroy (temp);
+		}
 	}
 	
 	void OnApplicationQuit(){
