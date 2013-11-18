@@ -571,7 +571,7 @@ public class TutorialCS : MonoBehaviour {
 				showerPos.x += 5;
 				coin1.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);
 			}else{
-				coin1.rigidbody.position = new Vector3(showerPos.x + Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
+				//coin1.rigidbody.position = new Vector3(showerPos.x + Random.Range (0f,12f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20);	
 			}
 			coin1.rigidbody.velocity = new Vector3(0,0,0);
 		}
