@@ -26,13 +26,12 @@ public class Unit1 : Unit {
 			{
 				if(collision.gameObject.name == "Terrain2(Clone)" || collision.gameObject.name == "Terrain3(Clone)")
 				{
-					Controller.SendMessage("LeaderDied");
-					Destroy(this.gameObject);	
-					GameObject temp = (GameObject) Instantiate(Resources.Load("TombStone"),new Vector3(this.rigidbody.position.x, 40, -17), transform.rotation);
+					GameObject temp = (GameObject) Instantiate(Resources.Load("TombStone"),new Vector3(this.rigidbody.position.x, 30, -17), transform.rotation);
 					if(tutorial)
 					{
 						Controller.SendMessage("fuckIDied");
 					}
+					Controller.SendMessage("LeaderDied", this.gameObject);
 				}
 			}
 		}

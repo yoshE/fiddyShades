@@ -72,12 +72,12 @@ public class GameState : MonoBehaviour {
 			}
 			Swap();
 		}
-		if(timetrack >= 160){
+		if(timetrack >= 260){
 			Time.timeScale = 1.0f;
 			deathPause = false;
 			timetrack = 0;
 			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
-		}else if(Time.timeScale == 1.1f){
+		}else if(Time.timeScale > 1.0f){
 			timetrack++;
 		}
 	}
@@ -306,13 +306,14 @@ public class GameState : MonoBehaviour {
 		}
 	}
 	
-	void LeaderDied()
+	void LeaderDied(GameObject leader)
 	{
 		numUnitDeath++;
 		string output2 = "Unit Died at X-Position: " + Units[0].rigidbody.position.x + Environment.NewLine;
 		string fileName2 = "Data.txt";
 		File.AppendAllText(fileName2, output2);
 		Units.RemoveAt(0);
+		Destroy(leader);
 		if(Units.Count > 0)
 		{
 			for(int i = 0; i < Units.Count; i++)

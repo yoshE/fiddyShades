@@ -29,6 +29,7 @@ public class TutorialCS : MonoBehaviour {
 	bool seventhDone = false;
 	bool eighthDone = false;
 	bool tenthDone = false;
+	bool redCreated = false;
 	
 	//bool playerSwapTrue = false;
 	float ptempx, ptempy;
@@ -44,7 +45,9 @@ public class TutorialCS : MonoBehaviour {
 	GameObject[] ninth;
 	GameObject[] tenth;
 	GameObject[] eleventh;
+	GameObject[] ROB;
 	GameObject invisalign;
+	GameObject tAgain;
 	
 	// Use this for initialization
 	void Start ()
@@ -62,6 +65,7 @@ public class TutorialCS : MonoBehaviour {
 		ninth = GameObject.FindGameObjectsWithTag("Ninth");
 		tenth = GameObject.FindGameObjectsWithTag("Tenth");
 		eleventh = GameObject.FindGameObjectsWithTag("Eleventh");
+		ROB = GameObject.FindGameObjectsWithTag("RedOnBlue");
 		HQButts = GameObject.FindGameObjectsWithTag("HQ_Buttons");
 		Away = GameObject.FindGameObjectsWithTag("BRB");
 		invisalign = GameObject.Find("wall1");
@@ -109,8 +113,14 @@ public class TutorialCS : MonoBehaviour {
 		{
 			o.SetActive(false);
 		}
+		foreach(GameObject o in ROB)
+		{
+			o.SetActive(false);
+		}
 		GameObject tempUnit2But = GameObject.Find ("Unit2But");
 		tempUnit2But.SetActive(false);
+		tAgain = GameObject.Find ("TryAgainTxt");
+		tAgain.SetActive(false);
 		spawnTerrain();
 		Restart();
 	}
@@ -142,6 +152,10 @@ public class TutorialCS : MonoBehaviour {
 			}
 			if(eighthDone)
 			{
+				foreach(GameObject o in ROB)
+				{
+					o.SetActive(true);
+				}
 				if(Units[0].rigidbody.position.x > -20)
 				{
 					foreach(GameObject o in ninth)
@@ -154,18 +168,18 @@ public class TutorialCS : MonoBehaviour {
 					}
 					tenthDone = true;
 				}
-				if(Units[0].rigidbody.position.x > -55)
+				if(Units[0].rigidbody.position.x > -70)
 				{
 					Swap ();
 				}
 			}
 		}
-		if(timetrack >= 160){
+		if(timetrack >= 260){
 			Time.timeScale = 1.0f;
 			deathPause = false;
 			timetrack = 0;
 			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
-		}else if(Time.timeScale == 1.1f){
+		}else if(Time.timeScale > 1.0f){
 			timetrack++;
 		}
 	}
@@ -349,7 +363,7 @@ public class TutorialCS : MonoBehaviour {
 	
 	void SpawnUnit(int uType)
 	{
-		if(gold >= 500 && Units.Count < 6 && !started && !paused)
+		if(gold >= 500 && Units.Count < 2 && !started && !paused)
 		{
 			if(Units.Count > 0 && uType != 3)
 			{
@@ -358,7 +372,7 @@ public class TutorialCS : MonoBehaviour {
 					o.rigidbody.position += new Vector3(1.5f,0,0);
 				}
 			}
-			if(uType == 1)
+			if(uType == 1 && !redCreated)
 			{
 				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(-88, 11, -20), transform.rotation);
 				temp.GetComponent<Unit>().tutorial = true;
@@ -375,13 +389,22 @@ public class TutorialCS : MonoBehaviour {
 						o.SetActive(true);
 					}
 				}
+				redCreated = true;
 			}
-			else if(uType == 2 && firstDone)
+			else if(uType == 2 && firstDone && redCreated)
 			{
 				GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(-88, 11, -20), transform.rotation);
 				temp.GetComponent<Unit>().tutorial = true;
 				Units.Add(temp);
 				gold -= 500;
+				foreach(GameObject o in eighth)
+				{
+					o.SetActive(false);
+				}
+				foreach(GameObject o in second)
+				{
+					o.SetActive(true);
+				}
 			}
 		}
 		if(Units.Count == 1)
@@ -429,53 +452,74 @@ public class TutorialCS : MonoBehaviour {
 		}
 	}
 	
-	void LeaderDied()
+	void LeaderDied(GameObject leader)
 	{
-		Units.RemoveAt(0);
-		if(Units.Count > 0)
+		if(eighthDone)
 		{
-			for(int i = 0; i < Units.Count; i++)
+			prevVelocity = 10;
+			foreach(GameObject o in Units)
 			{
-				Units[i].SendMessage("InvulnerableOn");
+				Destroy (o);
 			}
-			Units[0].SendMessage("IsActiveUnit");
-			StartCoroutine("InvulnerableTime");
+			Units.Clear ();
+			GameObject tempR = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(-86.5f, 11, -20), transform.rotation);
+			tempR.GetComponent<Unit>().tutorial = true;
+			Units.Add(tempR);
+			GameObject tempB = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(-88, 11, -20), transform.rotation);
+			tempB.GetComponent<Unit>().tutorial = true;
+			Units.Add(tempB);
 			IsLeader();
+			tAgain.SetActive(true);
 		}
 		else
 		{
-			showerPos = new Vector3(-80, 35, -20);
-			started = false;
-			Time.timeScale= 1.1f;
-			//print("DEATH!");
-			deathPause = true;
-			//Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
-			foreach(GameObject o in CoinList)
+			Units.RemoveAt(0);
+			Destroy (leader);
+			if(Units.Count > 0)
 			{
-				Destroy(o);
+				for(int i = 0; i < Units.Count; i++)
+				{
+					Units[i].SendMessage("InvulnerableOn");
+				}
+				Units[0].SendMessage("IsActiveUnit");
+				StartCoroutine("InvulnerableTime");
+				IsLeader();
 			}
-			CoinList.Clear();
-			coinCount = 0;
-			foreach(GameObject o in Boulders)
+			else
 			{
-				Destroy(o);
-			}
-			Boulders.Clear();
-			foreach(GameObject butt in HQButts)
-			{
-				butt.SetActive(true);
-			}
-			foreach(GameObject brb in Away)
-			{
-				brb.SetActive(false);
-			}
-			if(gold < 500)
-			{
-				Application.LoadLevel(3);
-			}
-			foreach(GameObject brb in eighth)
-			{
-				brb.SetActive(true);
+				showerPos = new Vector3(-80, 35, -20);
+				started = false;
+				Time.timeScale= 1.1f;
+				//print("DEATH!");
+				deathPause = true;
+				//Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
+				foreach(GameObject o in CoinList)
+				{
+					Destroy(o);
+				}
+				CoinList.Clear();
+				coinCount = 0;
+				foreach(GameObject o in Boulders)
+				{
+					Destroy(o);
+				}
+				Boulders.Clear();
+				foreach(GameObject butt in HQButts)
+				{
+					butt.SetActive(true);
+				}
+				foreach(GameObject brb in Away)
+				{
+					brb.SetActive(false);
+				}
+				if(gold < 500)
+				{
+					Application.LoadLevel(3);
+				}
+				foreach(GameObject brb in eighth)
+				{
+					brb.SetActive(true);
+				}
 			}
 		}
 	}
@@ -650,32 +694,21 @@ public class TutorialCS : MonoBehaviour {
 	
 	void StartQuest()
 	{
-		if(Units.Count > 0)
+		if(canJump)
 		{
-			started = true;
-			IsLeader();
-			foreach(GameObject butt in HQButts)
+			if(Units.Count > 1)
 			{
-				butt.SetActive(false);
-			}
-			foreach(GameObject brb in Away)
-			{
-				brb.SetActive(true);
-			}
-			foreach(GameObject o in second)
-			{
-				o.SetActive(false);
-			}
-			if(!canJump)
-			{
-				foreach(GameObject o in third)
+				started = true;
+				IsLeader();
+				foreach(GameObject butt in HQButts)
 				{
-					o.SetActive(true);
+					butt.SetActive(false);
 				}
-			}
-			if(canJump)
-			{
-				foreach(GameObject o in eighth)
+				foreach(GameObject brb in Away)
+				{
+					brb.SetActive(true);
+				}
+				foreach(GameObject o in second)
 				{
 					o.SetActive(false);
 				}
@@ -684,15 +717,41 @@ public class TutorialCS : MonoBehaviour {
 					o.SetActive(true);
 				}
 				eighthDone = true;
+				foreach(GameObject o in tenth)
+				{
+					o.SetActive(false);
+				}
+				foreach(GameObject o in eleventh)
+				{
+					o.SetActive(false);
+				}
+				redCreated = false;
 			}
-			firstDone = true;
-			foreach(GameObject o in tenth)
+		}
+		else
+		{
+			if(Units.Count == 1)
 			{
-				o.SetActive(false);
-			}
-			foreach(GameObject o in eleventh)
-			{
-				o.SetActive(false);
+				started = true;
+				IsLeader();
+				foreach(GameObject butt in HQButts)
+				{
+					butt.SetActive(false);
+				}
+				foreach(GameObject brb in Away)
+				{
+					brb.SetActive(true);
+				}
+				foreach(GameObject o in second)
+				{
+					o.SetActive(false);
+				}
+				foreach(GameObject o in third)
+				{
+					o.SetActive(true);
+				}
+				firstDone = true;
+				redCreated = false;
 			}
 		}
 	}
@@ -756,6 +815,7 @@ public class TutorialCS : MonoBehaviour {
 			}
 			GameObject temp = GameObject.Find ("wall2");
 			Destroy (temp);
+			tAgain.SetActive(false);
 		}
 	}
 	
