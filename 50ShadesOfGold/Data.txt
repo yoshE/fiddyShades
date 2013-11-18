@@ -309,3 +309,18 @@ Coins Collected: 1330
 Time Left: 8.621
 Ended from Game
 
+Clicked QUIT
+
+11-17-2013 4:27:29 PM
+Group Deaths: 0   Total Unit Deaths: 0
+Total Units Bought: 0
+Coins Collected: 0
+Time Left: 90
+Ended from Game
+
+11-17-2013 4:44:49 PM
+Group Deaths: 0   Total Unit Deaths: 0
+Total Units Bought: 1
+Coins Collected: 0
+Time Left: 90
+|| Paused, may go to Main Menu if no more ||
