@@ -72,7 +72,7 @@ public class GameState : MonoBehaviour {
 			}
 			Swap();
 		}
-		if(timetrack >= 260){
+		if(timetrack >= 240){
 			Time.timeScale = 1.0f;
 			deathPause = false;
 			timetrack = 0;
@@ -234,7 +234,7 @@ public class GameState : MonoBehaviour {
 	{
 		if(gold >= 500 && Units.Count < 6)
 		{
-			if(Units.Count > 0)
+			if(Units.Count > 0 && !started)
 			{
 				foreach(GameObject o in Units)
 				{
@@ -265,7 +265,7 @@ public class GameState : MonoBehaviour {
 			}
 			else if(gold >= 1000 && started && shopping)
 			{
-				Time.timeScale = 1.0f;
+				//Time.timeScale = 1.0f;
 				if(uType == 4)
 				{
 					if(prevVelocity == 10)
@@ -312,7 +312,7 @@ public class GameState : MonoBehaviour {
 					}
 				}
 				unitsBought++;
-				Time.timeScale = 0;
+				//Time.timeScale = 0;
 			}
 		}
 		/*if(Units.Count == 1)
@@ -522,7 +522,6 @@ public class GameState : MonoBehaviour {
 				string fileName = "Data.txt";
 				File.AppendAllText(fileName, output);
 				Time.timeScale = 0.0f;
-				
 			}
 			else if(paused && !shopping)
 			{
@@ -538,9 +537,12 @@ public class GameState : MonoBehaviour {
 				paused = true;
 				GameObject tempWall = Instantiate(Resources.Load("Faded"), pos, transform.rotation) as GameObject;
 				GameObject tempTxt = Instantiate(Resources.Load("ShopTxt"), new Vector3(pos.x, pos.y + 8, pos.z - 3), transform.rotation) as GameObject;
-				GameObject tempButton1 = (GameObject)Instantiate(Resources.Load("Unit3ShopBut"), new Vector3(pos.x+8, pos.y, pos.z - 3), transform.rotation);
+				GameObject tempButton1 = (GameObject)Instantiate(Resources.Load("Unit1ShopBut"), new Vector3(pos.x-8, pos.y, pos.z - 3), transform.rotation);
+				GameObject tempButton2 = (GameObject)Instantiate(Resources.Load("Unit2ShopBut"), new Vector3(pos.x, pos.y, pos.z - 3), transform.rotation);
+				GameObject tempButton3 = (GameObject)Instantiate(Resources.Load("Unit3ShopBut"), new Vector3(pos.x+8, pos.y, pos.z - 3), transform.rotation);
+				GameObject tempMoney = (GameObject) Instantiate(Resources.Load("1000ea"), new Vector3(pos.x, pos.y - 5, pos.z - 3), transform.rotation);
 				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ShopExitTxt"), new Vector3(pos.x, pos.y - 10, pos.z - 3), transform.rotation);
-				Time.timeScale = 0.0f;
+				//Time.timeScale = 0.0f;
 			}
 			else if(paused && shopping)
 			{
@@ -575,17 +577,23 @@ public class GameState : MonoBehaviour {
 		shopping = false;
 		GameObject tempWall = GameObject.Find("Faded(Clone)");
 		GameObject tempTxt = GameObject.Find("ShopTxt(Clone)");
-		GameObject tempButton1 = GameObject.Find("Unit3ShopBut(Clone)");
+		GameObject tempButton1 = GameObject.Find("Unit1ShopBut(Clone)");
+		GameObject tempButton2 = GameObject.Find("Unit2ShopBut(Clone)");
+		GameObject tempButton3 = GameObject.Find("Unit3ShopBut(Clone)");
 		GameObject tempExit = GameObject.Find("ShopExitTxt(Clone)");
+		GameObject tempMoney = GameObject.Find("1000ea(Clone)");
 		Destroy (tempWall);
 		Destroy (tempTxt);
 		Destroy (tempButton1);
+		Destroy (tempButton2);
+		Destroy (tempButton3);
 		Destroy (tempExit);
+		Destroy (tempMoney);
 		if(started)
 		{
 			CountDownTimer.Start();
 		}
-		Time.timeScale = 1.0f;
+		//Time.timeScale = 1.0f;
 	}
 	
 	void spawnCoin()
