@@ -33,6 +33,7 @@ public class GameState : MonoBehaviour {
 	float totalTime = 90.0f;
 	float timeLeft = 0;
 	int timetrack = 0;
+	public GUISkin KarmaF;
 	
 	// Use this for initialization
 	void Start () 
@@ -270,13 +271,13 @@ public class GameState : MonoBehaviour {
 				{
 					if(prevVelocity == 10)
 					{
-						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(Units[Units.Count - 1].rigidbody.position.x - 1.5f, 11, -20), transform.rotation);
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(Units[Units.Count - 1].rigidbody.position.x - 1.5f, 35, -20), transform.rotation);
 						Units.Add(temp);
 						gold -= 1000;
 					}
 					else if(prevVelocity == -10)
 					{
-						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(Units[Units.Count - 1].rigidbody.position.x + 1.5f, 11, -20), transform.rotation);
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit1"),new Vector3(Units[Units.Count - 1].rigidbody.position.x + 1.5f, 35, -20), transform.rotation);
 						Units.Add(temp);
 						gold -= 1000;
 					}
@@ -285,13 +286,13 @@ public class GameState : MonoBehaviour {
 				{
 					if(prevVelocity == 10)
 					{
-						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(Units[Units.Count - 1].rigidbody.position.x - 1.5f, 11, -20), transform.rotation);
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(Units[Units.Count - 1].rigidbody.position.x - 1.5f, 35, -20), transform.rotation);
 						Units.Add(temp);
 						gold -= 1000;
 					}
 					else if(prevVelocity == -10)
 					{
-						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(Units[Units.Count - 1].rigidbody.position.x + 1.5f, 11, -20), transform.rotation);
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit2"),new Vector3(Units[Units.Count - 1].rigidbody.position.x + 1.5f, 35, -20), transform.rotation);
 						Units.Add(temp);
 						gold -= 1000;
 					}
@@ -300,13 +301,13 @@ public class GameState : MonoBehaviour {
 				{
 					if(prevVelocity == 10)
 					{
-						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(Units[Units.Count - 1].rigidbody.position.x - 1.5f, 11, -20), transform.rotation);
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(Units[Units.Count - 1].rigidbody.position.x - 1.5f, 35, -20), transform.rotation);
 						Units.Add(temp);
 						gold -= 1000;
 					}
 					else if(prevVelocity == -10)
 					{
-						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(Units[Units.Count - 1].rigidbody.position.x + 1.5f, 11, -20), transform.rotation);
+						GameObject temp = (GameObject) Instantiate(Resources.Load("Unit3"),new Vector3(Units[Units.Count - 1].rigidbody.position.x + 1.5f, 35, -20), transform.rotation);
 						Units.Add(temp);
 						gold -= 1000;
 					}
@@ -490,6 +491,8 @@ public class GameState : MonoBehaviour {
 	
 	void OnGUI()
 	{
+		//GUIStyle myStyle = new GUIStyle();
+		//myStyle.font = myFont;
 		GUI.Box (new Rect (Screen.width - 350,Screen.height - 200,100,25), "$ "+ gold);
 
 		timeLeft = totalTime - (CountDownTimer.ElapsedMilliseconds/1000.0f);
@@ -542,7 +545,7 @@ public class GameState : MonoBehaviour {
 				GameObject tempButton3 = (GameObject)Instantiate(Resources.Load("Unit3ShopBut"), new Vector3(pos.x+8, pos.y, pos.z - 3), transform.rotation);
 				GameObject tempMoney = (GameObject) Instantiate(Resources.Load("1000ea"), new Vector3(pos.x, pos.y - 5, pos.z - 3), transform.rotation);
 				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ShopExitTxt"), new Vector3(pos.x, pos.y - 10, pos.z - 3), transform.rotation);
-				//Time.timeScale = 0.0f;
+				Time.timeScale = 0.0f;
 			}
 			else if(paused && shopping)
 			{
@@ -593,7 +596,7 @@ public class GameState : MonoBehaviour {
 		{
 			CountDownTimer.Start();
 		}
-		//Time.timeScale = 1.0f;
+		Time.timeScale = 1.0f;
 	}
 	
 	void spawnCoin()
