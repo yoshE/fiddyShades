@@ -1267,3 +1267,12 @@ Coins Collected: 3396
 Time Left: 56.663
 Clicked NO
 
+11-18-2013 10:42:17 PM
+Unit Died at X-Position: 132.7709
+Unit Died at X-Position: 140.5325
+Group Deaths: 0   Total Unit Deaths: 2
+Total Units Bought: 3
+Coins Collected: 2385
+Time Left: 47.535
+Clicked NO
+
