@@ -2,7 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameState.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameState.cs" Line="496" Column="10" />
+      <File FileName="Assets\Scripts\GameState.cs" Line="210" Column="4" />
+      <File FileName="Assets\Scripts\Unit1.cs" Line="6" Column="1" />
+      <File FileName="Assets\Scripts\Unit2.cs" Line="5" Column="1" />
+      <File FileName="Assets\Scripts\Unit3.cs" Line="5" Column="1" />
+      <File FileName="Assets\Scripts\Unit.cs" Line="64" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

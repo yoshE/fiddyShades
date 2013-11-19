@@ -33,7 +33,7 @@ public class GameState : MonoBehaviour {
 	float totalTime = 90.0f;
 	float timeLeft = 0;
 	int timetrack = 0;
-	public GUISkin KarmaF;
+
 	
 	// Use this for initialization
 	void Start () 
@@ -201,6 +201,7 @@ public class GameState : MonoBehaviour {
 			}
 			if(Units[0].GetComponent<Unit>().Grounded)
 			{
+				Units[0].GetComponent<Unit>().jumped ();
 				jumpPos = unit.transform.position.x;
 				unit.transform.rigidbody.velocity = new Vector3(unit.rigidbody.velocity.x,7,0);
 				//print("jumpPos is" + jumpPos +"!");
@@ -364,6 +365,8 @@ public class GameState : MonoBehaviour {
 	
 	void LeaderDied(GameObject leader)
 	{
+		leader.GetComponent<Unit>().died();
+		//Units[0].SendMessage("died");
 		numUnitDeath++;
 		string output2 = "Unit Died at X-Position: " + Units[0].rigidbody.position.x + Environment.NewLine;
 		string fileName2 = "Data.txt";
@@ -438,7 +441,7 @@ public class GameState : MonoBehaviour {
 		if(Mathf.Abs(coin1.rigidbody.position.x - Units[0].rigidbody.position.x) <1){
 			if(Mathf.Abs(coin1.rigidbody.position.y - Units[0].rigidbody.position.y) <2)
 			{
-				//print ("GOTCHA");
+
 				gold += 3;
 				collectedGold += 3;
 				if(showerPos.x < Units[0].rigidbody.position.x){

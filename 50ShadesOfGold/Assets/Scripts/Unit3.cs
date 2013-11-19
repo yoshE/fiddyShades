@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Unit3 : Unit {
-	
+
 	// Use this for initialization
 	void Start () {
 		UnitType = 3;
@@ -47,4 +47,5 @@ public class Unit3 : Unit {
 	{
 		Invulnerable = false;
 	}
+
 }

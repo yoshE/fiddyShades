@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class Unit : MonoBehaviour {
-	
+	public AudioClip jumpSFX;
+	public AudioClip deathSFX;
+	public bool isDead = false;
 	protected int UnitType;
 	protected GameObject Controller;
 	protected bool Invulnerable;
@@ -17,7 +19,7 @@ public class Unit : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 	
 	int Type(){
@@ -55,4 +57,11 @@ public class Unit : MonoBehaviour {
 			Controller.SendMessage("endGame");
 		}
 	}
+	public void died(){
+		AudioSource.PlayClipAtPoint(deathSFX, Camera.main.transform.position);
+	}
+	public void jumped(){
+		AudioSource.PlayClipAtPoint(jumpSFX, Camera.main.transform.position);
+	}
+
 }
