@@ -1646,3 +1646,13 @@ Coins Collected: 828
 Time Left: 80.716
 Ended from Game
 
+11-24-2013 3:48:30 AM
+Unit Died at X-Position: 38.38017
+Unit Died at X-Position: 62.64275
+Unit Died at X-Position: 102.0418
+Group Deaths: 1   Total Unit Deaths: 3
+Total Units Bought: 3
+Coins Collected: 2358
+Time Left: 40.442
+Ended from Game
+

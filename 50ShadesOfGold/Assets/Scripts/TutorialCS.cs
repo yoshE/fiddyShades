@@ -12,7 +12,6 @@ public class TutorialCS : MonoBehaviour {
 	Vector3 showerPos = new Vector3(-100,35,-20);
 	GameObject[] HQButts;
 	GameObject[] Away;
-	float jumpPos;
 	float prevVelocity = 10;
 	int coinCount = 0;
 	int gold = 500;
@@ -30,6 +29,8 @@ public class TutorialCS : MonoBehaviour {
 	bool eighthDone = false;
 	bool tenthDone = false;
 	bool redCreated = false;
+	bool touchingLeft = false;
+	bool touchingRight = false;
 	
 	//bool playerSwapTrue = false;
 	float ptempx, ptempy;
@@ -283,10 +284,12 @@ public class TutorialCS : MonoBehaviour {
 				}
 			}
 			thirdDone = true;
-			unit.transform.rigidbody.velocity = new Vector3(10,unit.rigidbody.velocity.y,0);
+			if(!touchingRight)
+			{
+				unit.transform.rigidbody.velocity = new Vector3(10,unit.rigidbody.velocity.y,0);
+			}			
 			if(prevVelocity == -10)
 			{
-				jumpPos = 100000000;
 				TurnAround();
 				prevVelocity = 10;
 				swapped = true;
@@ -295,6 +298,7 @@ public class TutorialCS : MonoBehaviour {
 		if(Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
 		{
 			unit.transform.rigidbody.velocity = new Vector3(0,unit.rigidbody.velocity.y,0);
+			touchingRight = false;
 		}
 		if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){
 			foreach(GameObject o in fourth)
@@ -309,10 +313,12 @@ public class TutorialCS : MonoBehaviour {
 				}
 				canJump = true;
 			}
-			unit.transform.rigidbody.velocity = new Vector3(-10,unit.rigidbody.velocity.y,0);
+			if(!touchingLeft)
+			{
+				unit.transform.rigidbody.velocity = new Vector3(-10,unit.rigidbody.velocity.y,0);
+			}
 			if(prevVelocity == 10)
 			{
-				jumpPos = 100000000;
 				TurnAround();
 				prevVelocity = -10;
 				swapped = true;
@@ -321,6 +327,7 @@ public class TutorialCS : MonoBehaviour {
 		if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
 		{
 			unit.transform.rigidbody.velocity = new Vector3(0,unit.rigidbody.velocity.y,0);
+			touchingLeft = false;
 		}
 		if((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && canJump)
 		{
@@ -338,13 +345,27 @@ public class TutorialCS : MonoBehaviour {
 			}
 			if(Units[0].GetComponent<Unit>().Grounded)
 			{
-				jumpPos = unit.transform.position.x;
 				unit.transform.rigidbody.velocity = new Vector3(unit.rigidbody.velocity.x,7,0);
-				print("jumpPos is" + jumpPos +"!");
 				Units[0].GetComponent<Unit>().Grounded = false;
 			}
+		}		
+	}
+	
+	void TouchingWall(float direction)
+	{
+		if(direction == 1)
+		{
+			touchingRight = true;
 		}
-			
+		else if(direction == -1)
+		{
+			touchingLeft = true;
+		}
+		else
+		{
+			touchingRight = false;
+			touchingLeft = false;
+		}
 	}
 	
 	void MoveFollower(){

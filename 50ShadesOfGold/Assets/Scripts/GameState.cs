@@ -27,6 +27,8 @@ public class GameState : MonoBehaviour {
 	bool swapped = false;
 	bool started = false;
 	bool shopping = false;
+	bool touchingRight = false;
+	bool touchingLeft = false;
 	//bool playerSwapTrue = false;
 	float ptempx, ptempy;
 	public Stopwatch CountDownTimer = new Stopwatch();
@@ -162,8 +164,12 @@ public class GameState : MonoBehaviour {
 	void MoveLeader(GameObject unit)
 	{
 		//leader moving code
-		if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
-			unit.transform.rigidbody.velocity = new Vector3(10,unit.rigidbody.velocity.y,0);
+		if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+		{
+			if(!touchingRight)
+			{
+				unit.transform.rigidbody.velocity = new Vector3(10,unit.rigidbody.velocity.y,0);
+			}
 			if(prevVelocity == -10)
 			{
 				jumpPos = 100000000;
@@ -175,9 +181,14 @@ public class GameState : MonoBehaviour {
 		if(Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
 		{
 			unit.transform.rigidbody.velocity = new Vector3(0,unit.rigidbody.velocity.y,0);
+			touchingRight = false;
 		}
-		if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){
-			unit.transform.rigidbody.velocity = new Vector3(-10,unit.rigidbody.velocity.y,0);
+		if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+		{
+			if(!touchingLeft)
+			{
+				unit.transform.rigidbody.velocity = new Vector3(-10,unit.rigidbody.velocity.y,0);
+			}
 			if(prevVelocity == 10)
 			{
 				jumpPos = 100000000;
@@ -189,6 +200,7 @@ public class GameState : MonoBehaviour {
 		if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
 		{
 			unit.transform.rigidbody.velocity = new Vector3(0,unit.rigidbody.velocity.y,0);
+			touchingLeft = false;
 		}
 		if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
 		{
@@ -208,7 +220,23 @@ public class GameState : MonoBehaviour {
 				Units[0].GetComponent<Unit>().Grounded = false;
 			}
 		}
-			
+	}
+	
+	void TouchingWall(float direction)
+	{
+		if(direction == 1)
+		{
+			touchingRight = true;
+		}
+		else if(direction == -1)
+		{
+			touchingLeft = true;
+		}
+		else
+		{
+			touchingRight = false;
+			touchingLeft = false;
+		}
 	}
 	
 	void MoveFollower(){

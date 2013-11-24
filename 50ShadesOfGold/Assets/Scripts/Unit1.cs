@@ -36,10 +36,6 @@ public class Unit1 : Unit {
 				}
 			}
 		}
-		if(collision.gameObject.name == "HQ" && Input.GetKey(KeyCode.A))
-		{
-			transform.rigidbody.velocity -= new Vector3(0, 1.3f, 0);
-		}
 	}
 	
 	void InvulnerableOn()

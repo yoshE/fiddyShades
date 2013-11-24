@@ -14,7 +14,7 @@ public class Unit : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		
+		Controller = GameObject.Find("Controller");
 	}
 	
 	// Update is called once per frame
@@ -48,7 +48,7 @@ public class Unit : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision collision)
 	{
-		if(collision.gameObject.tag == "Terrain")
+		if(collision.gameObject.tag == "Terrain" || collision.gameObject.name == "Obstacle1")
 		{
 			Grounded = true;
 		}
@@ -57,6 +57,49 @@ public class Unit : MonoBehaviour {
 			Controller.SendMessage("endGame");
 		}
 	}
+	
+	void OnCollisionStay(Collision collision)
+	{
+		if(ActiveUnit)
+		{
+			if(collision.gameObject.name == "Obstacle1" || collision.gameObject.name == "HQ")
+			{
+				Vector3 pos = collision.contacts[0].point;
+				if(pos.y < collision.gameObject.transform.position.y + .9f)
+				{
+				print ("pos is " + pos);
+					print ("col y pos is " + collision.gameObject.transform.position.y);
+					
+					if(pos.x > this.rigidbody.position.x)
+					{
+						Controller.SendMessage("TouchingWall", 1.0f);
+					}
+					else
+					{
+						Controller.SendMessage("TouchingWall", -1.0f);
+					}
+				}
+				else
+				{
+				print ("turned off constraint " + pos);
+					
+					Controller.SendMessage("TouchingWall", 0f);
+				}
+			}
+		}		
+	}
+	
+	void OnCollisionExit(Collision collision)
+	{
+		if(ActiveUnit)
+		{
+			if(collision.gameObject.name == "Obstacle1" || collision.gameObject.name == "HQ")
+			{
+				Controller.SendMessage("TouchingWall", 0f);
+			}
+		}
+	}
+	
 	public void died(){
 		AudioSource.PlayClipAtPoint(deathSFX, Camera.main.transform.position);
 	}
