@@ -25,14 +25,14 @@ public class PlayTxt : MonoBehaviour {
 	}
 	
 	void OnMouseUp(){
-		Application.LoadLevel(4);
+		Application.LoadLevel(1);
 	}
 	
 	void spawnCoin()
 	{
 		if(CoinList.Count < 800)
 		{
-			GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Random.Range(-5.0f,5.0f), 17, Random.Range(1.5f, 3.5f)), transform.rotation);
+			GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Random.Range(-5.0f,5.0f), 17, Random.Range(1.5f, 3.5f)), new Quaternion(Random.Range(-4.0f,4.0f),Random.Range(-4.0f,4.0f),Random.Range(-4.0f,4.0f),Random.Range(-5.0f,5.0f)));
 			CoinList.Add(temp);
 		}
 	}

@@ -72,6 +72,10 @@ public class GameState : MonoBehaviour {
 				for (int i = 0; i < CoinList.Count -1 ; i++){
 					colCheck (CoinList[i]);
 				}
+				if(Units.Count == 1)
+				{
+					ShowHint();
+				}
 			}
 			Swap();
 		}
@@ -82,6 +86,23 @@ public class GameState : MonoBehaviour {
 			Camera.main.transform.position = new Vector3(-94.2477f, 21.29793f, -55.64714f);
 		}else if(Time.timeScale > 1.0f){
 			timetrack++;
+		}
+	}
+	
+	void ShowHint()
+	{
+		GameObject[] hint = GameObject.FindGameObjectsWithTag("ShopHere");
+		foreach(GameObject o in hint)
+		{
+			Destroy(o);
+		}
+		GameObject temp = (GameObject) Instantiate(Resources.Load("UseShop"),new Vector3(Units[0].transform.position.x, 20, -20), transform.rotation);
+		if(Units.Count != 1)
+		{
+			foreach(GameObject o in hint)
+			{
+				Destroy(o);
+			}
 		}
 	}
 	
@@ -522,20 +543,20 @@ public class GameState : MonoBehaviour {
 	
 	void OnGUI()
 	{
-		GUIStyle style = new GUIStyle();
-		//Font myFont= new Font();
-		//style.font = myFont;
-		style.normal.textColor = Color.yellow;
-		var intFont = 40;
+		GUIStyle style = new GUIStyle(GUI.skin.label);
+		int intFont = 40;
 		GUI.skin.label.fontSize = intFont;
-			//	style.normal.textColor = Color.yellow;
-		GUI.Label (new Rect (Screen.width - 450,Screen.height - 200,200,100), "$ "+ gold);
+		GUI.skin.label.alignment = TextAnchor.UpperCenter;
+		//style.alignment = TextAnchor.UpperCenter;
+		GUI.color = Color.yellow;
+		GUI.Label (new Rect (Screen.width/2 - 100,Screen.height/5,200,100), "$ "+ gold);
 
 		timeLeft = (int)totalTime - (int)(CountDownTimer.ElapsedMilliseconds/1000.0f);
 		if(timeLeft > 0)
 		{
-			GUI.skin.label.fontSize = 20;
-			GUI.Box (new Rect (Screen.width - 225,120,150,30), "Seconds Left: "+ timeLeft);
+			GUI.skin.label.fontSize = intFont;
+			GUI.color = Color.red;
+			GUI.Label (new Rect (Screen.width/2 - 200,Screen.height/9,400,100), "Seconds Left: "+ timeLeft);
 		}
 		else
 		{
@@ -546,7 +567,7 @@ public class GameState : MonoBehaviour {
 			File.AppendAllText(fileName, output);
 			Application.LoadLevel(3);
 		}
-		
+		GUI.color = Color.white;
 		if(GUI.Button(new Rect(Screen.width - 150,20,100,60), "Pause")) {
 			if(!paused)
 			{
@@ -554,10 +575,10 @@ public class GameState : MonoBehaviour {
 				Vector3 pos = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z + 10);
 				paused = true;
 				GameObject tempWall = Instantiate(Resources.Load("Faded"), pos, transform.rotation) as GameObject;
-				GameObject tempTxt = Instantiate(Resources.Load("PausedTxt"), new Vector3(pos.x, pos.y + 5, pos.z - 3), transform.rotation) as GameObject;
-				GameObject tempRestart = (GameObject)Instantiate(Resources.Load("RestartTxt"), new Vector3(pos.x, pos.y, pos.z - 3), transform.rotation);
-				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ResumeTxt"), new Vector3(pos.x, pos.y - 6, pos.z - 3), transform.rotation);
-				GameObject tempMain = (GameObject)Instantiate(Resources.Load("MainMenuTxt"), new Vector3(pos.x, pos.y - 3, pos.z - 3), transform.rotation);
+				GameObject tempTxt = Instantiate(Resources.Load("PausedTxt"), new Vector3(pos.x, pos.y + 1.5f, pos.z - 3), transform.rotation) as GameObject;
+				GameObject tempRestart = (GameObject)Instantiate(Resources.Load("RestartTxt"), new Vector3(pos.x, pos.y- 3, pos.z - 3), transform.rotation);
+				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ResumeTxt"), new Vector3(pos.x, pos.y - 9, pos.z - 3), transform.rotation);
+				GameObject tempMain = (GameObject)Instantiate(Resources.Load("MainMenuTxt"), new Vector3(pos.x, pos.y - 6, pos.z - 3), transform.rotation);
 				string output = "Group Deaths: " + numDeath + "   Total Unit Deaths: " + numUnitDeath + Environment.NewLine + "Total Units Bought: " + unitsBought + Environment.NewLine + "Coins Collected: " + collectedGold + Environment.NewLine + "Time Left: " + timeLeft + Environment.NewLine + "|| Paused, may go to Main Menu if no more ||" + Environment.NewLine;
 				string fileName = "Data.txt";
 				File.AppendAllText(fileName, output);
@@ -576,13 +597,20 @@ public class GameState : MonoBehaviour {
 				Vector3 pos = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z + 10);
 				paused = true;
 				GameObject tempWall = Instantiate(Resources.Load("Faded"), pos, transform.rotation) as GameObject;
-				GameObject tempTxt = Instantiate(Resources.Load("ShopTxt"), new Vector3(pos.x, pos.y + 8, pos.z - 3), transform.rotation) as GameObject;
 				GameObject tempButton1 = (GameObject)Instantiate(Resources.Load("Unit1ShopBut"), new Vector3(pos.x-8, pos.y, pos.z - 3), transform.rotation);
 				GameObject tempButton2 = (GameObject)Instantiate(Resources.Load("Unit2ShopBut"), new Vector3(pos.x, pos.y, pos.z - 3), transform.rotation);
 				GameObject tempButton3 = (GameObject)Instantiate(Resources.Load("Unit3ShopBut"), new Vector3(pos.x+8, pos.y, pos.z - 3), transform.rotation);
 				GameObject tempMoney = (GameObject) Instantiate(Resources.Load("1000ea"), new Vector3(pos.x, pos.y - 5, pos.z - 3), transform.rotation);
 				GameObject tempResume = (GameObject)Instantiate(Resources.Load("ShopExitTxt"), new Vector3(pos.x, pos.y - 10, pos.z - 3), transform.rotation);
-				Time.timeScale = 0.0f;
+				//Time.timeScale = 0.0f;
+				GameObject[] hint = GameObject.FindGameObjectsWithTag("ShopHere");
+				if(Units.Count == 1)
+				{
+					foreach(GameObject o in hint)
+					{
+						Destroy(o);
+					}
+				}
 			}
 			else if(paused && shopping)
 			{
@@ -616,14 +644,12 @@ public class GameState : MonoBehaviour {
 		paused = false;
 		shopping = false;
 		GameObject tempWall = GameObject.Find("Faded(Clone)");
-		GameObject tempTxt = GameObject.Find("ShopTxt(Clone)");
 		GameObject tempButton1 = GameObject.Find("Unit1ShopBut(Clone)");
 		GameObject tempButton2 = GameObject.Find("Unit2ShopBut(Clone)");
 		GameObject tempButton3 = GameObject.Find("Unit3ShopBut(Clone)");
 		GameObject tempExit = GameObject.Find("ShopExitTxt(Clone)");
 		GameObject tempMoney = GameObject.Find("1000ea(Clone)");
 		Destroy (tempWall);
-		Destroy (tempTxt);
 		Destroy (tempButton1);
 		Destroy (tempButton2);
 		Destroy (tempButton3);
@@ -641,12 +667,12 @@ public class GameState : MonoBehaviour {
 		if(Units.Count > 0)
 		{
 			if(prevVelocity==10){
-				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + UnityEngine.Random.Range (-0f,10f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20), transform.rotation);
+				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + UnityEngine.Random.Range (-0f,10f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20), new Quaternion(UnityEngine.Random.Range(-4.0f,4.0f),UnityEngine.Random.Range(-4.0f,4.0f),UnityEngine.Random.Range(-4.0f,4.0f),UnityEngine.Random.Range(-5.0f,5.0f)));
 				CoinList.Add(temp);
 			}
 			else
 			{
-				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + UnityEngine.Random.Range (-0f,7f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20), transform.rotation);
+				GameObject temp = (GameObject)Instantiate(Resources.Load("Coin"),new Vector3(Units[0].rigidbody.position.x + UnityEngine.Random.Range (-0f,7f)+ Mathf.Abs(Units[0].rigidbody.velocity.x), 35, -20), new Quaternion(UnityEngine.Random.Range(-4.0f,4.0f),UnityEngine.Random.Range(-4.0f,4.0f),UnityEngine.Random.Range(-4.0f,4.0f),UnityEngine.Random.Range(-5.0f,5.0f)));
 				CoinList.Add(temp);
 				coinCount++;
 			}
