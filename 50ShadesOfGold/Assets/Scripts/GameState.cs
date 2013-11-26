@@ -33,9 +33,9 @@ public class GameState : MonoBehaviour {
 	float ptempx, ptempy;
 	public Stopwatch CountDownTimer = new Stopwatch();
 	float totalTime = 90.0f;
-	float timeLeft = 0;
+	int timeLeft = 0;
 	int timetrack = 0;
-
+	GUIStyle style;
 	
 	// Use this for initialization
 	void Start () 
@@ -522,14 +522,20 @@ public class GameState : MonoBehaviour {
 	
 	void OnGUI()
 	{
-		//GUIStyle myStyle = new GUIStyle();
-		//myStyle.font = myFont;
-		GUI.Box (new Rect (Screen.width - 350,Screen.height - 200,100,25), "$ "+ gold);
+		GUIStyle style = new GUIStyle();
+		//Font myFont= new Font();
+		//style.font = myFont;
+		style.normal.textColor = Color.yellow;
+		var intFont = 40;
+		GUI.skin.label.fontSize = intFont;
+			//	style.normal.textColor = Color.yellow;
+		GUI.Label (new Rect (Screen.width - 450,Screen.height - 200,200,100), "$ "+ gold);
 
-		timeLeft = totalTime - (CountDownTimer.ElapsedMilliseconds/1000.0f);
+		timeLeft = (int)totalTime - (int)(CountDownTimer.ElapsedMilliseconds/1000.0f);
 		if(timeLeft > 0)
 		{
-			GUI.Box (new Rect (Screen.width - 175,100,150,25), "Seconds Left: "+ timeLeft);
+			GUI.skin.label.fontSize = 20;
+			GUI.Box (new Rect (Screen.width - 225,120,150,30), "Seconds Left: "+ timeLeft);
 		}
 		else
 		{
