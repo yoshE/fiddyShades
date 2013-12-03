@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: e3fe023b21680084b93eb4ef59d4c5df
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - jumpSFX: {fileID: 8300000, guid: 219ffb943a867af4eb37e7fde1dd4eb0, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 

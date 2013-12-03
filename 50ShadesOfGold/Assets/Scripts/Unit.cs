@@ -60,33 +60,26 @@ public class Unit : MonoBehaviour {
 	
 	void OnCollisionStay(Collision collision)
 	{
-		if(ActiveUnit)
+		if (ActiveUnit) 
 		{
-			if(collision.gameObject.name == "Obstacle1" || collision.gameObject.name == "HQ")
-			{
-				Vector3 pos = collision.contacts[0].point;
-				if(pos.y < collision.gameObject.transform.position.y + .9f)
-				{
-				print ("pos is " + pos);
-					print ("col y pos is " + collision.gameObject.transform.position.y);
-					
-					if(pos.x > this.rigidbody.position.x)
-					{
-						Controller.SendMessage("TouchingWall", 1.0f);
+			if (collision.gameObject.name == "Obstacle1" || collision.gameObject.name == "HQ") {
+					Vector3 pos = collision.contacts [0].point;
+					if (pos.y < collision.gameObject.transform.position.y + .9f) {
+							//print ("pos is " + pos);
+							//print ("col y pos is " + collision.gameObject.transform.position.y);
+		
+							if (pos.x > this.rigidbody.position.x) {
+									Controller.SendMessage ("TouchingWall", 1.0f);
+							} else {
+									Controller.SendMessage ("TouchingWall", -1.0f);
+							}
+					} else {
+							//print ("turned off constraint " + pos);
+		
+							Controller.SendMessage ("TouchingWall", 0f);
 					}
-					else
-					{
-						Controller.SendMessage("TouchingWall", -1.0f);
-					}
-				}
-				else
-				{
-				print ("turned off constraint " + pos);
-					
-					Controller.SendMessage("TouchingWall", 0f);
-				}
 			}
-		}		
+		}
 	}
 	
 	void OnCollisionExit(Collision collision)

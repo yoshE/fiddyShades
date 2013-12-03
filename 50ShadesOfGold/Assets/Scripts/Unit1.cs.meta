@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 1de38ee7dc90d9947a26f3cf00ca2282
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - deathSFX: {fileID: 8300000, guid: 944cf55d5ca02da4187d6e8e440b8bfa, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 

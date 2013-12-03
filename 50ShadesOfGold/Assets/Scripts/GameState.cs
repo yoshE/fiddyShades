@@ -259,15 +259,61 @@ public class GameState : MonoBehaviour {
 			touchingLeft = false;
 		}
 	}
-	
+
 	void MoveFollower(){
 		for(int i = 1; i < Units.Count; i++)
 		{
+			/*
 			if(prevVelocity == 10){
 				Units[i].transform.rigidbody.position = new Vector3(Units[0].rigidbody.position.x - i * 1.5f,Units[i].rigidbody.position.y,-20);
 			}
 			if(prevVelocity == -10){
 				Units[i].transform.rigidbody.position = new Vector3(Units[0].rigidbody.position.x + i * 1.5f,Units[i].rigidbody.position.y,-20);
+			}
+			 public Transform startMarker;
+    public Transform endMarker;
+    private float startTime;
+    private float journeyLength;
+    public Transform target;
+    void Start() {
+        startTime = Time.time;
+        journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
+    }
+    void Update() {
+        float distCovered = (Time.time - startTime) * speed;
+        float fracJourney = distCovered / journeyLength;
+        transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fracJourney);
+    }
+			*/
+			//float speed = 5.0f;
+			//Vector3 start = Units[i].transform.position;
+			if(prevVelocity == 10){
+				if(Units[i].transform.position.x < Units[0].transform.position.x - i * 1.5f)
+				{
+					Units[i].rigidbody.velocity = new Vector3(10,Units[i].rigidbody.velocity.y,0);
+				}
+				else 
+				{
+					Units[i].rigidbody.velocity = new Vector3(0,Units[i].rigidbody.velocity.y,0);
+				}
+				if(Units[0].transform.position.x - i * 1.5f - Units[i].transform.position.x > 2)
+				{
+					Units[i].transform.position = new Vector3(Units[0].transform.position.x - i * 1.5f,Units[i].rigidbody.position.y,-20);
+				}
+			}
+			if(prevVelocity == -10){
+				if(Units[i].transform.position.x > Units[0].rigidbody.position.x + i * 1.5f)
+				{
+					Units[i].rigidbody.velocity = new Vector3(-10,Units[i].rigidbody.velocity.y,0);
+				}
+				else 
+				{
+					Units[i].rigidbody.velocity = new Vector3(0,Units[i].rigidbody.velocity.y,0);
+				}
+				if(Units[i].transform.position.x - Units[0].rigidbody.position.x + i * 1.5f > 2)
+				{
+					Units[i].transform.position = new Vector3(Units[0].transform.position.x + i * 1.5f,Units[i].rigidbody.position.y,-20);
+				}
 			}
 			if(Units[i].rigidbody.position.y <= 11 && Units[i - 1].rigidbody.position.y > 12 && Units[i - 1].rigidbody.velocity.y > 0)
 			{
