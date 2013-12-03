@@ -2588,3 +2588,123 @@ Coins Collected: 1419
 Time Left: 18
 Ended from Game
 
+12-3-2013 9:59:26 AM
+Unit Died at X-Position: 64.07574
+Unit Died at X-Position: 131.3635
+Unit Died at X-Position: 150.5069
+Group Deaths: 1   Total Unit Deaths: 3
+Total Units Bought: 3
+Coins Collected: 1809
+Time Left: 10
+Ended from Game
+
+12-3-2013 10:02:47 AM
+Unit Died at X-Position: -64.82072
+Group Deaths: 0   Total Unit Deaths: 1
+Total Units Bought: 3
+Coins Collected: 186
+Time Left: 85
+Ended from Game
+
+12-3-2013 10:05:31 AM
+Unit Died at X-Position: 2.266977
+Unit Died at X-Position: -9.813026
+Unit Died at X-Position: -21.32696
+Unit Died at X-Position: -59.88608
+Unit Died at X-Position: -18.64895
+Unit Died at X-Position: -15.79951
+Group Deaths: 2   Total Unit Deaths: 6
+Total Units Bought: 9
+Coins Collected: 2331
+Time Left: 52
+Ended from Game
+
+12-3-2013 10:07:53 AM
+Unit Died at X-Position: -39.41001
+Unit Died at X-Position: -49.79579
+Unit Died at X-Position: -58.30229
+Group Deaths: 1   Total Unit Deaths: 3
+Total Units Bought: 6
+Coins Collected: 831
+Time Left: 69
+Ended from Game
+
+12-3-2013 10:08:40 AM
+Unit Died at X-Position: -37.23209
+Unit Died at X-Position: -28.79195
+Unit Died at X-Position: -36.67314
+Group Deaths: 1   Total Unit Deaths: 3
+Total Units Bought: 6
+Coins Collected: 876
+Time Left: 72
+Ended from Game
+
+12-3-2013 10:14:10 AM
+Unit Died at X-Position: -63.24467
+Unit Died at X-Position: -38.52777
+Unit Died at X-Position: -42.41828
+Unit Died at X-Position: -61.84378
+Unit Died at X-Position: -41.21999
+Unit Died at X-Position: -29.79109
+Group Deaths: 2   Total Unit Deaths: 6
+Total Units Bought: 8
+Coins Collected: 1533
+Time Left: 54
+Ended from Game
+
+12-3-2013 10:15:16 AM
+Unit Died at X-Position: -62.56546
+Unit Died at X-Position: -54.18192
+Unit Died at X-Position: -46.71807
+Unit Died at X-Position: 17.00499
+Unit Died at X-Position: 34.25855
+Unit Died at X-Position: 54.88898
+Unit Died at X-Position: -60.55842
+Unit Died at X-Position: -39.20462
+Unit Died at X-Position: -41.71623
+Unit Died at X-Position: -61.44362
+Unit Died at X-Position: -38.8883
+Unit Died at X-Position: -17.60601
+Unit Died at X-Position: 35.61493
+Unit Died at X-Position: 50.07056
+Unit Died at X-Position: 52.31583
+Group Deaths: 4   Total Unit Deaths: 15
+Total Units Bought: 18
+Coins Collected: 7458
+Time Left: 19
+Ended from Game
+
+12-3-2013 10:21:31 AM
+Unit Died at X-Position: -41.60215
+Unit Died at X-Position: -30.09783
+Unit Died at X-Position: -31.6408
+Group Deaths: 1   Total Unit Deaths: 3
+Total Units Bought: 3
+Coins Collected: 900
+Time Left: 78
+Ended from Game
+
+12-3-2013 10:22:51 AM
+Group Deaths: 0   Total Unit Deaths: 0
+Total Units Bought: 3
+Coins Collected: 243
+Time Left: 67
+Ended from Game
+
+12-3-2013 10:24:57 AM
+Group Deaths: 0   Total Unit Deaths: 0
+Total Units Bought: 3
+Coins Collected: 225
+Time Left: 82
+Ended from Game
+
+12-3-2013 10:26:33 AM
+Unit Died at X-Position: 20.15747
+Unit Died at X-Position: 62.69191
+Unit Died at X-Position: 108.4269
+Group Deaths: 1   Total Unit Deaths: 3
+Total Units Bought: 3
+Coins Collected: 2415
+Time Left: 44
+Ended from Game
+

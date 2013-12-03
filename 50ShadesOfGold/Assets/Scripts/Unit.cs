@@ -48,9 +48,16 @@ public class Unit : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision collision)
 	{
-		if(collision.gameObject.tag == "Terrain" || collision.gameObject.name == "Obstacle1")
+		if (collision.gameObject.tag == "Terrain") 
 		{
-			Grounded = true;
+				Grounded = true;
+		}
+		if(collision.gameObject.name == "Obstacle1")
+		{
+			if (this.transform.position.y > collision.gameObject.transform.position.y + .9f)
+			{
+				Grounded = true;
+			}
 		}
 		if(collision.gameObject.name == "Jacuzzi Model(Clone)" || collision.gameObject.name == "Jacuzzi Model")
 		{

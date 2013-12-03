@@ -480,6 +480,8 @@ public class GameState : MonoBehaviour {
 		}
 		else
 		{
+			prevVelocity = 10;
+
 			showerPos = new Vector3(-80,35,-20);
 			started = false;
 			numDeath++;
@@ -499,6 +501,11 @@ public class GameState : MonoBehaviour {
 				Destroy(o);
 			}
 			Boulders.Clear();
+			GameObject[] hint = GameObject.FindGameObjectsWithTag("ShopHere");
+			foreach(GameObject o in hint)
+			{
+				Destroy(o);
+			}
 			foreach(GameObject butt in HQButts)
 			{
 				butt.SetActive(true);
@@ -638,6 +645,7 @@ public class GameState : MonoBehaviour {
 		if(GUI.Button(new Rect(Screen.width - 255,20,100,60), "Shop")) {
 			if(!paused)
 			{
+				Time.timeScale = 0.0f;
 				shopping = true;
 				CountDownTimer.Stop();
 				Vector3 pos = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z + 10);
@@ -783,6 +791,7 @@ public class GameState : MonoBehaviour {
 		{
 			Destroy(o);
 		}
+		prevVelocity = 10;
 		Units.Clear();
 		CoinList.Clear();
 		gold = 3000;
